@@ -1,0 +1,604 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #f7f7f7, #eeeeee, #e8e8e8);
+  background-attachment: fixed;
+}
+
+.top-header {
+  background: #fff;
+  z-index: 10;
+  box-shadow: none;
+  height: 100px;
+}
+
+.caixa-gov {
+  margin-left: -25px;
+  left: 13px;
+  position: absolute;
+  background: #000;
+  padding: 8px 11px;
+  border-radius: 0 40px 40px 0;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  width: 300px;
+}
+
+.logo-gov {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  display: block;
+  
+}
+
+.redes-logo {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.linha {
+  height: 1px;
+  background: #dcdcdc;
+  width: 100%;
+}
+
+.caixa-fixa {
+  background: #fff;
+
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;           
+  z-index: 1000;   
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.caixa-fixa .container-fluid {
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-etec-cps {
+height: 80px;
+   margin-left: 150px;
+      display: flex;
+    align-items: left;
+}
+
+.main-nav .nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap; 
+}
+
+.nav-link {
+  color: #555;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 16px 20px;
+  transition: background .12s, color .12s;
+  display: inline-block;
+  margin-right: -30px;
+  left: -50px;
+  position:relative;
+  text-transform: uppercase;
+
+}
+.nav-link:hover,
+.nav-link.active {
+  padding: 28px 20px;
+  background: #e5e5e5;
+  color: #000;
+  border-bottom: 5px solid #6aefe221;
+  position: relative;
+}
+
+.nav-menu a,
+.nav-menu a:link,
+.nav-menu a:visited,
+.nav-menu a:active {
+  color: #444 !important;
+  text-decoration: none;
+}
+
+.nav-menu a:hover {
+  background: #e5e5e5;
+  color: #444 !important;
+}
+
+.btn-danger {
+  margin-right: 200px;
+  height: 10px;
+    padding: 11px 30px; 
+    font-size: 13px;    
+}
+
+.realizacao {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  font-size: 10px;
+  margin: 0; 
+  padding: 0;
+  line-height: 1.1;
+  position: relative;
+}
+
+.realizacao span {
+  margin-bottom: -20px; 
+}
+
+.realizacao-logo {
+  width: 80px;
+  height: 80px;
+  position: static; 
+  margin: 0;       
+}
+
+.bloco {
+margin-left: 200px;
+height: 100px;
+width: 100px;
+position: absolute;
+margin-top: 40px;
+}
+
+.imagem-banner img { display:block; width:100%; height:auto; }
+main.container { padding-bottom: 60px; }
+
+.vermelho {
+width: 1100px;
+height: 230px;
+background: rgba(177, 5, 5, 0.992);
+position:relative;
+margin-left: 105px;
+margin-top: -150px;
+box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+}
+
+.vermelho-word {
+color: white;
+font-size: 30px;
+margin-left: 25px;
+position: relative;
+top: 38px;
+}
+
+.cinza {
+width: 1100px;
+height: 15px;
+background: rgba(163, 163, 163, 0.992);
+position:relative;
+margin-left: 0px;
+margin-top: 0px;
+}
+
+.cinza-plus {
+width: 1100px;
+height: 60px;
+background: rgba(212, 212, 212, 0.992);
+position:relative;
+margin-left: 0px;
+margin-top: 0px;
+}
+
+.container-botoes {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%; 
+  margin-top: -65px;
+  position: relative;
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+}
+
+.btn-circular {
+  padding: 0 !important;
+  border-radius: 50% !important;
+  font-size: 16px !important;
+  width: 35px !important;
+  height: 35px !important;
+  color: #000;
+}
+
+.btn-circular.ativo {
+  background-color: rgba(143, 4, 4, 0.992);
+  color: #fff;
+}
+
+.labele {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+}
+
+.conteudo {
+  width: 1100px;
+  height: 2900px;
+  background: white;
+  position: absolute;
+  margin-left: 105px;
+  margin-top: -150px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+}
+
+
+.conteudo-red {
+  width: 100%;
+  height: 10px;
+  background:rgba(143, 4, 4, 0.992);
+  position: absolute;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+  margin-top: 40px;
+}
+
+.lilinha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.palavras {
+  color: gray;
+  margin-left: 30px;
+  margin-top: 30px
+}
+.palavras strong {
+    font-weight: 700 !important;
+    color: black !important;
+}
+
+.coluna {
+  flex: 1;
+  min-width: 260px;
+}
+
+.coluna.alta textarea {
+  height: 85px !important;
+  flex: 3 !important;
+  min-width: 260px !important;
+}
+
+.coluna.pequena {
+  flex: 0.8;
+  min-width: 140px;
+}
+
+.coluna.media {
+  flex: 1.2;
+  min-width: 230px;
+}
+
+.coluna.grande {
+  flex: 2;
+  min-width: 320px;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+  color: #575555;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  border: 1.8px solid #b0c4de;
+  border-radius: 6px;
+  background-color: #f8faff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: #fff;
+  border-color: #000000;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 95, 166, 0.4);
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 700;
+}
+
+button[type="submit"] {
+  background-color: green;
+  margin-left: 0.8rem;
+  
+}
+
+button[type="reset"] {
+  background-color: white;
+ color:#0ea1ef;
+}
+
+button:hover {
+  filter: brightness(0.9);
+}
+
+.btn-vestibulinho {
+  
+  background: rgba(177, 5, 5, 0.992); 
+  color: #fff;
+  border: none;
+  padding: 12px 5px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  width: auto; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+.btn-vestibulinho:hover {
+  background: rgb(143, 4, 4); 
+}
+
+.seta {
+  font-size: 18px;
+  margin-left: 6px;
+  color: #fff; 
+}
+.tabela-series {
+    margin: 20px 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.linha-serie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14.5px;
+}
+
+.linha-serie:last-child {
+    border-bottom: none;
+}
+
+.opcoes label {
+    margin-left: 10px;
+}
+
+.botoes-acao-container {
+    display: flex; 
+    
+    align-items: center; 
+    
+    gap: 30px; 
+    
+    margin-top: 30px; 
+    margin-left: 25px; 
+}
+
+.btn-alterar-custom {
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    padding: 12px 23px; 
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 50px;
+}
+
+.btn-alterar-custom img {
+    padding: 0; 
+    border-radius: 0; 
+}
+
+.link-sair-depois {
+    text-decoration: none;
+    
+    color: #444; 
+
+    font-size: 14.5px; 
+
+    transition: color 0.2s;
+}
+
+.link-sair-depois:hover {
+  
+    color: #a00000; 
+}
+
+.bloco-tabela-dados {
+    width: 100%;
+    max-width: 1040px; 
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.titulo-tabela {
+    background-color: #f7f7f7; 
+    padding: 10px 15px;
+    font-weight: 700;
+    color: #444;
+    font-size: 16px;
+    display: flex; 
+    border-bottom: 1px solid #ccc;
+    
+}
+
+
+.tabela-dados-resumo {
+    width: 100;
+    border-collapse: collapse; 
+}
+
+.tabela-dados-resumo tr {
+    border-bottom: 1px solid #eee; 
+}
+
+.tabela-dados-resumo .rotulo {
+    width: 50%; 
+    padding: 10px 15px;
+    font-weight: 600;
+    color: gray;
+}
+
+.tabela-dados-resumo .valor {
+    padding: 10px 15px;
+    color: #555;
+}
+.bloco-texto-aceite {
+    
+    margin-left: 25px; 
+    margin-top: 20px;
+}
+
+.texto-aceite {
+    
+    white-space: nowrap; 
+    
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    
+    color: #555; 
+    font-size: 14px;
+    font-weight: 600; 
+    margin-left: 0; 
+}
+
+.bloco-texto-aceite {
+    margin-left: 25px; 
+    margin-top: 20px;
+    max-width: none; 
+}
+
+@media (max-width: 991px) {
+  .logo-etec-cps { height: 64px; }
+  .logo-gov { width: 150px; }
+  .caixa-gov { height: 70px; padding: 8px 10px; }
+  .realizacao-logo { width: 68px; }
+  .redes-logo { height: 44px; }
+  .main-nav .nav { gap: 14px; }
+}
+
+@media (max-width: 767px) {
+
+  .top-header .container-fluid { flex-direction: column; gap: 8px; align-items: center; padding: 10px; }
+  .caixa-gov { width: 100%; border-radius: 0 30px 30px 0; justify-content:center; }
+
+  .caixa-fixa .container-fluid { flex-direction: column; gap: 8px; padding: 10px; }
+  .main-nav .nav { flex-direction: column; width: 100%; align-items:center; gap: 8px; }
+  .btn-danger { width: 100%; justify-content:center; }
+  .realizacao { flex-direction: row; gap: 8px; }
+}
+
+.fundo {
+  background: transparent;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  width: 100%;
+  margin-top: 40px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-top {
+  background: #666;
+  color: white;
+  padding: 3px 3px;
+  font-size: 14px;
+}
+
+.footer-top a {
+  color: rgba(255, 255, 255, 0.462);
+  position: relative;
+  left: 200px;
+  bottom: -15px
+}
+
+.footer-mid {
+  background: #80000d;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-buttons {
+  background: white;
+  padding: 25px 0px;
+  display: flex;
+  justify-content: space-around;
+  gap: 100px;
+}
+
+.btn-footer {
+  background: #1c3b61;
+  color: white;
+  padding: 5px 100px;
+  border-radius: 60px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footer-bottom {
+  background: #000;
+  padding: 25px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-bottom img {
+  width: 220px;
+  height: auto;
+}
+
+.atge {
+margin-right: -800px;
+height: 50px;
+}
+
+.footer-tops {
+  background: #747474;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
