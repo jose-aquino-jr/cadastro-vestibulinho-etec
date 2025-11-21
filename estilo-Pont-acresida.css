@@ -9,6 +9,18 @@ body {
   background-attachment: fixed;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
 .top-header {
   background: #fff;
   z-index: 10;
@@ -756,3 +768,4 @@ button:hover {
     width: 150px;
   }
 }
+
