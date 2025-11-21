@@ -1,4 +1,7 @@
-* { box-sizing: border-box; }
+* { 
+  box-sizing: border-box; 
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -10,7 +13,9 @@ body {
   background: #fff;
   z-index: 10;
   box-shadow: none;
-  height: 100px;
+  height: auto;
+  min-height: 100px;
+  padding: 10px 0;
 }
 
 .caixa-gov {
@@ -31,7 +36,6 @@ body {
   width: 300px;
   height: 200px;
   display: block;
-  
 }
 
 .redes-logo {
@@ -48,7 +52,6 @@ body {
 
 .caixa-fixa {
   background: #fff;
-
   position: -webkit-sticky;
   position: sticky;
   top: 0;           
@@ -62,10 +65,10 @@ body {
 }
 
 .logo-etec-cps {
-height: 80px;
-   margin-left: 150px;
-      display: flex;
-    align-items: left;
+  height: 80px;
+  margin-left: 150px;
+  display: flex;
+  align-items: left;
 }
 
 .main-nav .nav {
@@ -89,8 +92,8 @@ height: 80px;
   left: -50px;
   position:relative;
   text-transform: uppercase;
-
 }
+
 .nav-link:hover,
 .nav-link.active {
   padding: 28px 20px;
@@ -116,8 +119,8 @@ height: 80px;
 .btn-danger {
   margin-right: 200px;
   height: 10px;
-    padding: 11px 30px; 
-    font-size: 13px;    
+  padding: 11px 30px; 
+  font-size: 13px;    
 }
 
 .realizacao {
@@ -143,59 +146,71 @@ height: 80px;
 }
 
 .bloco {
-margin-left: 200px;
-height: 100px;
-width: 100px;
-position: absolute;
-margin-top: 40px;
+  margin-left: 200px;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  margin-top: 40px;
 }
 
-.imagem-banner img { display:block; width:100%; height:auto; }
-main.container { padding-bottom: 60px; }
+.imagem-banner img { 
+  display:block; 
+  width:100%; 
+  height:auto; 
+}
+
+main.container { 
+  padding-bottom: 60px; 
+}
 
 .vermelho {
-width: 1100px;
-height: 230px;
-background: rgba(177, 5, 5, 0.992);
-position:relative;
-margin-left: 105px;
-margin-top: -150px;
-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+  width: 90%;
+  max-width: 1100px;
+  height: auto;
+  min-height: 230px;
+  background: rgba(177, 5, 5, 0.992);
+  position: relative;
+  margin: -150px auto 0 auto;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+  padding: 20px;
 }
 
 .vermelho-word {
-color: white;
-font-size: 30px;
-margin-left: 25px;
-position: relative;
-top: 38px;
+  color: white;
+  font-size: 30px;
+  margin-left: 25px;
+  position: relative;
+  top: 38px;
 }
 
 .cinza {
-width: 1100px;
-height: 15px;
-background: rgba(163, 163, 163, 0.992);
-position:relative;
-margin-left: 0px;
-margin-top: 0px;
+  width: 90%;
+  max-width: 1100px;
+  height: 15px;
+  background: rgba(163, 163, 163, 0.992);
+  position: relative;
+  margin: 0 auto;
 }
 
 .cinza-plus {
-width: 1100px;
-height: 60px;
-background: rgba(212, 212, 212, 0.992);
-position:relative;
-margin-left: 0px;
-margin-top: 0px;
+  width: 90%;
+  max-width: 1100px;
+  height: 60px;
+  background: rgba(212, 212, 212, 0.992);
+  position: relative;
+  margin: 0 auto;
 }
 
 .container-botoes {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%; 
-  margin-top: -65px;
+  width: 90%;
+  max-width: 1100px;
+  margin: -65px auto 0 auto;
   position: relative;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .grupo {
@@ -226,20 +241,21 @@ margin-top: 0px;
 }
 
 .conteudo {
-  width: 1100px;
-  height: 1860px;
+  width: 90%;
+  max-width: 1100px;
+  height: auto;
+  min-height: 1860px;
   background: white;
-  position: absolute;
-  margin-left: 105px;
-  margin-top: -150px;
+  position: relative;
+  margin: -150px auto 0 auto;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+  padding: 20px;
 }
-
 
 .conteudo-red {
   width: 100%;
   height: 10px;
-  background:rgba(143, 4, 4, 0.992);
+  background: rgba(143, 4, 4, 0.992);
   position: absolute;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
   margin-top: 25px;
@@ -255,11 +271,12 @@ margin-top: 0px;
 .palavras {
   color: gray;
   margin-left: 30px;
-  margin-top: 30px
+  margin-top: 30px;
 }
+
 .palavras strong {
-    font-weight: 700 !important;
-    color: black !important;
+  font-weight: 700 !important;
+  color: black !important;
 }
 
 .coluna {
@@ -310,7 +327,6 @@ textarea {
   border-radius: 6px;
   background-color: #f8faff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  
 }
 
 input:focus,
@@ -336,12 +352,11 @@ button {
 button[type="submit"] {
   background-color: green;
   margin-left: 0.8rem;
-  
 }
 
 button[type="reset"] {
   background-color: white;
- color:#0ea1ef;
+  color: #0ea1ef;
 }
 
 button:hover {
@@ -376,76 +391,50 @@ button:hover {
   margin-left: 6px;
   color: #fff; 
 }
+
 .tabela-series {
-    margin: 20px 30px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
+  margin: 20px 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow-x: auto;
 }
 
 .linha-serie {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 14.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14.5px;
+  flex-wrap: wrap;
 }
 
 .linha-serie:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .opcoes label {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .botoes-acao-container {
-
-    display: flex; 
-    
-    align-items: center; 
-    
-    gap: 30px; 
-
-    margin-top: 30px; 
-    margin-left: 25px; 
+  display: flex; 
+  align-items: center; 
+  gap: 30px; 
+  margin-top: 30px; 
+  margin-left: 25px; 
+  flex-wrap: wrap;
 }
 
 .link-sair-depois {
-
-    text-decoration: none;
-   
-    color: #444; 
-
-    font-size: 14.5px; 
-   
-    transition: color 0.2s;
+  text-decoration: none;
+  color: #444; 
+  font-size: 14.5px; 
+  transition: color 0.2s;
 }
 
 .link-sair-depois:hover {
-  
-    color: #a00000; 
-}
-
-@media (max-width: 991px) {
-  .logo-etec-cps { height: 64px; }
-  .logo-gov { width: 150px; }
-  .caixa-gov { height: 70px; padding: 8px 10px; }
-  .realizacao-logo { width: 68px; }
-  .redes-logo { height: 44px; }
-  .main-nav .nav { gap: 14px; }
-}
-
-@media (max-width: 767px) {
- 
-  .top-header .container-fluid { flex-direction: column; gap: 8px; align-items: center; padding: 10px; }
-  .caixa-gov { width: 100%; border-radius: 0 30px 30px 0; justify-content:center; }
-
-
-  .caixa-fixa .container-fluid { flex-direction: column; gap: 8px; padding: 10px; }
-  .main-nav .nav { flex-direction: column; width: 100%; align-items:center; gap: 8px; }
-  .btn-danger { width: 100%; justify-content:center; }
-  .realizacao { flex-direction: row; gap: 8px; }
+  color: #a00000; 
 }
 
 .fundo {
@@ -455,15 +444,11 @@ button:hover {
   padding: 0;
 }
 
-
-
-
 .footer {
   width: 100%;
   margin-top: 40px;
   font-family: Arial, sans-serif;
 }
-
 
 .footer-top {
   background: #666;
@@ -476,7 +461,7 @@ button:hover {
   color: rgba(255, 255, 255, 0.462);
   position: relative;
   left: 200px;
-  bottom: -15px
+  bottom: -15px;
 }
 
 .footer-mid {
@@ -492,6 +477,7 @@ button:hover {
   display: flex;
   justify-content: space-around;
   gap: 100px;
+  flex-wrap: wrap;
 }
 
 .btn-footer {
@@ -517,8 +503,8 @@ button:hover {
 }
 
 .atge {
-margin-right: -800px;
-height: 50px;
+  margin-right: -800px;
+  height: 50px;
 }
 
 .footer-tops {
@@ -528,3 +514,245 @@ height: 50px;
   justify-content: center;
 }
 
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .vermelho, .cinza, .cinza-plus, .conteudo {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .logo-etec-cps {
+    margin-left: 100px;
+    height: 70px;
+  }
+  
+  .btn-danger {
+    margin-right: 100px;
+  }
+  
+  .footer-top a {
+    left: 100px;
+  }
+  
+  .footer-buttons {
+    gap: 50px;
+  }
+  
+  .atge {
+    margin-right: -400px;
+  }
+}
+
+/* Tablets Pequenos */
+@media (max-width: 768px) {
+  .top-header {
+    height: auto;
+    padding: 15px 0;
+  }
+  
+  .caixa-gov {
+    position: relative;
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+    border-radius: 0;
+    justify-content: center;
+    height: 70px;
+  }
+  
+  .logo-gov {
+    width: 250px;
+    height: 150px;
+  }
+  
+  .logo-etec-cps {
+    margin-left: 0;
+    height: 60px;
+    justify-content: center;
+  }
+  
+  .main-nav .nav {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .nav-link {
+    margin-right: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+  }
+  
+  .nav-link:hover,
+  .nav-link.active {
+    padding: 12px 20px;
+  }
+  
+  .btn-danger {
+    margin-right: 0;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .realizacao {
+    align-items: center;
+  }
+  
+  .bloco {
+    margin-left: 0;
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .vermelho-word {
+    font-size: 24px;
+    margin-left: 15px;
+    top: 20px;
+  }
+  
+  .container-botoes {
+    gap: 10px;
+    margin-top: -45px;
+  }
+  
+  .conteudo {
+    margin-top: -120px;
+    padding: 15px;
+  }
+  
+  .lilinha {
+    gap: 1rem;
+  }
+  
+  .coluna {
+    min-width: 100%;
+  }
+  
+  .botoes-acao-container {
+    margin-left: 0;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .footer-top a {
+    left: 0;
+    bottom: 0;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .footer-buttons {
+    gap: 20px;
+    padding: 15px 0;
+  }
+  
+  .btn-footer {
+    padding: 5px 50px;
+    font-size: 16px;
+  }
+  
+  .atge {
+    margin-right: 0;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  .logo-gov {
+    width: 200px;
+    height: 120px;
+  }
+  
+  .redes-logo {
+    height: 40px;
+  }
+  
+  .logo-etec-cps {
+    height: 50px;
+  }
+  
+  .realizacao-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .vermelho-word {
+    font-size: 20px;
+    top: 15px;
+  }
+  
+  .cinza-plus {
+    height: 50px;
+  }
+  
+  .container-botoes {
+    margin-top: -35px;
+  }
+  
+  .btn-circular {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+  }
+  
+  .labele {
+    font-size: 12px;
+  }
+  
+  .conteudo {
+    margin-top: -100px;
+    padding: 10px;
+  }
+  
+  .palavras {
+    margin-left: 15px;
+    margin-top: 20px;
+  }
+  
+  .tabela-series {
+    margin: 10px 15px;
+  }
+  
+  .linha-serie {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .footer-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .btn-footer {
+    width: 90%;
+    text-align: center;
+  }
+  
+  .footer-bottom img {
+    width: 180px;
+  }
+}
+
+/* Dispositivos muito pequenos */
+@media (max-width: 320px) {
+  .vermelho-word {
+    font-size: 18px;
+  }
+  
+  .btn-footer {
+    padding: 5px 30px;
+    font-size: 14px;
+  }
+  
+  .footer-bottom img {
+    width: 150px;
+  }
+}
