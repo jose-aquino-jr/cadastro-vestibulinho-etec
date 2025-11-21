@@ -664,3 +664,565 @@ height: 50px;
   justify-content: center;
 }
 
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+/* Tablets */
+@media (max-width: 1200px) {
+  .vermelho, .cinza, .cinza-plus, .conteudo {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .conteudo-red {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .logo-etec-cps {
+    margin-left: 100px;
+    height: 70px;
+  }
+  
+  .btn-danger {
+    margin-right: 100px;
+  }
+  
+  .conteudo {
+    height: auto;
+    min-height: 9840px;
+    position: relative;
+  }
+  
+  .btn-vestibulinho {
+    width: 250px;
+  }
+  
+  .palavras2 {
+    margin-left: 200px;
+  }
+  
+  .footer-top a {
+    left: 100px;
+  }
+  
+  .atge {
+    margin-right: -400px;
+  }
+}
+
+/* Tablets Pequenos */
+@media (max-width: 768px) {
+  .top-header {
+    height: auto;
+    padding: 15px 0;
+  }
+  
+  .caixa-gov {
+    position: relative;
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+    border-radius: 0;
+    justify-content: center;
+    height: 70px;
+  }
+  
+  .logo-gov {
+    width: 250px;
+    height: 150px;
+  }
+  
+  .logo-etec-cps {
+    margin-left: 0;
+    height: 60px;
+    justify-content: center;
+  }
+  
+  .main-nav .nav {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .nav-link {
+    margin-right: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+  }
+  
+  .nav-link:hover,
+  .nav-link.active {
+    padding: 12px 20px;
+  }
+  
+  .btn-danger {
+    margin-right: 0;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .realizacao {
+    align-items: center;
+  }
+  
+  .bloco {
+    margin-left: 0;
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .vermelho {
+    margin-top: -100px;
+    height: auto;
+    min-height: 180px;
+  }
+  
+  .vermelho-word {
+    font-size: 24px;
+    margin-left: 15px;
+    top: 20px;
+  }
+  
+  .container-botoes {
+    gap: 10px;
+    margin-top: -45px;
+    flex-wrap: wrap;
+  }
+  
+  .conteudo {
+    margin-top: -120px;
+    padding: 15px;
+    height: auto;
+    min-height: 9840px;
+    position: relative;
+  }
+  
+  .conteudo-red {
+    position: relative;
+    margin-top: 20px;
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  /* Ajustes para elementos de texto */
+  .palavras, .palavras2, .palavras3, 
+  .palavras-preta, .palavras-preta2, .palavras-pretaH {
+    margin-left: 15px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .palavras2 {
+    margin-left: 15px;
+    margin-top: 5px;
+  }
+  
+  .palavras-pretaH {
+    font-size: 24px;
+    margin-top: 30px;
+  }
+  
+  .lilinha {
+    gap: 1rem;
+  }
+  
+  .coluna {
+    min-width: 100%;
+  }
+  
+  /* Ajustes para checkboxes e radios */
+  .btns, .btns2 {
+    margin-left: 15px;
+    margin-top: 20px;
+    align-items: center;
+  }
+  
+  .linha-opcao {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .palavras-btn, .palavras-btn2 {
+    margin-left: 15px;
+    margin-top: -35px;
+    text-align: left;
+  }
+  
+  .btn-vestibulinho {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  
+  .input-number {
+    margin-left: 15px;
+  }
+  
+  .footer-top a {
+    left: 0;
+    bottom: 0;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .footer-buttons {
+    gap: 20px;
+    padding: 15px 0;
+    flex-wrap: wrap;
+  }
+  
+  .btn-footer {
+    padding: 5px 50px;
+    font-size: 16px;
+  }
+  
+  .atge {
+    margin-right: 0;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  .logo-gov {
+    width: 200px;
+    height: 120px;
+  }
+  
+  .redes-logo {
+    height: 40px;
+  }
+  
+  .logo-etec-cps {
+    height: 50px;
+  }
+  
+  .realizacao-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .vermelho-word {
+    font-size: 20px;
+    top: 15px;
+  }
+  
+  .cinza-plus {
+    height: 50px;
+  }
+  
+  .container-botoes {
+    margin-top: -35px;
+  }
+  
+  .btn-circular {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+  }
+  
+  .labele {
+    font-size: 12px;
+  }
+  
+  .conteudo {
+    margin-top: -100px;
+    padding: 10px;
+  }
+  
+  /* Ajustes de texto para mobile */
+  .palavras, .palavras2, .palavras3, 
+  .palavras-preta, .palavras-preta2, .palavras-pretaH {
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .palavras-pretaH {
+    font-size: 20px;
+  }
+  
+  .palavras-btn, .palavras-btn2 {
+    font-size: 13px;
+    margin-left: 10px;
+  }
+  
+  .btn-vestibulinho {
+    font-size: 14px;
+    padding: 10px 5px;
+  }
+  
+  /* Ajustes para checkboxes */
+  .btns label, .btns2 label {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .input-number {
+    width: 50px;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  
+  .footer-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .btn-footer {
+    width: 90%;
+    text-align: center;
+    padding: 8px 30px;
+    font-size: 14px;
+  }
+  
+  .footer-bottom img {
+    width: 180px;
+  }
+}
+
+/* Dispositivos muito pequenos */
+@media (max-width: 320px) {
+  .vermelho-word {
+    font-size: 18px;
+  }
+  
+  .palavras-pretaH {
+    font-size: 18px;
+  }
+  
+  .btn-vestibulinho {
+    font-size: 13px;
+  }
+  
+  .btn-footer {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+  
+  .footer-bottom img {
+    width: 150px;
+  }
+  
+  .btns, .btns2 {
+    margin-left: 10px;
+    gap: 12px;
+  }
+}
+
+/* Melhorias para formulários em mobile */
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px;
+    padding: 12px 10px;
+  }
+  
+  button {
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  button[type="submit"] {
+    margin-left: 0;
+  }
+  
+  button[type="reset"] {
+    margin-top: 10px;
+  }
+}
+
+/* Ajustes para elementos de formulário específicos */
+@media (max-width: 768px) {
+  .coluna.pequena,
+  .coluna.media,
+  .coluna.grande {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+  
+  .coluna.alta textarea {
+    min-width: 100% !important;
+  }
+}
+
+/* Melhoria de usabilidade em touch */
+@media (max-width: 768px) {
+  .nav-link,
+  .btn-circular,
+  button,
+  .btn-vestibulinho {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-circular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Checkboxes e radios mais fáceis de tocar */
+  .btns label, .btns2 label {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* Ajustes para o container principal */
+@media (max-width: 768px) {
+  main.container {
+    padding-bottom: 30px;
+    overflow-x: hidden;
+  }
+  
+  .conteudo {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Correção para elementos posicionados absolutamente */
+@media (max-width: 768px) {
+  .bloco {
+    position: relative;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Otimização para performance em mobile */
+@media (max-width: 768px) {
+  body {
+    background: #f7f7f7; /* Fallback sólido para melhor performance */
+  }
+  
+  .imagem-banner img {
+    max-height: 200px;
+    object-fit: cover;
+  }
+}
+
+/* Ajustes para textos longos em mobile */
+@media (max-width: 480px) {
+  .labele {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+}
+
+/* Melhorias de acessibilidade em mobile */
+@media (max-width: 768px) {
+  .container-botoes {
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .grupo {
+    flex: 1;
+    min-width: 70px;
+  }
+}
+
+/* Prevenção de zoom em inputs no iOS */
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px; /* Previne zoom automático no iOS */
+  }
+  
+  .input-number {
+    font-size: 16px;
+  }
+}
+
+/* Correção específica para checkboxes e organização */
+@media (max-width: 480px) {
+  .linha-opcao {
+    gap: 8px;
+  }
+  
+  .palavras-btn, .palavras-btn2 {
+    margin-top: -32px;
+  }
+}
+
+/* Garantir que elementos não transbordem em mobile */
+@media (max-width: 768px) {
+  .conteudo,
+  .vermelho,
+  .cinza,
+  .cinza-plus {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Ajustes específicos para altura do conteúdo longo */
+@media (max-width: 768px) {
+  .conteudo {
+    min-height: 9900px; /* Ajuste para tablet */
+  }
+}
+
+@media (max-width: 480px) {
+  .conteudo {
+    min-height: 10000px; /* Ajuste para celulares */
+  }
+}
+
+/* Melhorias para elementos de formulário customizados */
+@media (max-width: 480px) {
+  .btns, .btns2 {
+    gap: 12px;
+  }
+  
+  .linha-opcao {
+    align-items: flex-start;
+  }
+}
+
+/* Ajustes para o footer em telas muito pequenas */
+@media (max-width: 360px) {
+  .footer-buttons {
+    gap: 10px;
+    padding: 15px 10px;
+  }
+  
+  .btn-footer {
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+  
+  .footer-top {
+    font-size: 12px;
+  }
+}
