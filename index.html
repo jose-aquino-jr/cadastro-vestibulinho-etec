@@ -206,8 +206,37 @@
 
 </footer>
 
-
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+  <script>
+    function mascaraCPF(cpf) {
+        // Remove tudo que não é número
+        cpf = cpf.replace(/\D/g, '');
+        
+        // Aplica a máscara: 000.000.000-00
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        
+        return cpf;
+    }
+
+    // Aplica a máscara quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputCPF = document.getElementById('cpf');
+        
+        if (inputCPF) {
+            inputCPF.addEventListener('input', function(e) {
+                e.target.value = mascaraCPF(e.target.value);
+            });
+
+            // Também aplica a máscara se o campo já tiver valor (útil para edição)
+            if (inputCPF.value) {
+                inputCPF.value = mascaraCPF(inputCPF.value);
+            }
+        }
+    });
+  </script>
 </body>
 </html>
+
