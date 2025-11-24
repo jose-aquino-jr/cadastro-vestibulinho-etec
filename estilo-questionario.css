@@ -68,6 +68,7 @@ a:active {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
+.caixa-fixa .container-fluid {
   align-items: center;
   gap: 12px;
 }
@@ -80,6 +81,8 @@ height: 80px;
     align-items: left;
 }
 
+
+.main-nav .nav { 
   display: flex;
   gap: 24px;
   align-items: center;
@@ -1202,6 +1205,7 @@ height: 50px;
     font-size: 12px;
   }
 }
+
 
 
 
