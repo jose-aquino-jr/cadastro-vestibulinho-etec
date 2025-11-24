@@ -203,6 +203,15 @@ margin-top: 0px;
   transform: translateX(-50%);
 }
 
+button,
+input[type="button"],
+input[type="submit"],
+input[type="radio"],
+input[type="checkbox"] {
+  outline: none;
+  border: none;
+}
+
 .labele {
   margin-top: 8px;
   text-align: center;
