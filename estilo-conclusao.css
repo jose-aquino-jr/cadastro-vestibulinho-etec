@@ -416,8 +416,8 @@ margin-top: 0px;
   height: 10px;
   background: rgba(143, 4, 4, 0.992);
   position: absolute;
-  left: 50.6%;
-  margin-top: -48px;
+  left: 50.5%;
+  margin-top: 0px;
   transform: translateX(-50%);
 }
 
@@ -1166,4 +1166,5 @@ img {
     line-height: 1.4;
   }
 }
+
 
