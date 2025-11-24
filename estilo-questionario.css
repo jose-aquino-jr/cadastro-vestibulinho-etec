@@ -1,6 +1,3 @@
-/* =========================
-   BASE
-   ========================= */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -21,9 +18,6 @@ a:active {
   text-decoration: none;
 }
 
-/* =========================
-   HEADER (NÃO FIXO)
-   ========================= */
 .top-header {
   background: #fff;
   z-index: 10;
@@ -31,7 +25,6 @@ a:active {
   height: 100px;
 }
 
-/* Caixa preta com logo do governo */
 .caixa-gov {
   margin-left: -25px;
   left: 13px;
@@ -53,37 +46,28 @@ a:active {
   
 }
 
-/* Redes sociais à direita */
 .redes-logo {
   height: 50px;
   width: auto;
   display: block;
 }
 
-/* Linha cinza logo abaixo do header (parte do header) */
 .linha {
   height: 1px;
   background: #dcdcdc;
   width: 100%;
 }
 
-/* =========================
-   CAIXA FIXA/ STICKY (ABAIXO DO HEADER)
-   - NOTA: posição sticky faz com que a caixa fique fixa
-     apenas quando chega no topo durante a rolagem.
-   ========================= */
 .caixa-fixa {
   background: #fff;
 
   position: -webkit-sticky;
   position: sticky;
-  top: 0;           /* quando "grudar", fica no topo da viewport */
-  z-index: 1000;    /* ficar acima do conteúdo, abaixo do possível modal */
+  top: 0;          
+  z-index: 1000;   
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-/* conteúdo interno da caixa */
-.caixa-fixa .container-fluid {
   align-items: center;
   gap: 12px;
 }
@@ -96,15 +80,13 @@ height: 80px;
     align-items: left;
 }
 
-/* menu: força em uma única linha */
-.main-nav .nav {
   display: flex;
   gap: 24px;
   align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
-  white-space: nowrap; /* impede quebra de linha */
+  white-space: nowrap; 
 }
 
 /* links */
@@ -143,35 +125,33 @@ height: 80px;
   color: #444 !important;
 }
 
-/* botão área do candidato */
 .btn-danger {
   margin-right: 200px;
   height: 10px;
-    padding: 11px 30px; /* aumenta altura e largura */
-    font-size: 13px;    /* aumenta o texto */
+    padding: 11px 30px; 
+    font-size: 13px;    
 }
 
-/* realização (vertical por padrão) */
 .realizacao {
   display: flex;
-  flex-direction: column; /* palavra em cima da logo */
+  flex-direction: column; 
   align-items: flex-start; 
   font-size: 10px;
-  margin: 0; /* aproxima do botão */
+  margin: 0; 
   padding: 0;
   line-height: 1.1;
   position: relative;
 }
 
 .realizacao span {
-  margin-bottom: -20px; /* aproxima a palavra da logo */
+  margin-bottom: -20px; 
 }
 
 .realizacao-logo {
   width: 80px;
   height: 80px;
-  position: static; /* REMOVE posição absoluta */
-  margin: 0;        /* elimina afastamentos */
+  position: static; 
+  margin: 0;      
 }
 
 .bloco {
@@ -182,9 +162,6 @@ position: absolute;
 margin-top: 40px;
 }
 
-/* =========================
-   BANNER E CONTEÚDO
-   ========================= */
 .imagem-banner img { display:block; width:100%; height:auto; }
 main.container { padding-bottom: 60px; }
 
@@ -223,7 +200,7 @@ position:relative;
 margin-left: 0px;
 margin-top: 0px;
 }
-/* botões */
+
 .container-botoes {
   display: flex;
   justify-content: space-around;
@@ -236,7 +213,7 @@ margin-top: 0px;
 .grupo {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* ← CENTRALIZA o texto abaixo do botão */
+  align-items: center;   
 }
 
 .btn-circular {
@@ -282,11 +259,6 @@ margin-top: 0px;
   transform: translateX(-50%);
 }
 
-/* PARTE CHAT */
-/* PARTE CHAT */
-/* PARTE CHAT */
-
-/* container em coluna */
 .btns {
   display: flex;
   flex-direction: column;
@@ -303,7 +275,6 @@ margin-top: 0px;
   margin-top: 25px;
 }
 
-/* esconder radios */
 .btns input[type="radio"] {
   position: absolute;
   width: 0;
@@ -311,20 +282,18 @@ margin-top: 0px;
   opacity: 0;
 }
 
-/* botões circulares e menores */
 .btns label {
-  width: 15px;      /* tamanho do círculo */
+  width: 15px;    
   height: 15px;
-   border: 2px solid rgba(0, 0, 0, 0.4); /* 40% transparente */
-  border-radius: 50%;   /* deixa circular */
+   border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 50%;  
   cursor: pointer;
   transition: 0.2s;
 }
 
-/* selecionado */
 .btns input[type="radio"]:checked + label {
   background: #000;
-  border-color: rgba(0, 0, 0, 0.8); /* mais forte ao selecionar (opcional) */
+  border-color: rgba(0, 0, 0, 0.8); 
 }
 
 .btns, .btns2 {
@@ -335,14 +304,12 @@ margin-top: 0px;
   margin-top: 25px;
 }
 
-/* cada linha com checkbox + texto */
 .linha-opcao {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* esconder checkboxes */
 .btns input[type="checkbox"],
 .btns2 input[type="checkbox"] {
   position: absolute;
@@ -351,12 +318,11 @@ margin-top: 0px;
   opacity: 0;
 }
 
-/* quadradinhos */
 .btns label {
 width: 17px;
   height: 17px;
   border: 2px solid rgba(0, 0, 0, 0.4);
-  border-radius: 50px;   /* mantém QUADRADO */
+  border-radius: 50px;   
   cursor: pointer;
   transition: 0.2s;
 }
@@ -365,19 +331,17 @@ width: 17px;
   width: 17px;
   height: 17px;
   border: 2px solid rgba(0, 0, 0, 0.4);
-  border-radius: 3px;   /* mantém QUADRADO */
+  border-radius: 3px;   
   cursor: pointer;
   transition: 0.2s;
 }
 
-/* selecionado */
 .btns input[type="checkbox"]:checked + label,
 .btns2 input[type="checkbox"]:checked + label {
   background: #000;
   border-color: rgba(0, 0, 0, 0.8);
 }
 
-/* fim parte chat */
 
 .palavras-btn {
   margin-top: -39px;
@@ -540,14 +504,14 @@ button:hover {
 }
 
 .btn-vestibulinho {
-  background: rgba(177, 5, 5, 0.992); /* vermelho típico do site */
+  background: rgba(177, 5, 5, 0.992); 
   color: #fff;
   border: none;
   padding: 5px 5px;
   border-radius: 4px;
   font-size: 16px;
   font-weight: 600;
-  width: 300px; /* mesmo comportamento largura total */
+  width: 300px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -559,13 +523,13 @@ button:hover {
 }
 
 .btn-vestibulinho:hover {
-  background: rgb(143, 4, 4); /* tom mais escuro ao passar o mouse */
+  background: rgb(143, 4, 4); 
 }
 
 .seta {
   font-size: 18px;
   margin-left: 6px;
-  color: #fff; /* seta branca */
+  color: #fff; 
 }
 
 /* =========================
@@ -1238,6 +1202,7 @@ height: 50px;
     font-size: 12px;
   }
 }
+
 
 
 
