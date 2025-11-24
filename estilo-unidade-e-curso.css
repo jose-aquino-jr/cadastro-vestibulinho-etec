@@ -198,10 +198,11 @@ margin-top: 0px;
   height: 10px;
   background: rgba(143, 4, 4, 0.992);
   position: absolute;
-  margin-top: 850px;
   left: 50.6%;
+  margin-top: -48px;
   transform: translateX(-50%);
 }
+
 
 button {
   outline: none;
