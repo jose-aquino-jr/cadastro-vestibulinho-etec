@@ -254,7 +254,7 @@ margin-top: 0px;
   height: 10px;
   background: rgba(143, 4, 4, 0.992);
   position: absolute;
-  margin-top: 850px;
+  margin-top: 3050px;
   left: 50.6%;
   transform: translateX(-50%);
 }
@@ -1025,6 +1025,7 @@ height: 50px;
     overflow-x: hidden;
   }
 }
+
 
 
 
