@@ -489,7 +489,6 @@ button {
 }
 
 button[type="submit"] {
-  background-color: green;
   margin-left: 0.8rem;
   
 }
@@ -1202,6 +1201,7 @@ height: 50px;
     font-size: 12px;
   }
 }
+
 
 
 
