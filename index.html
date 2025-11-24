@@ -126,22 +126,18 @@
       <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">
         Dados de acesso
       </h3>
-
-      <label class="form-label" style="font-weight: 500;">Nome completo do candidato</label>
+      <form>
+      <label class="form-label" style="font-weight: 500;" required>Nome completo do candidato</label>
       <input type="text" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
 
-      <label class="form-label mt-3" style="font-weight: 500;" id="cpf">CPF do candidato</label>
+      <label class="form-label mt-3" style="font-weight: 500;" id="cpf" required>CPF do candidato</label>
       <input type="text" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
 
-      <label class="form-label mt-3" style="font-weight: 500;">E-mail</label>
+      <label class="form-label mt-3" style="font-weight: 500;" required>E-mail</label>
       <input type="email" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
 
-      <label class="form-label mt-3" style="font-weight: 500;">Repita o e-mail</label>
+      <label class="form-label mt-3" style="font-weight: 500;" required>Repita o e-mail</label>
       <input type="email" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
     </div>
 
     <div class="col-md-6">
@@ -155,13 +151,13 @@
       </p>
 
       <label class="form-label mt-3" style="font-weight: 500;">Senha</label>
-      <input type="password" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
+      <input type="password" class="form-control" required/>
 
       <label class="form-label mt-3" style="font-weight: 500;">Repita a senha</label>
-      <input type="password" class="form-control" />
-      <small class="text-danger">Este campo é obrigatório.</small>
+      <input type="password" class="form-control" required/>
     </div>
+  </form>
+  
 <div class="palavras">
     Ao informar meus dados, eu concordo com a Política de Privacidade e os Termos de Uso da FAT - Fundação de Apoio à Tecnologia.
 </div>
