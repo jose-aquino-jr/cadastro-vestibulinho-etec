@@ -233,13 +233,13 @@
     let todasEtecs = [];
     let municipiosDisponiveis = [];
 
-    // Função para fazer requisições
+    // Função para fazer requisições com tratamento de erro
     async function fazerRequisicao(url) {
         try {
             const response = await axios.get(url);
             return response.data;
         } catch (error) {
-            console.error('Erro na requisição:', error);
+            console.error('Erro na requisição para:', url, error);
             throw error;
         }
     }
@@ -251,9 +251,11 @@
             
             // Carregar cidades da API
             municipiosDisponiveis = await fazerRequisicao(`${API_BASE}/cidades`);
+            console.log('Cidades carregadas:', municipiosDisponiveis);
             
-            // Carregar todas as ETECs com dados completos
-            todasEtecs = await fazerRequisicao(`${API_BASE}/all`);
+            // Carregar todas as ETECs
+            todasEtecs = await fazerRequisicao(`${API_BASE}/etecs`);
+            console.log('ETECs carregadas:', todasEtecs);
 
             console.log('Dados carregados com sucesso:', {
                 municipios: municipiosDisponiveis.length,
@@ -263,7 +265,7 @@
             return true;
         } catch (error) {
             console.error('Erro ao carregar dados da API:', error);
-            alert('Erro ao carregar dados das ETECs. A API pode estar offline.');
+            // Não mostrar alert para não interromper o usuário
             return false;
         }
     }
@@ -274,7 +276,9 @@
         
         setTimeout(() => {
             if (municipiosDisponiveis.length === 0) {
-                municipioSelect.innerHTML = '<option value="" selected disabled>Erro ao carregar municípios</option>';
+                municipioSelect.innerHTML = '<option value="" selected disabled>Nenhum município disponível</option>';
+                alertUnidade.textContent = 'Nenhum município disponível no momento';
+                alertUnidade.className = 'alert alert-warning';
                 return;
             }
 
@@ -286,6 +290,9 @@
                 option.textContent = municipio;
                 municipioSelect.appendChild(option);
             });
+
+            alertUnidade.textContent = `${municipiosDisponiveis.length} municípios disponíveis`;
+            alertUnidade.className = 'alert alert-info';
         }, 500);
     }
 
@@ -294,14 +301,12 @@
         try {
             console.log(`Buscando ETECs em: ${municipio}`);
             const etecs = await fazerRequisicao(`${API_BASE}/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
-            console.log(`ETECs encontradas:`, etecs);
+            console.log(`ETECs encontradas em ${municipio}:`, etecs);
             return etecs;
         } catch (error) {
-            console.warn('Erro na busca por cidade, usando dados locais:', error);
-            // Fallback: filtrar localmente
-            return todasEtecs.filter(etec => 
-                etec.cidade && etec.cidade.toLowerCase().includes(municipio.toLowerCase())
-            );
+            console.warn('Erro na busca por cidade:', error);
+            // Se não encontrar ETECs, retorna array vazio
+            return [];
         }
     }
 
@@ -311,11 +316,14 @@
         
         cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Carregando cursos...</option>';
         segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Carregando...</option>';
+        alertUnidade.textContent = 'Buscando cursos...';
+        alertUnidade.className = 'alert alert-info';
 
         try {
             if (!municipio) {
                 cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione primeiro o município</option>';
                 alertUnidade.textContent = 'Selecione o município';
+                alertUnidade.className = 'alert alert-warning';
                 return;
             }
 
@@ -328,22 +336,27 @@
                 return;
             }
 
-            // Coletar todos os cursos
+            // Coletar todos os cursos das ETECs encontradas
             let todosCursos = [];
             etecsMunicipio.forEach(etec => {
-                if (etec.cursos) {
+                if (etec.cursos && Array.isArray(etec.cursos)) {
                     etec.cursos.forEach(curso => {
-                        todosCursos.push({
-                            nome: curso.nome,
-                            periodo: curso.periodo,
-                            etec: etec.name
-                        });
+                        if (curso.nome && curso.periodo) {
+                            todosCursos.push({
+                                nome: curso.nome,
+                                periodo: curso.periodo,
+                                etec: etec.name || 'ETEC'
+                            });
+                        }
                     });
                 }
             });
 
+            console.log(`Total de cursos encontrados em ${municipio}:`, todosCursos.length);
+
             // Filtrar por modalidade
             const cursosFiltrados = filtrarCursosPorModalidade(todosCursos, modalidade);
+            console.log(`Cursos filtrados por ${modalidade}:`, cursosFiltrados.length);
 
             if (cursosFiltrados.length === 0) {
                 cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Nenhum curso disponível</option>';
@@ -364,10 +377,13 @@
             alertUnidade.textContent = `${cursosFiltrados.length} curso(s) disponível(is) em ${municipio}`;
             alertUnidade.className = 'alert alert-success';
             
+            // Carregar segunda opção
             carregarSegundaOpcao(cursosFiltrados);
         } catch (error) {
             console.error('Erro ao carregar cursos:', error);
             cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Erro ao carregar cursos</option>';
+            alertUnidade.textContent = 'Erro ao carregar cursos. Tente novamente.';
+            alertUnidade.className = 'alert alert-danger';
         }
     }
 
@@ -381,12 +397,16 @@
                 return cursoLower.includes("ensino médio") && !cursoLower.includes("integrado");
             } else if (modalidadeLower === "ensino-medio-integrado") {
                 return cursoLower.includes("ensino médio") && cursoLower.includes("integrado");
+            } else if (modalidadeLower === "ensino-medio-eja") {
+                return cursoLower.includes("eja") || cursoLower.includes("educação de jovens");
             } else if (modalidadeLower === "tecnico-integrado") {
                 return !cursoLower.includes("ensino médio") && cursoLower.includes("integrado");
             } else if (modalidadeLower === "tecnico-subsequente") {
-                return !cursoLower.includes("ensino médio") && !cursoLower.includes("integrado");
+                return !cursoLower.includes("ensino médio") && !cursoLower.includes("integrado") && cursoLower.includes("técnico");
+            } else if (modalidadeLower === "tecnico-concomitante") {
+                return !cursoLower.includes("ensino médio") && !cursoLower.includes("integrado") && cursoLower.includes("concomitante");
             }
-            return true;
+            return false;
         });
     }
 
@@ -401,7 +421,7 @@
         cursosDisponiveis.forEach(curso => {
             const option = document.createElement("option");
             option.value = `${curso.nome}|${curso.periodo}|${curso.etec}`;
-            option.textContent = `${curso.nome} - ${curso.periodo}`;
+            option.textContent = `${curso.nome} - ${curso.periodo} (${curso.etec})`;
             segundaOpcaoSelect.appendChild(option);
         });
     }
@@ -415,20 +435,31 @@
             segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione primeiro a modalidade</option>';
             alertUnidade.textContent = 'Selecione a unidade';
             alertUnidade.className = 'alert alert-warning';
+        } else {
+            alertUnidade.textContent = 'Selecione o município e modalidade';
+            alertUnidade.className = 'alert alert-info';
         }
     }
 
     // Event Listeners
     sim.addEventListener("change", atualizarVisibilidade);
     nao.addEventListener("change", atualizarVisibilidade);
+
     municipioSelect.addEventListener("change", () => {
         if (modalidadeSelect.value && municipioSelect.value) {
             carregarCursos(modalidadeSelect.value, municipioSelect.value);
+        } else if (municipioSelect.value) {
+            alertUnidade.textContent = 'Agora selecione a modalidade';
+            alertUnidade.className = 'alert alert-info';
         }
     });
+
     modalidadeSelect.addEventListener("change", () => {
         if (municipioSelect.value && modalidadeSelect.value) {
             carregarCursos(modalidadeSelect.value, municipioSelect.value);
+        } else if (modalidadeSelect.value) {
+            alertUnidade.textContent = 'Agora selecione o município';
+            alertUnidade.className = 'alert alert-info';
         }
     });
 
@@ -447,8 +478,13 @@
 
     // Inicialização
     async function inicializar() {
-        await carregarDados();
-        carregarMunicipios();
+        const sucesso = await carregarDados();
+        if (sucesso) {
+            carregarMunicipios();
+        } else {
+            // Se a API falhar, carrega municípios vazios
+            carregarMunicipios();
+        }
         atualizarVisibilidade();
     }
 
