@@ -234,6 +234,32 @@
     let municipiosDisponiveis = [];
     let etecsFiltradas = [];
 
+    // Função para fazer requisições com tratamento de CORS
+    async function fazerRequisicao(url) {
+        try {
+            // Tentativa com axios primeiro
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.warn('Erro com axios, tentando fetch:', error);
+            
+            // Fallback com fetch e mode 'cors'
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+    }
+
     // Função para normalizar texto (igual à do servidor)
     function normalizarTexto(texto) {
         if (!texto) return '';
@@ -250,13 +276,11 @@
         try {
             console.log('Carregando dados da API...');
             
-            // Carregar cidades da API
-            const responseCidades = await axios.get(`${API_BASE}/cidades`);
-            municipiosDisponiveis = responseCidades.data;
+            // Carregar cidades da API - CORRETO: /cidades
+            municipiosDisponiveis = await fazerRequisicao(`${API_BASE}/cidades`);
             
-            // Carregar todas as ETECs
-            const responseEtecs = await axios.get(`${API_BASE}/all`);
-            todasEtecs = responseEtecs.data;
+            // Carregar todas as ETECs - CORRETO: /all (com dados completos)
+            todasEtecs = await fazerRequisicao(`${API_BASE}/all`);
 
             console.log('Dados carregados com sucesso:', {
                 municipios: municipiosDisponiveis.length,
@@ -266,7 +290,7 @@
             return true;
         } catch (error) {
             console.error('Erro ao carregar dados da API:', error);
-            alert('Erro ao carregar dados das ETECs. Tente novamente.');
+            alert('Erro ao carregar dados das ETECs. A API pode estar offline ou com problemas de CORS.');
             return false;
         }
     }
@@ -296,13 +320,13 @@
     async function buscarEtecsPorMunicipio(municipio) {
         try {
             console.log(`Buscando ETECs em: ${municipio}`);
-            const response = await axios.get(`${API_BASE}/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
-            etecsFiltradas = response.data;
+            const etecs = await fazerRequisicao(`${API_BASE}/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
+            etecsFiltradas = etecs;
             console.log(`ETECs encontradas via API:`, etecsFiltradas);
             return etecsFiltradas;
         } catch (error) {
             console.warn('Erro na busca por cidade:', error);
-            // Fallback: filtrar localmente
+            // Fallback: filtrar localmente dos dados já carregados
             etecsFiltradas = todasEtecs.filter(etec => {
                 if (!etec.cidade) return false;
                 const cidadeEtec = normalizarTexto(etec.cidade);
