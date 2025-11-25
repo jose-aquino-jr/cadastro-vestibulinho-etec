@@ -1,3 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Área do Candidato - Etec</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="estilo-dados-pessoais.css">
+</head>
+<body>
+<div class="fundo">
+
+  <header class="top-header">
+    <div class="container-fluid d-flex align-items-center justify-content-between py-3">
+      <div class="caixa-gov d-flex align-items-center">
+        <img src="images-removebg-preview.png" alt="Logo Governo" class="logo-gov">
+      </div>
+
+      <div class="flex-fill"></div>
+
+      <div class="redes-wrap d-flex align-items-center">
+        <img src="redes.jfif" alt="Redes" class="redes-logo">
+      </div>
+    </div>
+
+    <div class="linha"></div>
+  </header>
+
+  <div class="caixa-fixa">
+    <div class="container-fluid d-flex align-items-center justify-content-between py-2">
+      <div class="d-flex align-items-center">
+        <img src="etec_cps-removebg-preview.png" alt="Etec" class="logo-etec-cps">
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav list-unstyled d-flex gap-4 mb-0">
+          <li><a class="nav-link" href="#">HOME</a></li>
+          <li><a class="nav-link" href="#">CALENDÁRIO</a></li>
+          <li><a class="nav-link" href="#">DÚVIDAS FREQUENTES</a></li>
+          <li><a class="nav-link" href="#">FALE CONOSCO</a></li>
+        </ul>
+      </nav>
+
+      <div class="d-flex align-items-center gap-3">
+       <button class="btn btn-danger btn-sm btn-area d-flex align-items-center gap-2 px-3">
+          Área do candidato
+          <img src="image-removebg-preview.png" width="20" alt="">
+        </button>
+
+      <div class="bloco">
+        <div class="realizacao">
+          <span>Realização:</span>
+          <img src="FAT-FUNDACAO-DE-APOIO-A-TECNOLOGIA.webp" alt="FAT" class="realizacao-logo">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <section class="imagem-banner">
+    <img src="highlight-bg.jpg" alt="Imagem destaque" class="img-fluid w-100">
+  </section>
+
+   <main class="container py-5">
+    <div class="vermelho">
+      <div class="vermelho-word">Inscrição</div>
+      </div>
+    <div class="conteudo">
+      <div class="cinza"></div>
+      <div class="cinza-plus">
+      </div>
+<div class="container-botoes">
+
+  <div class="grupo">
+    <button class="btn-circular">✓</button>
+    <span class="labele">Dados de acesso</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular">✓</button>
+    <span class="labele">Unidade e curso</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular ativo">3</button>
+    <span class="labele">Dados pessoais</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular">4</button>
+    <span class="labele">Pont. acresida</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular">5</button>
+    <span class="labele">confirmação</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular">6</button>
+    <span class="labele">questionário</span>
+  </div>
+
+  <div class="grupo">
+    <button class="btn-circular">7</button>
+    <span class="labele">Conclusão</span>
+  </div>
+
+</div>
+
+      <p class="palavras">
+        Preencha seus dados pessoais para continuar com a inscrição no Processo Seletivo Vestibulinho.
+      </p>
+
+      <div class="row d-flex justify-content-center">
+    <div class="col-12 col-lg-10">
+        <form id="form-dados-pessoais">
+            
+            <label class="form-label bloco-titulo">Nome completo do candidato<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3 campo-input" id="nome-completo" required>
+
+            <div class="mb-4">
+                <label class="form-label bloco-titulo d-block">O candidato é transgênero e deseja ser tratado pelo nome social?</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="nome_social" id="nome_social_nao" value="Nao" checked>
+                    <label class="form-check-label" for="nome_social_nao">Não</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="nome_social" id="nome_social_sim" value="Sim">
+                    <label class="form-check-label" for="nome_social_sim">Sim</label>
+                </div>
+            </div>
+
+            <label class="form-label bloco-titulo">CPF do candidato<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3 campo-input" id="cpf-candidato" required>
+
+            <label class="form-label bloco-titulo">E-mail principal<span class="text-danger">*</span></label>
+            <input type="email" class="form-control mb-3 campo-input" id="email-principal" required>
+
+            <label class="form-label bloco-titulo">E-mail secundário</label>
+            <input type="email" class="form-control mb-3 campo-input" id="email-secundario">
+
+            <label class="form-label bloco-titulo">Data de nascimento do candidato<span class="text-danger">*</span></label>
+            <input type="date" class="form-control mb-4 campo-input" id="data-nascimento" required>
+
+            <label class="form-label bloco-titulo">Nome da mãe do candidato<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-4 campo-input" id="nome-mae" required>
+
+            <label class="form-label bloco-titulo">País de nascimento do candidato<span class="text-danger">*</span></label>
+            <select class="form-select mb-3 campo-select" id="pais-nascimento" required>
+                <option value="BR" selected>BRASIL</option>
+                <option value="OUTRO">Outro</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Estado de nascimento do candidato<span class="text-danger">*</span></label>
+            <select class="form-select mb-3 campo-select" id="estado-nascimento" required>
+                <option value="" selected disabled>Selecione o Estado...</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Município de nascimento do candidato<span class="text-danger">*</span></label>
+            <select class="form-select mb-4 campo-select" id="municipio-nascimento" required>
+                <option value="" selected disabled>Selecione o Município...</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Tipo do documento de identidade<span class="text-danger">*</span></label>
+            <select class="form-select mb-3 campo-select" id="tipo-documento" required>
+                <option value="" selected disabled>Selecione...</option>
+                <option value="RG">RG</option>
+                <option value="CNH">CNH</option>
+                <option value="PASSAPORTE">Passaporte</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Nº do documento de identidade do candidato<span class="text-danger">*</span></label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control campo-input" id="numero-documento" required>
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value="" id="protocolo-check">
+                    <span class="ms-2">Possuo somente protocolo</span>
+                </div>
+            </div>
+
+            <label class="form-label bloco-titulo">Estado emissor do documento de identidade<span class="text-danger">*</span></label>
+            <select class="form-select mb-3 campo-select" id="estado-emissor" required>
+                <option value="" selected disabled>Selecione...</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Data de emissão do documento de identidade<span class="text-danger">*</span></label>
+            <input type="date" class="form-control mb-4 campo-input" id="data-emissao" required>
+
+            <label class="form-label bloco-titulo">Sexo do candidato<span class="text-danger">*</span></label>
+            <select class="form-select mb-4 campo-select" id="sexo" required>
+                <option value="" selected disabled>Selecione...</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+            </select>
+            
+            <label class="form-label bloco-titulo">Estado civil do candidato<span class="text-danger">*</span></label>
+            <select class="form-select mb-4 campo-select" id="estado-civil" required>
+                <option value="" selected disabled>Selecione...</option>
+                <option value="SOLTEIRO">Solteiro</option>
+                <option value="CASADO">Casado</option>
+                <option value="DIVORCIADO">Divorciado</option>
+                <option value="VIUVO">Viúvo</option>
+            </select>
+
+            <div class="mb-4">
+                <label class="form-label bloco-titulo d-block">Possui irmão gêmeo<span class="text-danger">*</span></label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="irmao_gemeo" id="gemeo_sim" value="Sim" required>
+                    <label class="form-check-label" for="gemeo_sim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="irmao_gemeo" id="gemeo_nao" value="Nao" checked>
+                    <label class="form-check-label" for="gemeo_nao">Não</label>
+                </div>
+            </div>
+            
+            <label class="form-label bloco-titulo">CEP<span class="text-danger">*</span></label>
+            <div class="d-flex align-items-center mb-3">
+                <input type="text" class="form-control campo-input" id="cep" style="max-width: 150px;" placeholder="Ex. 99999-999" required>
+                <span class="ms-3 me-3 text-primary" style="font-size: 14px;">
+                    <a href="#" id="nao-sei-cep" style="text-decoration: none;">Não sei meu CEP</a>
+                </span>
+            </div>
+
+            <label class="form-label bloco-titulo">Endereço do candidato<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3 campo-input" id="endereco" required>
+
+            <label class="form-label bloco-titulo">Número<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3 campo-input" id="numero" required>
+
+            <label class="form-label bloco-titulo">Complemento</label>
+            <input type="text" class="form-control mb-3 campo-input" id="complemento">
+
+            <label class="form-label bloco-titulo">Bairro<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3 campo-input" id="bairro" required>
+
+            <label class="form-label bloco-titulo">Estado<span class="text-danger">*</span></label>
+            <select class="form-select mb-3 campo-select" id="estado-endereco" required>
+                <option value="" selected disabled>Selecione...</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Município<span class="text-danger">*</span></label>
+            <select class="form-select mb-4 campo-select" id="municipio-endereco" required>
+                <option value="" selected disabled>Selecione...</option>
+            </select>
+
+            <label class="form-label bloco-titulo">Telefone</label>
+            <input type="tel" class="form-control mb-3 campo-input" id="telefone" placeholder="Ex. (11) 1234-1234">
+
+            <label class="form-label bloco-titulo">Celular</label>
+            <input type="tel" class="form-control mb-3 campo-input" id="celular" placeholder="Ex. (11) 91234-1234">
+            
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="receber-info">
+                <label class="form-check-label" for="receber-info" style="font-size: 14px;">
+                    Aceito receber por e-mail, SMS e WhatsApp informações sobre outros processos/concursos realizados pela FAT
+                </label>
+            </div>
+            
+            <h3 class="mb-3 mt-4" style="font-size:22px; font-weight:600; color:#444;">Representante legal</h3>
+            
+            <div class="p-3 mb-4" style="background:#fff3cd; border-radius:5px; border: 1px solid #ffeeba; color:#856404; font-size:14px;">
+                Candidato menor de 16 anos, indique abaixo o nome e o número do CPF do representante legal (pai, mãe, tutor ou curador):
+            </div>
+
+            <div class="row">
+                <div class="col-md-7">
+                    <label class="form-label bloco-titulo">Nome do representante legal<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control mb-3 campo-input" id="nome-representante">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label bloco-titulo">Nº do CPF do representante legal<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control mb-4 campo-input" id="cpf-representante">
+                </div>
+            </div>
+
+            <h3 class="mb-3 mt-4" style="font-size:22px; font-weight:600; color:#444;">Candidato com necessidades de condições especiais</h3>
+            
+            <div class="p-3 mb-4" style="background:#fff3cd; border-radius:5px; border: 1px solid #ffeeba; color:#856404; font-size:14px;">
+                ATENÇÃO: ESTE CAMPO DEVERÁ SER PREENCHIDO SOMENTE POR CANDIDATO COM DEFICIÊNCIA OU QUE NECESSITE DE CONDIÇÕES ESPECIAIS PARA REALIZAR O EXAME.
+            </div>
+            
+            <label class="form-label bloco-titulo d-block text-center">Indique a sua condição: <span class="text-danger">*</span></label>
+            <div class="d-flex justify-content-center mb-4">
+                 <select class="form-select campo-select" id="condicao-especial" style="max-width: 60%;">
+                    <option value="" selected>Nenhuma</option>
+                    <option value="DEFICIENCIA_FISICA">Deficiência Física</option>
+                    <option value="DEFICIENCIA_AUDITIVA">Deficiência Auditiva</option>
+                    <option value="DEFICIENCIA_VISUAL">Deficiência Visual</option>
+                    <option value="LACTANTE">Lactante</option>
+                 </select>
+            </div>
+            
+        </form>
+
+        <div class="action-row d-flex justify-content-center">
+            <button class="btn-primary-custom" type="button" style="padding: 12px 30px; margin-right: 15px;">
+                Salvar e ir para a próxima etapa 
+                <img src="image-removebg-preview.png" width="16" alt="" style="margin-left: 5px;">
+            </button>
+            <button class="btn-secondary-custom" type="button">Sair e continuar inscrição depois</button> 
+        </div>
+    </div>
+</div>
+</div>
+  </main>
+
+<div class="conteudo-red"></div>
+</div>
+
+    <div style="height: 0px;"></div>
+  </main>
+
+<footer class="footer">
+<div class="footer-tops">
+  </div>
+  <div class="footer-top">
+    <p><a href="#">Todos os direitos reservados © 2025 FAT | </a>
+      <a href="#">Política de Privacidade | </a>
+      <a href="#">Termos de Uso</a>
+    </p>
+  </div>
+
+  <div class="footer-mid">
+<img src="Captura_de_tela_2025-11-15_161028-removebg-preview.png" alt="atg" class="atge">
+  </div>
+
+  <div class="footer-buttons">
+    <a class="btn-footer">Ouvidoria</a>
+    <a class="btn-footer">Transparência</a>
+    <a class="btn-footer">SIC</a>
+  </div>
+
+  <div class="footer-bottom">
+    <img src="images-removebg-preview.png" alt="Governo de SP">
+  </div>
+
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -5,65 +346,188 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Elementos do formulário
-    const cepInput = document.querySelector('input[placeholder="Ex. 99999-999"]');
-    const estadoNascimentoSelect = document.querySelector('select:contains("Estado de nascimento")');
-    const municipioNascimentoSelect = document.querySelector('select:contains("Município de nascimento")');
-    const estadoSelect = document.querySelector('select:contains("Estado")');
-    const municipioSelect = document.querySelector('select:contains("Município")');
-    const estadoEmissorSelect = document.querySelector('select:contains("Estado emissor")');
-    
-    // Carregar estados brasileiros
-    function carregarEstados() {
+    const form = document.getElementById('form-dados-pessoais');
+    const cepInput = document.getElementById('cep');
+    const estadoNascimentoSelect = document.getElementById('estado-nascimento');
+    const municipioNascimentoSelect = document.getElementById('municipio-nascimento');
+    const estadoEnderecoSelect = document.getElementById('estado-endereco');
+    const municipioEnderecoSelect = document.getElementById('municipio-endereco');
+    const estadoEmissorSelect = document.getElementById('estado-emissor');
+
+    // API IBGE para estados e municípios
+    const IBGE_API = 'https://servicodados.ibge.gov.br/api/v1/localidades';
+
+    // Carregar estados brasileiros da API do IBGE
+    async function carregarEstados() {
+        try {
+            const response = await axios.get(`${IBGE_API}/estados?orderBy=nome`);
+            const estados = response.data;
+            
+            const selects = [estadoNascimentoSelect, estadoEnderecoSelect, estadoEmissorSelect];
+            
+            selects.forEach(select => {
+                select.innerHTML = '<option value="" selected disabled>Carregando estados...</option>';
+                
+                setTimeout(() => {
+                    select.innerHTML = '<option value="" selected disabled>Selecione o estado</option>';
+                    estados.forEach(estado => {
+                        const option = document.createElement('option');
+                        option.value = estado.sigla;
+                        option.textContent = estado.nome;
+                        select.appendChild(option);
+                    });
+                }, 500);
+            });
+            
+            console.log('Estados carregados via IBGE API');
+            return true;
+        } catch (error) {
+            console.error('Erro ao carregar estados:', error);
+            carregarEstadosFallback();
+            return false;
+        }
+    }
+
+    // Fallback para estados
+    function carregarEstadosFallback() {
         const estados = [
-            "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
-            "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
-            "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
-            "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina",
-            "São Paulo", "Sergipe", "Tocantins"
+            { sigla: "AC", nome: "Acre" }, { sigla: "AL", nome: "Alagoas" }, { sigla: "AP", nome: "Amapá" },
+            { sigla: "AM", nome: "Amazonas" }, { sigla: "BA", nome: "Bahia" }, { sigla: "CE", nome: "Ceará" },
+            { sigla: "DF", nome: "Distrito Federal" }, { sigla: "ES", nome: "Espírito Santo" }, { sigla: "GO", nome: "Goiás" },
+            { sigla: "MA", nome: "Maranhão" }, { sigla: "MT", nome: "Mato Grosso" }, { sigla: "MS", nome: "Mato Grosso do Sul" },
+            { sigla: "MG", nome: "Minas Gerais" }, { sigla: "PA", nome: "Pará" }, { sigla: "PB", nome: "Paraíba" },
+            { sigla: "PR", nome: "Paraná" }, { sigla: "PE", nome: "Pernambuco" }, { sigla: "PI", nome: "Piauí" },
+            { sigla: "RJ", nome: "Rio de Janeiro" }, { sigla: "RN", nome: "Rio Grande do Norte" }, { sigla: "RS", nome: "Rio Grande do Sul" },
+            { sigla: "RO", nome: "Rondônia" }, { sigla: "RR", nome: "Roraima" }, { sigla: "SC", nome: "Santa Catarina" },
+            { sigla: "SP", nome: "São Paulo" }, { sigla: "SE", nome: "Sergipe" }, { sigla: "TO", nome: "Tocantins" }
         ];
 
-        [estadoNascimentoSelect, estadoSelect, estadoEmissorSelect].forEach(select => {
-            select.innerHTML = '<option selected>Selecione...</option>';
+        const selects = [estadoNascimentoSelect, estadoEnderecoSelect, estadoEmissorSelect];
+        
+        selects.forEach(select => {
+            select.innerHTML = '<option value="" selected disabled>Selecione o estado</option>';
             estados.forEach(estado => {
                 const option = document.createElement('option');
-                option.value = estado;
-                option.textContent = estado;
+                option.value = estado.sigla;
+                option.textContent = estado.nome;
                 select.appendChild(option);
             });
         });
     }
 
+    // Carregar municípios por estado (IBGE API)
+    async function carregarMunicipiosPorEstado(estadoSigla, municipioSelect) {
+        try {
+            const response = await axios.get(`${IBGE_API}/estados/${estadoSigla}/municipios`);
+            const municipios = response.data;
+            
+            municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
+            
+            setTimeout(() => {
+                municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município</option>';
+                municipios.forEach(municipio => {
+                    const option = document.createElement('option');
+                    option.value = municipio.nome;
+                    option.textContent = municipio.nome;
+                    municipioSelect.appendChild(option);
+                });
+            }, 500);
+            
+            return true;
+        } catch (error) {
+            console.error('Erro ao carregar municípios:', error);
+            carregarMunicipiosFallback(municipioSelect);
+            return false;
+        }
+    }
+
+    function carregarMunicipiosFallback(municipioSelect) {
+        const municipiosExemplo = [
+            "Capital", "Interior", "Região Metropolitana", "Zona Rural"
+        ];
+        
+        municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município</option>';
+        municipiosExemplo.forEach(municipio => {
+            const option = document.createElement('option');
+            option.value = municipio;
+            option.textContent = municipio;
+            municipioSelect.appendChild(option);
+        });
+    }
+
     // Buscar CEP via API ViaCEP
-    cepInput.addEventListener('blur', function() {
+    async function buscarCEP(cep) {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = response.data;
+            
+            if (data.erro) {
+                throw new Error('CEP não encontrado');
+            }
+            
+            return data;
+        } catch (error) {
+            console.error('Erro ao buscar CEP:', error);
+            
+            // Tentar API alternativa
+            try {
+                const response = await axios.get(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+                return response.data;
+            } catch (error2) {
+                console.error('Erro na API alternativa:', error2);
+                throw new Error('CEP não encontrado em nenhum serviço');
+            }
+        }
+    }
+
+    cepInput.addEventListener('blur', async function() {
         const cep = this.value.replace(/\D/g, '');
         
         if (cep.length !== 8) {
+            alert('CEP deve conter 8 dígitos');
             return;
         }
 
-        axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(response => {
-                const data = response.data;
-                if (!data.erro) {
-                    // Preencher automaticamente os campos
-                    document.querySelector('input[placeholder="Ex. 99999-999"]').value = data.cep;
-                    document.querySelector('input[placeholder="Endereço"]').value = data.logradouro;
-                    document.querySelector('input[placeholder="Bairro"]').value = data.bairro;
-                    
-                    // Selecionar estado e município
-                    estadoSelect.value = data.uf;
-                    municipioSelect.value = data.localidade;
-                } else {
-                    alert('CEP não encontrado!');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao buscar CEP:', error);
-                alert('Erro ao buscar CEP. Tente novamente.');
-            });
+        try {
+            const endereco = await buscarCEP(cep);
+            
+            // Preencher automaticamente os campos
+            document.getElementById('cep').value = endereco.cep || cep;
+            document.getElementById('endereco').value = endereco.logradouro || '';
+            document.getElementById('bairro').value = endereco.bairro || '';
+            
+            // Selecionar estado
+            if (endereco.uf) {
+                estadoEnderecoSelect.value = endereco.uf;
+                
+                // Carregar municípios para este estado
+                await carregarMunicipiosPorEstado(endereco.uf, municipioEnderecoSelect);
+                
+                // Selecionar município após carregar
+                setTimeout(() => {
+                    if (endereco.localidade) {
+                        municipioEnderecoSelect.value = endereco.localidade;
+                    }
+                }, 1000);
+            }
+            
+        } catch (error) {
+            alert('CEP não encontrado! Verifique o número digitado.');
+            console.error('Erro no CEP:', error);
+        }
     });
 
-    // Máscara para CPF
+    // Configurar dependência estado-município
+    function configurarDependenciaEstadoMunicipio(estadoSelect, municipioSelect) {
+        estadoSelect.addEventListener('change', function() {
+            const estadoSigla = this.value;
+            if (estadoSigla && estadoSigla !== 'Selecione...') {
+                carregarMunicipiosPorEstado(estadoSigla, municipioSelect);
+            }
+        });
+    }
+
+    // Máscaras
     function aplicarMascaraCPF(input) {
         input.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -77,7 +541,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Máscara para telefone
     function aplicarMascaraTelefone(input) {
         input.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -94,45 +557,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function aplicarMascaraCEP(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 8) value = value.substring(0, 8);
+            
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+    }
+
     // Validação de data de nascimento
     function validarDataNascimento(input) {
         input.addEventListener('change', function(e) {
             const dataNascimento = new Date(e.target.value);
             const hoje = new Date();
-            const idade = hoje.getFullYear() - dataNascimento.getFullYear();
+            let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+            
+            // Ajuste para meses/dias
+            const mes = hoje.getMonth() - dataNascimento.getMonth();
+            if (mes < 0 || (mes === 0 && hoje.getDate() < dataNascimento.getDate())) {
+                idade--;
+            }
             
             if (idade < 14) {
                 alert('Candidato deve ter pelo menos 14 anos de idade.');
                 e.target.value = '';
             }
-        });
-    }
-
-    // Carregar municípios baseado no estado (simulação)
-    function configurarDependenciaEstadoMunicipio(estadoSelect, municipioSelect) {
-        estadoSelect.addEventListener('change', function() {
-            const estado = this.value;
-            municipioSelect.innerHTML = '<option selected>Selecione...</option>';
             
-            if (estado && estado !== 'Selecione...') {
-                // Simulação - em produção, buscar da API do IBGE
-                const municipiosExemplo = [
-                    "Capital", "Interior", "Região Metropolitana"
-                ];
-                
-                municipiosExemplo.forEach(municipio => {
-                    const option = document.createElement('option');
-                    option.value = municipio;
-                    option.textContent = municipio;
-                    municipioSelect.appendChild(option);
-                });
+            // Mostrar/ocultar campos de representante legal
+            const representanteSection = document.getElementById('nome-representante').closest('.row');
+            if (idade < 16) {
+                representanteSection.style.display = 'flex';
+                document.getElementById('nome-representante').required = true;
+                document.getElementById('cpf-representante').required = true;
+            } else {
+                representanteSection.style.display = 'none';
+                document.getElementById('nome-representante').required = false;
+                document.getElementById('cpf-representante').required = false;
             }
         });
     }
 
+    // Carregar dados das etapas anteriores
+    function carregarDadosEtapasAnteriores() {
+        // Dados de acesso
+        const dadosAcesso = localStorage.getItem('dadosAcesso');
+        if (dadosAcesso) {
+            const acesso = JSON.parse(dadosAcesso);
+            document.getElementById('nome-completo').value = acesso.nome || '';
+            document.getElementById('cpf-candidato').value = acesso.cpf || '';
+            document.getElementById('email-principal').value = acesso.email || '';
+        }
+        
+        // Dados salvos desta página
+        const dadosSalvos = localStorage.getItem('dadosPessoais');
+        if (dadosSalvos) {
+            const dados = JSON.parse(dadosSalvos);
+            Object.keys(dados).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = dados[key];
+                }
+            });
+        }
+    }
+
     // Salvar dados automaticamente
     function configurarAutoSave() {
-        const form = document.querySelector('form');
         const inputs = form.querySelectorAll('input, select, textarea');
         
         inputs.forEach(input => {
@@ -144,54 +636,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function salvarDadosTemporarios() {
         const formData = {};
-        const form = document.querySelector('form');
         const inputs = form.querySelectorAll('input, select, textarea');
         
         inputs.forEach(input => {
-            if (input.name || input.id) {
-                const key = input.name || input.id;
-                formData[key] = input.value;
+            if (input.id) {
+                formData[input.id] = input.value;
             }
         });
         
         localStorage.setItem('dadosPessoaisTemp', JSON.stringify(formData));
     }
 
-    function carregarDadosSalvos() {
-        const dadosSalvos = localStorage.getItem('dadosPessoais');
-        const dadosTemp = localStorage.getItem('dadosPessoaisTemp');
-        const dados = dadosSalvos ? JSON.parse(dadosSalvos) : 
-                      dadosTemp ? JSON.parse(dadosTemp) : null;
-        
-        if (dados) {
-            Object.keys(dados).forEach(key => {
-                const input = document.querySelector(`[name="${key}"]`) || 
-                             document.querySelector(`#${key}`);
-                if (input && dados[key]) {
-                    input.value = dados[key];
-                }
-            });
-        }
-        
-        // Carregar dados das etapas anteriores
-        const dadosAcesso = localStorage.getItem('dadosAcesso');
-        const dadosUnidadeCurso = localStorage.getItem('dadosUnidadeCurso');
-        
-        if (dadosAcesso) {
-            const acesso = JSON.parse(dadosAcesso);
-            document.querySelector('input[value="JOAO DA SILVA"]').value = acesso.nome || '';
-            document.querySelector('input[value="72303578827"]').value = acesso.cpf || '';
-            document.querySelector('input[value="joao@silva.com"]').value = acesso.email || '';
-        }
-    }
-
     // Botões de ação
     document.querySelector('.btn-primary-custom').addEventListener('click', function(e) {
         e.preventDefault();
         
-        const form = document.querySelector('form');
         if (!form.checkValidity()) {
             form.reportValidity();
+            return;
+        }
+        
+        // Validar idade
+        const dataNascimento = new Date(document.getElementById('data-nascimento').value);
+        const hoje = new Date();
+        let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+        const mes = hoje.getMonth() - dataNascimento.getMonth();
+        if (mes < 0 || (mes === 0 && hoje.getDate() < dataNascimento.getDate())) {
+            idade--;
+        }
+        
+        if (idade < 14) {
+            alert('Candidato deve ter pelo menos 14 anos de idade.');
             return;
         }
         
@@ -200,9 +675,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const inputs = form.querySelectorAll('input, select, textarea');
         
         inputs.forEach(input => {
-            if (input.name || input.id) {
-                const key = input.name || input.id;
-                formData[key] = input.value;
+            if (input.id) {
+                formData[input.id] = input.value;
             }
         });
         
@@ -220,23 +694,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Inicialização
-    carregarEstados();
-    aplicarMascaraCPF(document.querySelector('input[value="72303578827"]'));
-    aplicarMascaraTelefone(document.querySelector('input[placeholder="Ex. (11) 1234-1234"]'));
-    aplicarMascaraTelefone(document.querySelectorAll('input[placeholder="Ex. (11) 1234-1234"]')[1]);
-    validarDataNascimento(document.querySelector('input[type="date"]'));
-    
-    configurarDependenciaEstadoMunicipio(estadoNascimentoSelect, municipioNascimentoSelect);
-    configurarDependenciaEstadoMunicipio(estadoSelect, municipioSelect);
-    
-    configurarAutoSave();
-    carregarDadosSalvos();
-    
     // Link "Não sei meu CEP"
-    document.querySelector('a[href="#"]').addEventListener('click', function(e) {
+    document.getElementById('nao-sei-cep').addEventListener('click', function(e) {
         e.preventDefault();
         window.open('https://buscacepinter.correios.com.br/app/endereco/index.php', '_blank');
     });
+
+    // Inicialização
+    carregarEstados();
+    aplicarMascaraCPF(document.getElementById('cpf-candidato'));
+    aplicarMascaraCPF(document.getElementById('cpf-representante'));
+    aplicarMascaraTelefone(document.getElementById('telefone'));
+    aplicarMascaraTelefone(document.getElementById('celular'));
+    aplicarMascaraCEP(document.getElementById('cep'));
+    validarDataNascimento(document.getElementById('data-nascimento'));
+    
+    configurarDependenciaEstadoMunicipio(estadoNascimentoSelect, municipioNascimentoSelect);
+    configurarDependenciaEstadoMunicipio(estadoEnderecoSelect, municipioEnderecoSelect);
+    configurarDependenciaEstadoMunicipio(estadoEmissorSelect, municipioNascimentoSelect); // Reutiliza o mesmo para emissor
+    
+    configurarAutoSave();
+    carregarDadosEtapasAnteriores();
+    
+    // Esconder representante legal inicialmente
+    document.getElementById('nome-representante').closest('.row').style.display = 'none';
 });
 </script>
+</body>
+</html>
