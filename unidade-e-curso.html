@@ -265,22 +265,24 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const simInput = document.getElementById("sim");
-            const naoInput = document.getElementById("nao");
-            const blocoCursoDetalhado = document.getElementById("bloco-curso-detalhado");
+        const simInput = document.getElementById("sim");
+        const naoInput = document.getElementById("nao");
 
-            function atualizarVisibilidade() {
-                if (simInput.checked) {
-                    blocoCursoDetalhado.style.display = 'none';
-                } else {
-                    blocoCursoDetalhado.style.display = 'block';
-                }
+        const blocoCursoDetalhado = document.getElementById("bloco-curso-detalhado");
+
+        function atualizarVisibilidade() {
+            if (simInput.checked) {
+                blocoCursoDetalhado.style.display = "none";
+            } else {
+                blocoCursoDetalhado.style.display = "block";
             }
+        }
 
-            simInput.addEventListener("change", atualizarVisibilidade);
-            naoInput.addEventListener("change", atualizarVisibilidade);
-            atualizarVisibilidade();
-        });
+        simInput.addEventListener("change", atualizarVisibilidade);
+        naoInput.addEventListener("change", atualizarVisibilidade);
+
+        atualizarVisibilidade();
+    });
     </script>
 
 </body>
