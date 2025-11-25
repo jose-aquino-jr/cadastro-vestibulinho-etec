@@ -219,11 +219,13 @@ Escolas vinculadas a fundações, cooperativas, Sistemas S (SESI, SENAIS, SESC e
      Para verificar se você tem direito ao Sistema de Pontuação Acrescida, pelo item "escolaridade pública", responda as perguntas abaixo:
   </div> 
 
+
+<form>
   <div class="tabela-series">
     <div class="linha-serie">
         <span>Cursei a 5ª série / 6º ano do ensino fundamental integralmente em instituição pública</span>
         <div class="opcoes">
-            <label><input type="radio" name="serie5" value="sim"> Sim</label>
+            <label><input type="radio" name="serie5" value="sim"required> Sim</label>
             <label><input type="radio" name="serie5" value="nao"> Não</label>
         </div>
     </div>
@@ -268,15 +270,19 @@ Escolas vinculadas a fundações, cooperativas, Sistemas S (SESI, SENAIS, SESC e
 
 
     <div class="botoes-acao-container">
-      <a href="confirmacao.html">
-        <button class="btn-vestibulinho">
+
+
+        <button class="btn-vestibulinho" formaction="confirmacao.html" type="submit">
             Salvar e ir para a próxima etapa
             <span class="seta">➜</span>
         </button>
-        </a>
-        <a href="dados de acesso.html" class="link-sair-depois"><span class="destaque">Sair e continuar inscrição depois.</a></span>
+
+
+
+        <button><span class="destaque">Sair e continuar inscrição depois.</a></span></button>
     </div>
-    
+
+  </form>
 
   </div>
 
@@ -318,6 +324,3 @@ Escolas vinculadas a fundações, cooperativas, Sistemas S (SESI, SENAIS, SESC e
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-
