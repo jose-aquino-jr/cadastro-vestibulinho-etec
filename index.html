@@ -147,7 +147,7 @@
             Ao informar meus dados, eu concordo com a Política de Privacidade e os Termos de Uso da FAT - Fundação de Apoio à Tecnologia.
           </div>
 
-          <button type="submit" class="btn-vestibulinho mt-3">
+          <button type="submit" formaction="unidade-e-curso.html" class="btn-vestibulinho mt-3">
             Salvar e ir para a próxima etapa <span class="seta">➜</span>
           </button>
             </form>
@@ -220,7 +220,6 @@ function validarCPF(cpf) {
     return cpf.length === 11; // Apenas verifica se tem 11 dígitos
 }
 
-form.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const nome = form.querySelector('input[type="text"]').value;
@@ -289,7 +288,6 @@ form.addEventListener('submit', function(e) {
     // Redirecionar para próxima página
     console.log('Redirecionando para unidade-e-curso.html');
     window.location.href = 'unidade-e-curso.html';
-});
 
 // Carregar dados salvos se existirem
 document.addEventListener('DOMContentLoaded', function() {
@@ -319,3 +317,4 @@ window.preencherTeste = preencherTeste;
 </script>
 </body>
 </html>
+
