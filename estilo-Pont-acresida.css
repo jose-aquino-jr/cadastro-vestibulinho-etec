@@ -366,7 +366,6 @@ button {
 }
 
 button[type="submit"] {
-  background-color: green;
   margin-left: 0.8rem;
 }
 
@@ -772,8 +771,3 @@ button:hover {
     width: 150px;
   }
 }
-
-
-
-
-
