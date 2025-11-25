@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Área do Candidato - Etec</title>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="estilo-dados-de-acesso.css">
 </head>
@@ -187,41 +186,39 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+
 const form = document.getElementById('formulario');
 const cpf = document.getElementById('cpf');
 
-// Máscara do CPF
-function mascaraCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');
-    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
-    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    return cpf;
+function mascaraCPF(valor) {
+    valor = valor.replace(/\D/g, '');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    return valor;
 }
 
-cpf.addEventListener('input', function(e) {
+cpf.addEventListener('input', function (e) {
     e.target.value = mascaraCPF(e.target.value);
 });
 
-// Validação de email
 function validarEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
 
-// Validação de senha
 function validarSenha(senha) {
     return senha.length >= 6;
 }
 
-// Validar CPF - versão simplificada
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, '');
-    return cpf.length === 11; // Apenas verifica se tem 11 dígitos
+    return cpf.length === 11;
 }
 
+form.addEventListener('submit', function (e) {
     e.preventDefault();
-    
+
     const nome = form.querySelector('input[type="text"]').value;
     const cpfValue = cpf.value;
     const numerosCPF = cpfValue.replace(/\D/g, '');
@@ -229,51 +226,47 @@ function validarCPF(cpf) {
     const emailConfirmacao = form.querySelectorAll('input[type="email"]')[1].value;
     const senha = form.querySelector('input[type="password"]').value;
     const senhaConfirmacao = form.querySelectorAll('input[type="password"]')[1].value;
-    
+
     console.log('Validando formulário...');
-    
-    // Validações básicas
+
     if (!nome.trim()) {
         alert('Por favor, informe seu nome completo.');
         return;
     }
-    
+
     if (numerosCPF.length !== 11) {
         alert('CPF inválido! Deve conter exatamente 11 números.');
         cpf.focus();
         return;
     }
-    
-    const cpfValido = validarCPF(cpfValue);
-    if (!cpfValido) {
-        alert('CPF inválido! Deve conter 11 números.');
-        cpf.focus();
+
+    if (!validarCPF(cpfValue)) {
+        alert('CPF inválido!');
         return;
     }
-    
+
     if (!validarEmail(email)) {
         alert('Por favor, insira um e-mail válido.');
         return;
     }
-    
+
     if (email !== emailConfirmacao) {
         alert('Os e-mails não coincidem!');
         return;
     }
-    
+
     if (!validarSenha(senha)) {
         alert('A senha deve ter pelo menos 6 caracteres.');
         return;
     }
-    
+
     if (senha !== senhaConfirmacao) {
         alert('As senhas não coincidem!');
         return;
     }
-    
+
     console.log('Todas as validações passaram!');
-    
-    // Salvar dados no localStorage
+
     const dadosAcesso = {
         nome: nome,
         cpf: cpfValue,
@@ -281,40 +274,16 @@ function validarCPF(cpf) {
         senha: senha,
         timestamp: new Date().toISOString()
     };
-    
+
     localStorage.setItem('dadosAcesso', JSON.stringify(dadosAcesso));
     console.log('Dados salvos no localStorage');
-    
-    // Redirecionar para próxima página
-    console.log('Redirecionando para unidade-e-curso.html');
-    window.location.href = 'unidade-e-curso.html';
 
-// Carregar dados salvos se existirem
-document.addEventListener('DOMContentLoaded', function() {
-    const dadosSalvos = localStorage.getItem('dadosAcesso');
-    if (dadosSalvos) {
-        const dados = JSON.parse(dadosSalvos);
-        form.querySelector('input[type="text"]').value = dados.nome || '';
-        cpf.value = dados.cpf || '';
-        form.querySelector('input[type="email"]').value = dados.email || '';
-        form.querySelectorAll('input[type="email"]')[1].value = dados.email || '';
-    }
+    window.location.href = 'unidade-e-curso.html';
 });
 
-// Função para teste rápido
-function preencherTeste() {
-    form.querySelector('input[type="text"]').value = 'João Silva Teste';
-    cpf.value = '123.456.789-09';
-    form.querySelector('input[type="email"]').value = 'teste@email.com';
-    form.querySelectorAll('input[type="email"]')[1].value = 'teste@email.com';
-    form.querySelector('input[type="password"]').value = '123456';
-    form.querySelectorAll('input[type="password"]')[1].value = '123456';
-    console.log('Dados de teste preenchidos!');
-}
-
-// Adiciona função global para testes
-window.preencherTeste = preencherTeste;
 </script>
+
 </body>
 </html>
+
 
