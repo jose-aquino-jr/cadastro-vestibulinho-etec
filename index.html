@@ -190,18 +190,6 @@
 const form = document.getElementById('formulario');
 const cpf = document.getElementById('cpf');
 
-// Verificar se API ETECs está online
-async function verificarAPI() {
-    try {
-        const response = await axios.get('https://etecs-api.onrender.com/');
-        console.log('API ETECs está online');
-        return true;
-    } catch (error) {
-        console.warn('API ETECs offline');
-        return false;
-    }
-}
-
 // Máscara do CPF
 function mascaraCPF(cpf) {
     cpf = cpf.replace(/\D/g, '');
@@ -226,53 +214,26 @@ function validarSenha(senha) {
     return senha.length >= 6;
 }
 
-// Validar CPF
+// Validar CPF - versão simplificada
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, '');
-    
-    if (cpf.length !== 11) return false;
-    if (/^(\d)\1+$/.test(cpf)) return false;
-    
-    let soma = 0;
-    for (let i = 0; i < 9; i++) {
-        soma += parseInt(cpf.charAt(i)) * (10 - i);
-    }
-    
-    let resto = 11 - (soma % 11);
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.charAt(9))) return false;
-    
-    soma = 0;
-    for (let i = 0; i < 10; i++) {
-        soma += parseInt(cpf.charAt(i)) * (11 - i);
-    }
-    
-    resto = 11 - (soma % 11);
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.charAt(10))) return false;
-    
-    return true;
+    return cpf.length === 11; // Apenas verifica se tem 11 dígitos
 }
 
-form.addEventListener('submit', async function(e) {
+form.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const nome = form.querySelector('input[type="text"]').value;
-    const numerosCPF = cpf.value.replace(/\D/g, '');
+    const cpfValue = cpf.value;
+    const numerosCPF = cpfValue.replace(/\D/g, '');
     const email = form.querySelector('input[type="email"]').value;
     const emailConfirmacao = form.querySelectorAll('input[type="email"]')[1].value;
     const senha = form.querySelector('input[type="password"]').value;
     const senhaConfirmacao = form.querySelectorAll('input[type="password"]')[1].value;
     
-    // Verificar API antes de prosseguir
-    const apiOnline = await verificarAPI();
-    if (!apiOnline) {
-        if (!confirm('Serviço temporariamente indisponível. Deseja continuar offline?')) {
-            return;
-        }
-    }
+    console.log('Validando formulário...');
     
-    // Validações
+    // Validações básicas
     if (!nome.trim()) {
         alert('Por favor, informe seu nome completo.');
         return;
@@ -284,9 +245,9 @@ form.addEventListener('submit', async function(e) {
         return;
     }
     
-    const cpfValido = validarCPF(cpf.value);
+    const cpfValido = validarCPF(cpfValue);
     if (!cpfValido) {
-        alert('CPF inválido! Por favor, verifique o número digitado.');
+        alert('CPF inválido! Deve conter 11 números.');
         cpf.focus();
         return;
     }
@@ -311,19 +272,22 @@ form.addEventListener('submit', async function(e) {
         return;
     }
     
+    console.log('Todas as validações passaram!');
+    
     // Salvar dados no localStorage
     const dadosAcesso = {
         nome: nome,
-        cpf: cpf.value,
+        cpf: cpfValue,
         email: email,
         senha: senha,
         timestamp: new Date().toISOString()
     };
     
     localStorage.setItem('dadosAcesso', JSON.stringify(dadosAcesso));
-    localStorage.setItem('apiOnline', apiOnline.toString());
+    console.log('Dados salvos no localStorage');
     
     // Redirecionar para próxima página
+    console.log('Redirecionando para unidade-e-curso.html');
     window.location.href = 'unidade-e-curso.html';
 });
 
@@ -337,10 +301,21 @@ document.addEventListener('DOMContentLoaded', function() {
         form.querySelector('input[type="email"]').value = dados.email || '';
         form.querySelectorAll('input[type="email"]')[1].value = dados.email || '';
     }
-    
-    // Verificar status da API
-    verificarAPI();
 });
+
+// Função para teste rápido
+function preencherTeste() {
+    form.querySelector('input[type="text"]').value = 'João Silva Teste';
+    cpf.value = '123.456.789-09';
+    form.querySelector('input[type="email"]').value = 'teste@email.com';
+    form.querySelectorAll('input[type="email"]')[1].value = 'teste@email.com';
+    form.querySelector('input[type="password"]').value = '123456';
+    form.querySelectorAll('input[type="password"]')[1].value = '123456';
+    console.log('Dados de teste preenchidos!');
+}
+
+// Adiciona função global para testes
+window.preencherTeste = preencherTeste;
 </script>
 </body>
 </html>
