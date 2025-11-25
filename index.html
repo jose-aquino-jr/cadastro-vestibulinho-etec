@@ -4,21 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Área do Candidato - Etec</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="estilo-dados-de-acesso.css">
 </head>
 <body>
 <div class="fundo">
+
   <header class="top-header">
     <div class="container-fluid d-flex align-items-center justify-content-between py-3">
       <div class="caixa-gov d-flex align-items-center">
         <img src="images-removebg-preview.png" alt="Logo Governo" class="logo-gov">
       </div>
+
       <div class="flex-fill"></div>
+
       <div class="redes-wrap d-flex align-items-center">
         <img src="redes.jfif" alt="Redes" class="redes-logo">
       </div>
     </div>
+
     <div class="linha"></div>
   </header>
 
@@ -27,6 +32,7 @@
       <div class="d-flex align-items-center">
         <img src="etec_cps-removebg-preview.png" alt="Etec" class="logo-etec-cps">
       </div>
+
       <nav class="main-nav">
         <ul class="nav list-unstyled d-flex gap-4 mb-0">
           <li><a class="nav-link" href="#">HOME</a></li>
@@ -35,11 +41,13 @@
           <li><a class="nav-link" href="#">FALE CONOSCO</a></li>
         </ul>
       </nav>
+
       <div class="d-flex align-items-center gap-3">
         <button class="btn btn-danger btn-sm btn-area d-flex align-items-center gap-2 px-3">
           Área do candidato
           <img src="image-removebg-preview.png" width="20" alt="">
         </button>
+
         <div class="bloco">
           <div class="realizacao">
             <span>Realização:</span>
@@ -58,9 +66,11 @@
     <div class="vermelho">
       <div class="vermelho-word">Inscrição</div>
     </div>
+
     <div class="conteudo">
       <div class="cinza"></div>
       <div class="cinza-plus"></div>
+
       <div class="container-botoes">
         <div class="grupo">
           <button class="btn-circular ativo">1</button>
@@ -99,44 +109,54 @@
       <div class="container mt-4">
         <div class="row">
           <div class="col-md-6">
-            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">Dados de acesso</h3>
+            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">
+              Dados de acesso
+            </h3>
+
             <form id="formulario">
               <label class="form-label" style="font-weight: 500;">Nome completo do candidato</label>
-              <input type="text" class="form-control" id="nome-completo" required>
+              <input type="text" class="form-control" required>
 
               <label class="form-label mt-3" style="font-weight: 500;">CPF do candidato</label>
               <input type="text" id="cpf" class="form-control" minlength="14" maxlength="14" required>
 
               <label class="form-label mt-3" style="font-weight: 500;">E-mail</label>
-              <input type="email" class="form-control" id="email" required>
+              <input type="email" class="form-control" required>
 
               <label class="form-label mt-3" style="font-weight: 500;">Repita o e-mail</label>
-              <input type="email" class="form-control" id="email-confirmacao" required>
+              <input type="email" class="form-control" required>
           </div>
 
           <div class="col-md-6">
-            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">Senha</h3>
+            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">
+              Senha
+            </h3>
+
             <p style="margin-top: -10px; color: #555; font-size: 15px;">
               Informe aqui a senha para a Área do Candidato e ter acesso a todas as informações referente à sua inscrição durante todo o Processo Seletivo.
             </p>
+
             <label class="form-label mt-3" style="font-weight: 500;">Senha</label>
-            <input type="password" class="form-control" id="senha" required>
+            <input type="password" class="form-control" required>
+
             <label class="form-label mt-3" style="font-weight: 500;">Repita a senha</label>
-            <input type="password" class="form-control" id="senha-confirmacao" required>
+            <input type="password" class="form-control" required>
           </div>
 
           <div class="palavras mt-3">
             Ao informar meus dados, eu concordo com a Política de Privacidade e os Termos de Uso da FAT - Fundação de Apoio à Tecnologia.
           </div>
 
-          <button type="button" class="btn-vestibulinho mt-3" id="btn-proxima-etapa">
+          <button type="submit" class="btn-vestibulinho mt-3">
             Salvar e ir para a próxima etapa <span class="seta">➜</span>
           </button>
             </form>
         </div>
       </div>
+
       <div class="conteudo-red"></div>
     </div>
+
     <div style="height:0px;"></div>
   </main>
 </div>
@@ -162,154 +182,163 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('formulario');
-    const cpf = document.getElementById('cpf');
-    const btnProximaEtapa = document.getElementById('btn-proxima-etapa');
+const form = document.getElementById('formulario');
+const cpf = document.getElementById('cpf');
 
-    // Verificar se API ETECs está online
-    async function verificarAPI() {
-        try {
-            const response = await axios.get('https://etecs-api.onrender.com/');
-            console.log('✅ API ETECs está online');
-            return true;
-        } catch (error) {
-            console.log('⚠️ API ETECs offline, usando modo local');
-            return false;
-        }
-    }
-
-    // Máscara do CPF
-    function mascaraCPF(cpf) {
-        cpf = cpf.replace(/\D/g, '');
-        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
-        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
-        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-        return cpf;
-    }
-
-    cpf.addEventListener('input', function(e) {
-        e.target.value = mascaraCPF(e.target.value);
-    });
-
-    // Validação de email
-    function validarEmail(email) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
-
-    // Validação de senha
-    function validarSenha(senha) {
-        return senha.length >= 6;
-    }
-
-    // Validar CPF
-    function validarCPF(cpf) {
-        cpf = cpf.replace(/\D/g, '');
-        if (cpf.length !== 11) return false;
-        if (/^(\d)\1+$/.test(cpf)) return false;
-        
-        let soma = 0;
-        for (let i = 0; i < 9; i++) {
-            soma += parseInt(cpf.charAt(i)) * (10 - i);
-        }
-        let resto = 11 - (soma % 11);
-        if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(cpf.charAt(9))) return false;
-        
-        soma = 0;
-        for (let i = 0; i < 10; i++) {
-            soma += parseInt(cpf.charAt(i)) * (11 - i);
-        }
-        resto = 11 - (soma % 11);
-        if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(cpf.charAt(10))) return false;
-        
+// Verificar se API ETECs está online
+async function verificarAPI() {
+    try {
+        const response = await axios.get('https://etecs-api.onrender.com/');
+        console.log('API ETECs está online');
         return true;
+    } catch (error) {
+        console.warn('API ETECs offline');
+        return false;
     }
+}
 
-    // Botão Próxima Etapa
-    btnProximaEtapa.addEventListener('click', async function() {
-        const nome = document.getElementById('nome-completo').value;
-        const numerosCPF = cpf.value.replace(/\D/g, '');
-        const email = document.getElementById('email').value;
-        const emailConfirmacao = document.getElementById('email-confirmacao').value;
-        const senha = document.getElementById('senha').value;
-        const senhaConfirmacao = document.getElementById('senha-confirmacao').value;
-        
-        // Validações
-        if (!nome.trim()) {
-            alert('Por favor, informe seu nome completo.');
-            return;
-        }
-        
-        if (numerosCPF.length !== 11) {
-            alert('CPF inválido! Deve conter exatamente 11 números.');
-            cpf.focus();
-            return;
-        }
-        
-        const cpfValido = validarCPF(cpf.value);
-        if (!cpfValido) {
-            alert('CPF inválido! Por favor, verifique o número digitado.');
-            cpf.focus();
-            return;
-        }
-        
-        if (!validarEmail(email)) {
-            alert('Por favor, insira um e-mail válido.');
-            return;
-        }
-        
-        if (email !== emailConfirmacao) {
-            alert('Os e-mails não coincidem!');
-            return;
-        }
-        
-        if (!validarSenha(senha)) {
-            alert('A senha deve ter pelo menos 6 caracteres.');
-            return;
-        }
-        
-        if (senha !== senhaConfirmacao) {
-            alert('As senhas não coincidem!');
-            return;
-        }
-        
-        // Verificar API
-        const apiOnline = await verificarAPI();
-        
-        // Salvar dados no localStorage
-        const dadosAcesso = {
-            nome: nome,
-            cpf: cpf.value,
-            email: email,
-            senha: senha,
-            apiOnline: apiOnline,
-            timestamp: new Date().toISOString()
-        };
-        
-        localStorage.setItem('dadosAcesso', JSON.stringify(dadosAcesso));
-        
-        // Redirecionar para próxima página
-        window.location.href = 'unidade-e-curso.html';
-    });
+// Máscara do CPF
+function mascaraCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    return cpf;
+}
 
-    // Carregar dados salvos se existirem
+cpf.addEventListener('input', function(e) {
+    e.target.value = mascaraCPF(e.target.value);
+});
+
+// Validação de email
+function validarEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+// Validação de senha
+function validarSenha(senha) {
+    return senha.length >= 6;
+}
+
+// Validar CPF
+function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    
+    if (cpf.length !== 11) return false;
+    if (/^(\d)\1+$/.test(cpf)) return false;
+    
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    
+    let resto = 11 - (soma % 11);
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(9))) return false;
+    
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    
+    resto = 11 - (soma % 11);
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(10))) return false;
+    
+    return true;
+}
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const nome = form.querySelector('input[type="text"]').value;
+    const numerosCPF = cpf.value.replace(/\D/g, '');
+    const email = form.querySelector('input[type="email"]').value;
+    const emailConfirmacao = form.querySelectorAll('input[type="email"]')[1].value;
+    const senha = form.querySelector('input[type="password"]').value;
+    const senhaConfirmacao = form.querySelectorAll('input[type="password"]')[1].value;
+    
+    // Verificar API antes de prosseguir
+    const apiOnline = await verificarAPI();
+    if (!apiOnline) {
+        if (!confirm('Serviço temporariamente indisponível. Deseja continuar offline?')) {
+            return;
+        }
+    }
+    
+    // Validações
+    if (!nome.trim()) {
+        alert('Por favor, informe seu nome completo.');
+        return;
+    }
+    
+    if (numerosCPF.length !== 11) {
+        alert('CPF inválido! Deve conter exatamente 11 números.');
+        cpf.focus();
+        return;
+    }
+    
+    const cpfValido = validarCPF(cpf.value);
+    if (!cpfValido) {
+        alert('CPF inválido! Por favor, verifique o número digitado.');
+        cpf.focus();
+        return;
+    }
+    
+    if (!validarEmail(email)) {
+        alert('Por favor, insira um e-mail válido.');
+        return;
+    }
+    
+    if (email !== emailConfirmacao) {
+        alert('Os e-mails não coincidem!');
+        return;
+    }
+    
+    if (!validarSenha(senha)) {
+        alert('A senha deve ter pelo menos 6 caracteres.');
+        return;
+    }
+    
+    if (senha !== senhaConfirmacao) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+    
+    // Salvar dados no localStorage
+    const dadosAcesso = {
+        nome: nome,
+        cpf: cpf.value,
+        email: email,
+        senha: senha,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem('dadosAcesso', JSON.stringify(dadosAcesso));
+    localStorage.setItem('apiOnline', apiOnline.toString());
+    
+    // Redirecionar para próxima página
+    window.location.href = 'unidade-e-curso.html';
+});
+
+// Carregar dados salvos se existirem
+document.addEventListener('DOMContentLoaded', function() {
     const dadosSalvos = localStorage.getItem('dadosAcesso');
     if (dadosSalvos) {
         const dados = JSON.parse(dadosSalvos);
-        document.getElementById('nome-completo').value = dados.nome || '';
+        form.querySelector('input[type="text"]').value = dados.nome || '';
         cpf.value = dados.cpf || '';
-        document.getElementById('email').value = dados.email || '';
-        document.getElementById('email-confirmacao').value = dados.email || '';
+        form.querySelector('input[type="email"]').value = dados.email || '';
+        form.querySelectorAll('input[type="email"]')[1].value = dados.email || '';
     }
-
-    // Verificar API ao carregar
+    
+    // Verificar status da API
     verificarAPI();
 });
 </script>
