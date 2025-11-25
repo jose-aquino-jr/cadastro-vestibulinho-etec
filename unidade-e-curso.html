@@ -175,9 +175,13 @@
                             </div>
 
                             <div class="action-row mt-4">
-                                <button class="btn-primary-custom" type="button">Salvar e ir para a próxima etapa</button>
-                                <button class="btn-secondary-custom" type="button">Sair e continuar inscrição depois</button>
-                            </div>
+    <button type="submit" class="btn-primary-custom">
+        Salvar e ir para a próxima etapa
+    </button>
+    <button type="button" class="btn-secondary-custom">
+        Sair e continuar inscrição depois
+    </button>
+</div>
                         </form>
                     </div>
                 </div>
@@ -216,355 +220,232 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        const sim = document.getElementById("sim");
-        const nao = document.getElementById("nao");
-        const bloco = document.getElementById("bloco-curso-detalhado");
-        const municipioSelect = document.getElementById("municipio");
-        const modalidadeSelect = document.getElementById("modalidade");
-        const cursoPeriodoSelect = document.getElementById("curso-periodo");
-        const segundaOpcaoSelect = document.getElementById("segunda-opcao");
-        const form = document.getElementById("form-inscricao");
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        let todasEtecs = [];
-        let todosCursos = [];
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const sim = document.getElementById("sim");
+    const nao = document.getElementById("nao");
+    const bloco = document.getElementById("bloco-curso-detalhado");
+    const municipioSelect = document.getElementById("municipio");
+    const modalidadeSelect = document.getElementById("modalidade");
+    const cursoPeriodoSelect = document.getElementById("curso-periodo");
+    const segundaOpcaoSelect = document.getElementById("segunda-opcao");
+    const form = document.getElementById("form-inscricao");
+    const btnProximaEtapa = document.querySelector('.btn-primary-custom');
+    const btnSair = document.querySelector('.btn-secondary-custom');
 
-        // Carregar todas as ETECs da API
-        async function carregarTodasEtecs() {
-            try {
-                const response = await axios.get('https://etecs-api.onrender.com/all');
-                todasEtecs = response.data;
-                console.log('ETECs carregadas:', todasEtecs.length);
-                return true;
-            } catch (error) {
-                console.error('Erro ao carregar ETECs:', error);
-                // Usar dados de fallback
-                todasEtecs = await carregarFallbackEtecs();
-                return false;
-            }
+    let todasEtecs = [];
+    let todosCursos = [];
+
+    // Carregar todas as ETECs da API
+    async function carregarTodasEtecs() {
+        try {
+            const response = await axios.get('https://etecs-api.onrender.com/all');
+            todasEtecs = response.data;
+            console.log('ETECs carregadas:', todasEtecs.length);
+            return true;
+        } catch (error) {
+            console.error('Erro ao carregar ETECs:', error);
+            todasEtecs = await carregarFallbackEtecs();
+            return false;
         }
+    }
 
-        // Fallback para quando API estiver offline
-        async function carregarFallbackEtecs() {
-            return [
-                {
-                    name: "Etec de São Paulo - Centro",
-                    cidade: "São Paulo",
-                    cursos: [
-                        { nome: "Administração - Matutino", periodo: "Manhã" },
-                        { nome: "Informática - Vespertino", periodo: "Tarde" }
-                    ]
-                },
-                {
-                    name: "Etec de Santo André",
-                    cidade: "Santo André", 
-                    cursos: [
-                        { nome: "Enfermagem - Integral", periodo: "Integral" },
-                        { nome: "Marketing - Noturno", periodo: "Noite" }
-                    ]
-                },
-                {
-                    name: "Etec de Campinas",
-                    cidade: "Campinas",
-                    cursos: [
-                        { nome: "Ensino Médio - Matutino", periodo: "Manhã" },
-                        { nome: "Informática - Integral", periodo: "Integral" }
-                    ]
-                }
+    async function carregarFallbackEtecs() {
+        return [
+            {
+                name: "Etec de São Paulo - Centro",
+                cidade: "São Paulo",
+                cursos: [
+                    { nome: "Administração - Matutino", periodo: "Manhã" },
+                    { nome: "Informática - Vespertino", periodo: "Tarde" }
+                ]
+            },
+            {
+                name: "Etec de Santo André",
+                cidade: "Santo André", 
+                cursos: [
+                    { nome: "Enfermagem - Integral", periodo: "Integral" },
+                    { nome: "Marketing - Noturno", periodo: "Noite" }
+                ]
+            }
+        ];
+    }
+
+    // Carregar cursos únicos da API
+    async function carregarCursosUnicos() {
+        try {
+            const response = await axios.get('https://etecs-api.onrender.com/cursos');
+            todosCursos = response.data;
+            console.log('Cursos carregados:', todosCursos.length);
+            return true;
+        } catch (error) {
+            console.error('Erro ao carregar cursos:', error);
+            todosCursos = [
+                "Administração", "Informática", "Enfermagem", "Marketing", "Ensino Médio"
             ];
+            return false;
         }
+    }
 
-        // Carregar cursos únicos da API
-        async function carregarCursosUnicos() {
-            try {
-                const response = await axios.get('https://etecs-api.onrender.com/cursos');
-                todosCursos = response.data;
-                console.log('Cursos carregados:', todosCursos.length);
-                return true;
-            } catch (error) {
-                console.error('Erro ao carregar cursos:', error);
-                todosCursos = [
-                    "Administração",
-                    "Informática", 
-                    "Enfermagem",
-                    "Marketing",
-                    "Ensino Médio",
-                    "Desenvolvimento de Sistemas",
-                    "Logística",
-                    "Recursos Humanos"
-                ];
-                return false;
-            }
-        }
-
-        // Buscar ETECs por município
-        async function buscarEtecsPorMunicipio(municipio) {
-            try {
-                const response = await axios.get(`https://etecs-api.onrender.com/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
-                return response.data;
-            } catch (error) {
-                console.error('Erro ao buscar ETECs por município:', error);
-                // Fallback - filtrar localmente
-                return todasEtecs.filter(etec => {
-                    const cidadeEtec = etec.name.split(' - ').pop();
-                    return cidadeEtec.toLowerCase().includes(municipio.toLowerCase());
-                });
-            }
-        }
-
-        // Carregar municípios disponíveis
-        async function carregarMunicipios() {
-            municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
-            
-            const apiOnline = await carregarTodasEtecs();
-            
-            if (apiOnline && todasEtecs.length > 0) {
-                // Extrair municípios únicos das ETECs
-                const municipios = [...new Set(todasEtecs.map(etec => {
-                    // Extrair cidade do nome da ETEC (última parte após o último "-")
-                    const partes = etec.name.split(' - ');
-                    return partes[partes.length - 1];
-                }))].sort();
-                
-                municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
-                municipios.forEach(municipio => {
-                    const option = document.createElement('option');
-                    option.value = municipio;
-                    option.textContent = municipio;
-                    municipioSelect.appendChild(option);
-                });
-            } else {
-                // Fallback para municípios padrão
-                const municipiosPadrao = [
-                    "São Paulo", "Santo André", "São Bernardo do Campo", 
-                    "São Caetano do Sul", "Guarulhos", "Campinas", 
-                    "Santos", "Sorocaba", "Ribeirão Preto", "São José dos Campos"
-                ];
-                
-                municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
-                municipiosPadrao.forEach(municipio => {
-                    const option = document.createElement('option');
-                    option.value = municipio;
-                    option.textContent = municipio;
-                    municipioSelect.appendChild(option);
-                });
-            }
-        }
-
-        // Carregar cursos baseado na modalidade
-        function carregarCursos(modalidade) {
-            cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Carregando cursos...</option>';
-            
-            setTimeout(() => {
-                let cursosFiltrados = [];
-                
-                switch(modalidade) {
-                    case 'ensino-medio':
-                        cursosFiltrados = todosCursos.filter(curso => 
-                            curso.toLowerCase().includes('ensino médio') && 
-                            !curso.toLowerCase().includes('integrado')
-                        );
-                        break;
-                    case 'ensino-medio-integrado':
-                        cursosFiltrados = todosCursos.filter(curso => 
-                            curso.toLowerCase().includes('ensino médio') && 
-                            curso.toLowerCase().includes('integrado')
-                        );
-                        break;
-                    case 'ensino-medio-eja':
-                        cursosFiltrados = todosCursos.filter(curso => 
-                            curso.toLowerCase().includes('eja') || 
-                            curso.toLowerCase().includes('educação de jovens')
-                        );
-                        break;
-                    case 'tecnico-integrado':
-                        cursosFiltrados = todosCursos.filter(curso => 
-                            !curso.toLowerCase().includes('ensino médio') &&
-                            curso.toLowerCase().includes('integrado')
-                        );
-                        break;
-                    case 'tecnico-subsequente':
-                    case 'tecnico-concomitante':
-                        cursosFiltrados = todosCursos.filter(curso => 
-                            !curso.toLowerCase().includes('ensino médio') &&
-                            !curso.toLowerCase().includes('integrado') &&
-                            !curso.toLowerCase().includes('eja')
-                        );
-                        break;
-                    default:
-                        cursosFiltrados = [...todosCursos];
-                }
-                
-                cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso e o período</option>';
-                
-                if (cursosFiltrados.length === 0) {
-                    // Fallback
-                    cursosFiltrados = [
-                        'Administração - Matutino',
-                        'Informática - Vespertino', 
-                        'Enfermagem - Noturno',
-                        'Marketing - Integral'
-                    ];
-                }
-                
-                cursosFiltrados.forEach(curso => {
-                    const option = document.createElement('option');
-                    option.value = curso.toLowerCase().replace(/\s+/g, '-');
-                    option.textContent = curso;
-                    cursoPeriodoSelect.appendChild(option);
-                });
-                
-                carregarSegundaOpcao(modalidade);
-            }, 500);
-        }
-
-        function carregarSegundaOpcao(modalidade) {
-            segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Carregando opções...</option>';
-            
-            setTimeout(() => {
-                segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso</option>';
-                
-                const optionNenhuma = document.createElement('option');
-                optionNenhuma.value = "nenhuma";
-                optionNenhuma.textContent = "Nenhuma segunda opção";
-                segundaOpcaoSelect.appendChild(optionNenhuma);
-                
-                // Adicionar algumas opções baseadas na modalidade
-                let opcoesSegunda = [];
-                
-                if (modalidade === 'ensino-medio') {
-                    opcoesSegunda = [
-                        "Ensino Médio - Matutino",
-                        "Ensino Médio - Vespertino"
-                    ];
-                } else {
-                    opcoesSegunda = [
-                        "Administração - Matutino",
-                        "Informática - Vespertino", 
-                        "Enfermagem - Noturno",
-                        "Marketing - Integral"
-                    ];
-                }
-                
-                opcoesSegunda.forEach(opcao => {
-                    const option = document.createElement('option');
-                    option.value = opcao.toLowerCase().replace(/\s+/g, '-');
-                    option.textContent = opcao;
-                    segundaOpcaoSelect.appendChild(option);
-                });
-            }, 300);
-        }
-
-        function atualizarVisibilidade() {
-            if (sim.checked) {
-                bloco.style.display = "none"; 
-            } else {
-                bloco.style.display = "block";
-            }
-        }
-
-        // Event Listeners
-        sim.addEventListener("change", atualizarVisibilidade);
-        nao.addEventListener("change", atualizarVisibilidade);
+    // Carregar municípios disponíveis
+    async function carregarMunicipios() {
+        municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
         
-        modalidadeSelect.addEventListener("change", function() {
-            carregarCursos(this.value);
-        });
+        const apiOnline = await carregarTodasEtecs();
+        
+        if (apiOnline && todasEtecs.length > 0) {
+            const municipios = [...new Set(todasEtecs.map(etec => {
+                const partes = etec.name.split(' - ');
+                return partes[partes.length - 1];
+            }))].sort();
+            
+            municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
+            municipios.forEach(municipio => {
+                const option = document.createElement('option');
+                option.value = municipio;
+                option.textContent = municipio;
+                municipioSelect.appendChild(option);
+            });
+        } else {
+            const municipiosPadrao = [
+                "São Paulo", "Santo André", "São Bernardo do Campo", 
+                "São Caetano do Sul", "Guarulhos", "Campinas"
+            ];
+            
+            municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
+            municipiosPadrao.forEach(municipio => {
+                const option = document.createElement('option');
+                option.value = municipio;
+                option.textContent = municipio;
+                municipioSelect.appendChild(option);
+            });
+        }
+    }
 
-        // Quando município é selecionado, buscar ETECs disponíveis
-        municipioSelect.addEventListener("change", async function() {
-            const municipio = this.value;
-            if (municipio && !sim.checked) {
-                console.log(`Buscando ETECs em: ${municipio}`);
-                const etecsMunicipio = await buscarEtecsPorMunicipio(municipio);
-                console.log(`ETECs encontradas: ${etecsMunicipio.length}`);
-                
-                if (etecsMunicipio.length === 0) {
-                    alert(`Nenhuma ETEC encontrada em ${municipio}. Verifique se há cursos disponíveis ou selecione outro município.`);
-                }
+    // Carregar cursos baseado na modalidade
+    function carregarCursos(modalidade) {
+        cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Carregando cursos...</option>';
+        
+        setTimeout(() => {
+            let cursosFiltrados = [];
+            
+            switch(modalidade) {
+                case 'ensino-medio':
+                    cursosFiltrados = todosCursos.filter(curso => 
+                        curso.toLowerCase().includes('ensino médio')
+                    );
+                    break;
+                case 'tecnico-subsequente':
+                    cursosFiltrados = todosCursos.filter(curso => 
+                        !curso.toLowerCase().includes('ensino médio')
+                    );
+                    break;
+                default:
+                    cursosFiltrados = [...todosCursos];
             }
-        });
+            
+            cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso e o período</option>';
+            
+            if (cursosFiltrados.length === 0) {
+                cursosFiltrados = ['Administração', 'Informática', 'Enfermagem'];
+            }
+            
+            cursosFiltrados.forEach(curso => {
+                const option = document.createElement('option');
+                option.value = curso.toLowerCase().replace(/\s+/g, '-');
+                option.textContent = curso;
+                cursoPeriodoSelect.appendChild(option);
+            });
+        }, 500);
+    }
 
-        // Botões de ação
-        document.querySelector('.btn-primary-custom').addEventListener('click', async function(e) {
-            e.preventDefault();
-            
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            // Validar se existem ETECs no município selecionado
-            const municipio = municipioSelect.value;
-            if (municipio && !sim.checked) {
-                const etecsMunicipio = await buscarEtecsPorMunicipio(municipio);
-                if (etecsMunicipio.length === 0) {
-                    alert(`Não há ETECs disponíveis em ${municipio}. Por favor, selecione outro município.`);
-                    return;
-                }
-            }
-            
-            // Salvar dados no localStorage
-            const dadosUnidadeCurso = {
+    function atualizarVisibilidade() {
+        if (sim.checked) {
+            bloco.style.display = "none"; 
+        } else {
+            bloco.style.display = "block";
+        }
+    }
+
+    // Event Listeners
+    sim.addEventListener("change", atualizarVisibilidade);
+    nao.addEventListener("change", atualizarVisibilidade);
+    
+    modalidadeSelect.addEventListener("change", function() {
+        carregarCursos(this.value);
+    });
+
+    // Botão Próxima Etapa - CORREÇÃO PRINCIPAL
+    btnProximaEtapa.addEventListener('click', async function(e) {
+        e.preventDefault(); // Impede o comportamento padrão
+        
+        console.log('Botão clicado!'); // Debug
+        
+        if (!form.checkValidity()) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            form.reportValidity();
+            return;
+        }
+        
+        // Salvar dados no localStorage
+        const dadosUnidadeCurso = {
+            treineiro: document.querySelector('input[name="treineiro"]:checked').value,
+            municipio: municipioSelect.value,
+            modalidade: modalidadeSelect.value,
+            curso: cursoPeriodoSelect.value,
+            segundaOpcao: segundaOpcaoSelect.value,
+            prerequisito: document.querySelector('input[name="prerequisito"]:checked').value,
+            timestamp: new Date().toISOString()
+        };
+        
+        localStorage.setItem('dadosUnidadeCurso', JSON.stringify(dadosUnidadeCurso));
+        
+        console.log('Dados salvos, redirecionando...'); // Debug
+        
+        // Redirecionar - CORREÇÃO AQUI
+        window.location.href = 'dados-pessoais.html';
+    });
+
+    // Botão Sair
+    btnSair.addEventListener('click', function() {
+        if (confirm('Deseja realmente sair? Seus dados serão salvos para continuar depois.')) {
+            const dadosTemp = {
                 treineiro: document.querySelector('input[name="treineiro"]:checked').value,
                 municipio: municipioSelect.value,
                 modalidade: modalidadeSelect.value,
-                curso: cursoPeriodoSelect.value,
-                segundaOpcao: segundaOpcaoSelect.value,
-                prerequisito: document.querySelector('input[name="prerequisito"]:checked').value,
-                timestamp: new Date().toISOString()
+                curso: cursoPeriodoSelect.value
             };
-            
-            localStorage.setItem('dadosUnidadeCurso', JSON.stringify(dadosUnidadeCurso));
-            
-            // Redirecionar
-            window.location.href = 'dados-pessoais.html';
-        });
-
-        document.querySelector('.btn-secondary-custom').addEventListener('click', function() {
-            if (confirm('Deseja realmente sair? Seus dados serão salvos para continuar depois.')) {
-                // Salvar dados temporários
-                const dadosTemp = {
-                    treineiro: document.querySelector('input[name="treineiro"]:checked').value,
-                    municipio: municipioSelect.value,
-                    modalidade: modalidadeSelect.value,
-                    curso: cursoPeriodoSelect.value
-                };
-                localStorage.setItem('dadosTempUnidadeCurso', JSON.stringify(dadosTemp));
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Inicialização
-        await carregarMunicipios();
-        await carregarCursosUnicos();
-        atualizarVisibilidade();
-        
-        // Carregar dados salvos se existirem
-        const dadosSalvos = localStorage.getItem('dadosUnidadeCurso');
-        if (dadosSalvos) {
-            const dados = JSON.parse(dadosSalvos);
-            if (dados.treineiro === 'Sim') sim.checked = true;
-            else nao.checked = true;
-            
-            municipioSelect.value = dados.municipio || '';
-            modalidadeSelect.value = dados.modalidade || '';
-            
-            if (dados.modalidade) {
-                carregarCursos(dados.modalidade);
-                setTimeout(() => {
-                    cursoPeriodoSelect.value = dados.curso || '';
-                    segundaOpcaoSelect.value = dados.segundaOpcao || '';
-                }, 100);
-            }
-            
-            if (dados.prerequisito) {
-                document.querySelector(`input[name="prerequisito"][value="${dados.prerequisito}"]`).checked = true;
-            }
+            localStorage.setItem('dadosTempUnidadeCurso', JSON.stringify(dadosTemp));
+            window.location.href = 'index.html';
         }
     });
-    </script>
+
+    // Inicialização
+    await carregarMunicipios();
+    await carregarCursosUnicos();
+    atualizarVisibilidade();
+    
+    // Carregar dados salvos
+    const dadosSalvos = localStorage.getItem('dadosUnidadeCurso');
+    if (dadosSalvos) {
+        const dados = JSON.parse(dadosSalvos);
+        if (dados.treineiro === 'Sim') sim.checked = true;
+        else nao.checked = true;
+        
+        municipioSelect.value = dados.municipio || '';
+        modalidadeSelect.value = dados.modalidade || '';
+        
+        if (dados.modalidade) {
+            carregarCursos(dados.modalidade);
+            setTimeout(() => {
+                cursoPeriodoSelect.value = dados.curso || '';
+            }, 100);
+        }
+    }
+});
+</script>
 
 </body>
 
