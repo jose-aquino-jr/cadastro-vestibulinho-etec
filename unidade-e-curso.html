@@ -131,13 +131,13 @@
                             </p>
 
                             <label class="form-label bloco-titulo">Município da Etec / Extensão de Etec</label>
-                            <select class="form-select mb-4 campo-select" id="municipio" required>
+                            <select class="form-select mb-4 campo-select" id="municipio">
                                 <option value="" selected disabled>Carregando municípios...</option>
                             </select>
 
                             <div id="bloco-curso-detalhado" style="display: block;">
                                 <label class="form-label bloco-titulo">Modalidade</label>
-                                <select class="form-select mb-3 campo-select" id="modalidade" required>
+                                <select class="form-select mb-3 campo-select" id="modalidade">
                                     <option value="" selected disabled>Selecione a modalidade de ensino desejada</option>
                                     <option value="ensino-medio">Ensino Médio</option>
                                     <option value="ensino-medio-integrado">Ensino Médio Integrado</option>
@@ -146,7 +146,7 @@
                                     <option value="tecnico-subsequente">Curso Técnico Subsequente</option>
                                     <option value="tecnico-concomitante">Curso Técnico Concomitante</option>
                                 </select>
-                                <p class="text-danger mb-4" style="font-size: 12px; margin-top: -8px; padding-left: 10px;"><img src="image-removebg-preview.png" width="10" alt=""> Saiba mais sobre as modalidades</p>
+                                <p class="text-danger mb-4" style="font-size: 12px; margin-top: -8px; padding-left: 10px;"><img src="image-removebg-preview.png" width="10" alt=""></p>
 
                                 <label class="form-label bloco-titulo">Curso e período</label>
                                 <select class="form-select mb-3 campo-select" id="curso-periodo">
@@ -165,7 +165,7 @@
                                 <h3 class="mb-3 mt-4" style="font-size:20px; font-weight:600; color:#444;">Confirmação de pré-requisitos</h3>
                                 <label class="form-label bloco-titulo d-block">1. Você já concluiu o Ensino Médio ou está matriculado na 3ª série do Ensino Médio no ano de 2025?<span class="text-danger">*</span></label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="prerequisito" id="prerequisito_sim" value="Sim" required>
+                                    <input class="form-check-input" type="radio" name="prerequisito" id="prerequisito_sim" value="Sim" >
                                     <label class="form-check-label" for="prerequisito_sim">Sim</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -217,7 +217,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+   document.addEventListener("DOMContentLoaded", async () => {
     const sim = document.getElementById("sim");
     const nao = document.getElementById("nao");
     const bloco = document.getElementById("bloco-curso-detalhado");
@@ -225,40 +225,181 @@
     const modalidadeSelect = document.getElementById("modalidade");
     const cursoPeriodoSelect = document.getElementById("curso-periodo");
     const segundaOpcaoSelect = document.getElementById("segunda-opcao");
+    const alertUnidade = document.querySelector('.alert-warning');
     const form = document.getElementById("form-inscricao");
     const btnProximo = document.querySelector(".btn-primary-custom");
     const btnSair = document.querySelector(".btn-secondary-custom");
 
+    const API_BASE = 'https://etecs-api.onrender.com';
     let todasEtecs = [];
-    let todosCursos = [];
+    let municipiosDisponiveis = [];
+    let etecsFiltradas = [];
 
-    async function carregarTodasEtecs() {
+    // Função para normalizar texto (igual à do servidor)
+    function normalizarTexto(texto) {
+        if (!texto) return '';
+        return texto
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    // Carregar dados da API
+    async function carregarDados() {
         try {
-            const response = await axios.get('https://etecs-api.onrender.com/all');
-            todasEtecs = response.data;
+            console.log('Carregando dados da API...');
+            
+            // Tentar primeiro carregar todas as ETECs para extrair cidades completas
+            const responseEtecs = await axios.get(`${API_BASE}/etecs`);
+            todasEtecs = responseEtecs.data;
+            
+            // Extrair cidades únicas de todas as ETECs
+            municipiosDisponiveis = [...new Set(todasEtecs
+                .map(etec => etec.cidade)
+                .filter(cidade => cidade && cidade.trim() !== '')
+            )].sort();
+
+            console.log('Dados carregados com sucesso:', {
+                municipios: municipiosDisponiveis.length,
+                etecs: todasEtecs.length,
+                municipiosLista: municipiosDisponiveis
+            });
+            
+            // Se não conseguiu cidades, tentar pela rota /cidades
+            if (municipiosDisponiveis.length === 0) {
+                console.log('Tentando carregar cidades pela rota /cidades...');
+                const responseCidades = await axios.get(`${API_BASE}/cidades`);
+                municipiosDisponiveis = responseCidades.data;
+            }
+            
             return true;
-        } catch {
-            todasEtecs = await carregarFallbackEtecs();
+        } catch (error) {
+            console.error('Erro ao carregar dados da API:', error);
+            await carregarFallbackData();
             return false;
         }
     }
 
-    async function carregarFallbackEtecs() {
-        return [
+    // Dados de fallback caso a API esteja offline
+    async function carregarFallbackData() {
+        console.log('Usando dados de fallback...');
+        municipiosDisponiveis = [
+            "Adamantina", "Adolfo", "Aguaí", "Águas de Lindóia", "Águas de São Pedro", "Agudos", 
+            "Alambari", "Alfredo Marcondes", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", 
+            "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense", 
+            "Américo de Campos", "Amparo", "Analândia", "Andradina", "Angatuba", "Anhembi", "Anhumas", 
+            "Aparecida", "Aparecida d'Oeste", "Apiaí", "Araçariguama", "Araçatuba", "Araçoiaba da Serra", 
+            "Aramina", "Arandu", "Arapeí", "Araraquara", "Araras", "Arco-Íris", "Arealva", "Areias", 
+            "Areiópolis", "Ariranha", "Artur Nogueira", "Arujá", "Aspásia", "Assis", "Atibaia", "Auriflama", 
+            "Avaí", "Avanhandava", "Avaré", "Bady Bassitt", "Balbinos", "Bálsamo", "Bananal", "Barão de Antonina", 
+            "Barbosa", "Bariri", "Barra Bonita", "Barra do Chapéu", "Barra do Turvo", "Barretos", "Barrinha", 
+            "Barueri", "Bastos", "Batatais", "Bauru", "Bebedouro", "Bento de Abreu", "Bernardino de Campos", 
+            "Bertioga", "Bilac", "Birigui", "Biritiba-Mirim", "Boa Esperança do Sul", "Bocaina", "Bofete", 
+            "Boituva", "Bom Jesus dos Perdões", "Bom Sucesso de Itararé", "Borá", "Boracéia", "Borborema", 
+            "Borebi", "Botucatu", "Bragança Paulista", "Braúna", "Brejo Alegre", "Brodowski", "Brotas", 
+            "Buri", "Buritama", "Buritizal", "Cabrália Paulista", "Cabreúva", "Caçapava", "Cachoeira Paulista", 
+            "Caconde", "Cafelândia", "Caiabu", "Caieiras", "Caiuá", "Cajamar", "Cajati", "Cajobi", "Cajuru", 
+            "Campina do Monte Alegre", "Campinas", "Campo Limpo Paulista", "Campos do Jordão", "Campos Novos Paulista", 
+            "Cananéia", "Canas", "Cândido Mota", "Cândido Rodrigues", "Canitar", "Capão Bonito", "Capela do Alto", 
+            "Capivari", "Caraguatatuba", "Carapicuíba", "Cardoso", "Casa Branca", "Cássia dos Coqueiros", 
+            "Castilho", "Catanduva", "Catiguá", "Cerqueira César", "Cerquilho", "Cesário Lange", "Charqueada", 
+            "Chavantes", "Clementina", "Colina", "Colômbia", "Conchal", "Conchas", "Cordeirópolis", "Coroados", 
+            "Coronel Macedo", "Corumbataí", "Cosmópolis", "Cosmorama", "Cotia", "Cravinhos", "Cristais Paulista", 
+            "Cruzália", "Cruzeiro", "Cubatão", "Cunha", "Descalvado", "Diadema", "Dirce Reis", "Divinolândia", 
+            "Dobrada", "Dois Córregos", "Dolcinópolis", "Dourado", "Dracena", "Duartina", "Dumont", "Echaporã", 
+            "Eldorado", "Elias Fausto", "Elisiário", "Embaúba", "Embu das Artes", "Embu-Guaçu", "Emilianópolis", 
+            "Engenheiro Coelho", "Espírito Santo do Pinhal", "Espírito Santo do Turvo", "Estiva Gerbi", "Estrela d'Oeste", 
+            "Estrela do Norte", "Euclides da Cunha Paulista", "Fartura", "Fernando Prestes", "Fernandópolis", 
+            "Fernão", "Ferraz de Vasconcelos", "Flora Rica", "Floreal", "Flórida Paulista", "Florínia", 
+            "Franca", "Francisco Morato", "Franco da Rocha", "Gabriel Monteiro", "Gália", "Garça", "Gastão Vidigal", 
+            "Gavião Peixoto", "General Salgado", "Getulina", "Glicério", "Guaiçara", "Guaimbê", "Guaíra", 
+            "Guapiaçu", "Guapiara", "Guará", "Guaraçaí", "Guaraci", "Guarani d'Oeste", "Guarantã", "Guararapes", 
+            "Guararema", "Guaratinguetá", "Guareí", "Guariba", "Guarujá", "Guarulhos", "Guatapará", "Guzolândia", 
+            "Herculândia", "Holambra", "Hortolândia", "Iacanga", "Iacri", "Iaras", "Ibaté", "Ibirá", "Ibirarema", 
+            "Ibitinga", "Ibiúna", "Icém", "Iepê", "Igaraçu do Tietê", "Igarapava", "Igaratá", "Iguape", "Ilha Comprida", 
+            "Ilha Solteira", "Ilhabela", "Indaiatuba", "Indiana", "Indiaporã", "Inúbia Paulista", "Ipaussu", 
+            "Iperó", "Ipeúna", "Ipiguá", "Iporanga", "Ipuã", "Iracemápolis", "Irapuã", "Irapuru", "Itaberá", 
+            "Itaí", "Itajobi", "Itaju", "Itanhaém", "Itaoca", "Itapecerica da Serra", "Itapetininga", "Itapeva", 
+            "Itapevi", "Itapira", "Itapirapuã Paulista", "Itápolis", "Itaporanga", "Itapuí", "Itapura", "Itaquaquecetuba", 
+            "Itararé", "Itariri", "Itatiba", "Itatinga", "Itirapina", "Itirapuã", "Itobi", "Itu", "Itupeva", 
+            "Ituverava", "Jaborandi", "Jaboticabal", "Jacareí", "Jaci", "Jacupiranga", "Jaguariúna", "Jales", 
+            "Jambeiro", "Jandira", "Jardinópolis", "Jarinu", "Jaú", "Jeriquara", "Joanópolis", "João Ramalho", 
+            "José Bonifácio", "Júlio Mesquita", "Jumirim", "Jundiaí", "Junqueirópolis", "Juquiá", "Juquitiba", 
+            "Lagoinha", "Laranjal Paulista", "Lavínia", "Lavrinhas", "Leme", "Lençóis Paulista", "Limeira", 
+            "Lindóia", "Lins", "Lorena", "Lourdes", "Louveira", "Lucélia", "Lucianópolis", "Luís Antônio", 
+            "Luiziânia", "Lupércio", "Lutécia", "Macatuba", "Macaubal", "Macedônia", "Magda", "Mairinque", 
+            "Mairiporã", "Manduri", "Marabá Paulista", "Maracaí", "Marapoama", "Mariápolis", "Marília", 
+            "Marinópolis", "Martinópolis", "Matão", "Mauá", "Mendonça", "Meridiano", "Mesópolis", "Miguelópolis", 
+            "Mineiros do Tietê", "Mira Estrela", "Miracatu", "Mirandópolis", "Mirante do Paranapanema", "Mirassol", 
+            "Mirassolândia", "Mococa", "Mogi das Cruzes", "Mogi Guaçu", "Mogi Mirim", "Mombuca", "Monções", 
+            "Mongaguá", "Monte Alegre do Sul", "Monte Alto", "Monte Aprazível", "Monte Azul Paulista", "Monte Castelo", 
+            "Monte Mor", "Monteiro Lobato", "Morro Agudo", "Morungaba", "Motuca", "Murutinga do Sul", "Nantes", 
+            "Narandiba", "Natividade da Serra", "Nazaré Paulista", "Neves Paulista", "Nhandeara", "Nipoã", 
+            "Nova Aliança", "Nova Campina", "Nova Canaã Paulista", "Nova Castilho", "Nova Europa", "Nova Granada", 
+            "Nova Guataporanga", "Nova Independência", "Nova Luzitânia", "Nova Odessa", "Novais", "Novo Horizonte", 
+            "Nuporanga", "Ocauçu", "Óleo", "Olímpia", "Onda Verde", "Oriente", "Orindiúva", "Orlândia", 
+            "Osasco", "Oscar Bressane", "Osvaldo Cruz", "Ourinhos", "Ouro Verde", "Ouroeste", "Pacaembu", 
+            "Palestina", "Palmares Paulista", "Palmeira d'Oeste", "Palmital", "Panorama", "Paraguaçu Paulista", 
+            "Paraibuna", "Paraíso", "Paranapanema", "Paranapuã", "Parapuã", "Pardinho", "Pariquera-Açu", 
+            "Parisi", "Patrocínio Paulista", "Paulicéia", "Paulínia", "Paulistânia", "Paulo de Faria", 
+            "Pederneiras", "Pedra Bela", "Pedranópolis", "Pedregulho", "Pedreira", "Pedrinhas Paulista", 
+            "Pedro de Toledo", "Penápolis", "Pereira Barreto", "Pereiras", "Peruíbe", "Piacatu", "Piedade", 
+            "Pilar do Sul", "Pindamonhangaba", "Pindorama", "Pinhalzinho", "Piquerobi", "Piquete", "Piracaia", 
+            "Piracicaba", "Piraju", "Pirajuí", "Pirangi", "Pirapora do Bom Jesus", "Pirapozinho", "Pirassununga", 
+            "Piratininga", "Pitangueiras", "Planalto", "Platina", "Poá", "Poloni", "Pompéia", "Pongaí", 
+            "Pontal", "Pontalinda", "Pontes Gestal", "Populina", "Porangaba", "Porto Feliz", "Porto Ferreira", 
+            "Potim", "Potirendaba", "Pracinha", "Pradópolis", "Praia Grande", "Pratânia", "Presidente Alves", 
+            "Presidente Bernardes", "Presidente Epitácio", "Presidente Prudente", "Presidente Venceslau", 
+            "Promissão", "Quadra", "Quatá", "Queiroz", "Queluz", "Quintana", "Rafard", "Rancharia", "Redenção da Serra", 
+            "Regente Feijó", "Reginópolis", "Registro", "Restinga", "Ribeira", "Ribeirão Bonito", "Ribeirão Branco", 
+            "Ribeirão Corrente", "Ribeirão do Sul", "Ribeirão dos Índios", "Ribeirão Grande", "Ribeirão Pires", 
+            "Ribeirão Preto", "Rifaina", "Rincão", "Rinópolis", "Rio Claro", "Rio das Pedras", "Rio Grande da Serra", 
+            "Riolândia", "Riversul", "Rosana", "Roseira", "Rubiácea", "Rubinéia", "Sabino", "Sagres", "Sales", 
+            "Sales Oliveira", "Salesópolis", "Salmourão", "Saltinho", "Salto", "Salto de Pirapora", "Salto Grande", 
+            "Sandovalina", "Santa Adélia", "Santa Albertina", "Santa Bárbara d'Oeste", "Santa Branca", "Santa Clara d'Oeste", 
+            "Santa Cruz da Conceição", "Santa Cruz da Esperança", "Santa Cruz das Palmeiras", "Santa Cruz do Rio Pardo", 
+            "Santa Ernestina", "Santa Fé do Sul", "Santa Gertrudes", "Santa Isabel", "Santa Lúcia", "Santa Maria da Serra", 
+            "Santa Mercedes", "Santa Rita d'Oeste", "Santa Rita do Passa Quatro", "Santa Rosa de Viterbo", "Santa Salete", 
+            "Santana da Ponte Pensa", "Santana de Parnaíba", "Santo Anastácio", "Santo André", "Santo Antônio da Alegria", 
+            "Santo Antônio de Posse", "Santo Antônio do Aracanguá", "Santo Antônio do Jardim", "Santo Antônio do Pinhal", 
+            "Santo Expedito", "Santópolis do Aguapeí", "Santos", "São Bento do Sapucaí", "São Bernardo do Campo", 
+            "São Caetano do Sul", "São Carlos", "São Francisco", "São João da Boa Vista", "São João das Duas Pontes", 
+            "São João de Iracema", "São João do Pau d'Alho", "São Joaquim da Barra", "São José da Bela Vista", 
+            "São José do Barreiro", "São José do Rio Pardo", "São José do Rio Preto", "São José dos Campos", 
+            "São Lourenço da Serra", "São Luís do Paraitinga", "São Manuel", "São Miguel Arcanjo", "São Paulo", 
+            "São Pedro", "São Pedro do Turvo", "São Roque", "São Sebastião", "São Sebastião da Grama", "São Simão", 
+            "São Vicente", "Sarapuí", "Sarutaiá", "Sebastianópolis do Sul", "Serra Azul", "Serra Negra", "Serrana", 
+            "Sertãozinho", "Sete Barras", "Severínia", "Silveiras", "Socorro", "Sorocaba", "Sud Mennucci", 
+            "Sumaré", "Suzanápolis", "Suzano", "Tabapuã", "Tabatinga", "Taboão da Serra", "Taciba", "Taguaí", 
+            "Taiaçu", "Taiúva", "Tambaú", "Tanabi", "Tapiraí", "Tapiratiba", "Taquaral", "Taquaritinga", 
+            "Taquarituba", "Taquarivaí", "Tarabai", "Tarumã", "Tatuí", "Taubaté", "Tejupá", "Teodoro Sampaio", 
+            "Terra Roxa", "Tietê", "Timburi", "Torre de Pedra", "Torrinha", "Trabiju", "Tremembé", "Três Fronteiras", 
+            "Tuiuti", "Tupã", "Tupi Paulista", "Turiúba", "Turmalina", "Ubarana", "Ubatuba", "Ubirajara", 
+            "Uchoa", "União Paulista", "Urânia", "Uru", "Urupês", "Valentim Gentil", "Valinhos", "Valparaíso", 
+            "Vargem", "Vargem Grande do Sul", "Vargem Grande Paulista", "Várzea Paulista", "Vera Cruz", "Vinhedo", 
+            "Viradouro", "Vista Alegre do Alto", "Vitória Brasil", "Votorantim", "Votuporanga", "Zacarias"
+        ].sort();
+        
+        todasEtecs = [
             {
-                name: "Etec de São Paulo - Centro",
+                name: "Etec de São Paulo - Centro Paula Souza",
                 cidade: "São Paulo",
                 cursos: [
+                    { nome: "Ensino Médio - Matutino", periodo: "Manhã" },
                     { nome: "Administração - Matutino", periodo: "Manhã" },
-                    { nome: "Informática - Vespertino", periodo: "Tarde" }
+                    { nome: "Informática - Vespertino", periodo: "Tarde" },
+                    { nome: "Marketing - Noturno", periodo: "Noite" }
                 ]
             },
             {
                 name: "Etec de Santo André",
-                cidade: "Santo André",
+                cidade: "Santo André", 
                 cursos: [
+                    { nome: "Ensino Médio - Vespertino", periodo: "Tarde" },
                     { nome: "Enfermagem - Integral", periodo: "Integral" },
-                    { nome: "Marketing - Noturno", periodo: "Noite" }
+                    { nome: "Logística - Noturno", periodo: "Noite" }
                 ]
             },
             {
@@ -266,176 +407,222 @@
                 cidade: "Campinas",
                 cursos: [
                     { nome: "Ensino Médio - Matutino", periodo: "Manhã" },
-                    { nome: "Informática - Integral", periodo: "Integral" }
+                    { nome: "Desenvolvimento de Sistemas - Integral", periodo: "Integral" },
+                    { nome: "Administração - Vespertino", periodo: "Tarde" }
+                ]
+            },
+            {
+                name: "Etec de Praia Grande",
+                cidade: "Praia Grande",
+                cursos: [
+                    { nome: "Ensino Médio - Matutino", periodo: "Manhã" },
+                    { nome: "Administração - Vespertino", periodo: "Tarde" },
+                    { nome: "Informática - Noturno", periodo: "Noite" },
+                    { nome: "Logística - Integral", periodo: "Integral" }
                 ]
             }
         ];
     }
 
-    async function carregarCursosUnicos() {
-        try {
-            const response = await axios.get('https://etecs-api.onrender.com/cursos');
-            todosCursos = response.data;
-            return true;
-        } catch {
-            todosCursos = [
-                "Administração",
-                "Informática",
-                "Enfermagem",
-                "Marketing",
-                "Ensino Médio",
-                "Desenvolvimento de Sistemas",
-                "Logística",
-                "Recursos Humanos"
-            ];
-            return false;
-        }
+    // Popular select de municípios
+    function carregarMunicipios() {
+        municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
+        
+        setTimeout(() => {
+            if (municipiosDisponiveis.length === 0) {
+                municipioSelect.innerHTML = '<option value="" selected disabled>Erro ao carregar municípios</option>';
+                return;
+            }
+
+            municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
+            
+            municipiosDisponiveis.forEach(municipio => {
+                const option = document.createElement("option");
+                option.value = municipio;
+                option.textContent = municipio;
+                municipioSelect.appendChild(option);
+            });
+        }, 500);
     }
 
+    // Buscar ETECs por município - FUNÇÃO CORRIGIDA
     async function buscarEtecsPorMunicipio(municipio) {
         try {
-            const response = await axios.get(`https://etecs-api.onrender.com/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
-            return response.data;
-        } catch {
-            return todasEtecs.filter(etec => {
-                const cidade = etec.cidade || etec.name.split(' - ').pop();
-                return cidade.toLowerCase().includes(municipio.toLowerCase());
+            console.log(`Buscando ETECs em: ${municipio}`);
+            const response = await axios.get(`${API_BASE}/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
+            etecsFiltradas = response.data;
+            console.log(`ETECs encontradas via API:`, etecsFiltradas);
+            return etecsFiltradas;
+        } catch (error) {
+            console.warn('Erro na busca por cidade, usando fallback:', error);
+            // Fallback: filtrar localmente com busca mais abrangente
+            etecsFiltradas = todasEtecs.filter(etec => {
+                if (!etec.cidade) return false;
+                
+                // Busca mais flexível - remove acentos e compara
+                const cidadeEtec = normalizarTexto(etec.cidade);
+                const cidadeBuscada = normalizarTexto(municipio);
+                
+                return cidadeEtec.includes(cidadeBuscada) || 
+                       cidadeBuscada.includes(cidadeEtec) ||
+                       cidadeEtec === cidadeBuscada;
             });
+            console.log(`ETECs encontradas via fallback:`, etecsFiltradas);
+            return etecsFiltradas;
         }
     }
 
-    async function carregarMunicipios() {
-        municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
+    // Carregar cursos baseado na modalidade e município selecionado
+    async function carregarCursos(modalidade, municipio) {
+        console.log(`Carregando cursos: ${modalidade} em ${municipio}`);
+        
+        cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Carregando cursos...</option>';
+        segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Carregando...</option>';
 
-        await carregarTodasEtecs();
+        setTimeout(async () => {
+            if (!municipio) {
+                cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione primeiro o município</option>';
+                alertUnidade.textContent = 'Selecione o município';
+                return;
+            }
 
-        const municipios = [...new Set(todasEtecs.map(etec => {
-            if (etec.cidade) return etec.cidade.trim();
-            const partes = etec.name.split(' - ');
-            const candidato = partes[partes.length - 1].trim();
-            if (candidato.length > 2 && !/\d/.test(candidato)) return candidato;
-            return null;
-        }).filter(m => m !== null))].sort();
+            // Buscar ETECs do município selecionado
+            const etecsMunicipio = await buscarEtecsPorMunicipio(municipio);
+            console.log(`ETECs encontradas em ${municipio}:`, etecsMunicipio);
+            
+            if (etecsMunicipio.length === 0) {
+                cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Nenhuma ETEC encontrada</option>';
+                alertUnidade.textContent = `Nenhuma ETEC encontrada em ${municipio}`;
+                alertUnidade.className = 'alert alert-danger';
+                
+                // Debug: mostrar todas as cidades disponíveis para verificar
+                console.log('Cidades disponíveis:', municipiosDisponiveis);
+                console.log('Todas as ETECs:', todasEtecs.map(e => ({ nome: e.name, cidade: e.cidade })));
+                return;
+            }
 
-        if (municipios.length === 0) {
-            municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
-            [
-                "São Paulo",
-                "Santo André",
-                "Campinas",
-                "Guarulhos",
-                "Santos",
-                "Sorocaba",
-                "Ribeirão Preto",
-                "São José dos Campos"
-            ].forEach(m => {
-                const o = document.createElement("option");
-                o.value = o.textContent = m;
-                municipioSelect.appendChild(o);
+            // Coletar todos os cursos das ETECs do município
+            let todosCursosMunicipio = [];
+            etecsMunicipio.forEach(etec => {
+                console.log(`ETEC: ${etec.name} - Cursos:`, etec.cursos);
+                if (etec.cursos && etec.cursos.length > 0) {
+                    etec.cursos.forEach(curso => {
+                        todosCursosMunicipio.push({
+                            nome: curso.nome,
+                            periodo: curso.periodo,
+                            etec: etec.name,
+                            cidade: etec.cidade
+                        });
+                    });
+                }
             });
-            return;
-        }
 
-        municipioSelect.innerHTML = '<option value="" selected disabled>Selecione o município da Etec</option>';
-        municipios.forEach(m => {
-            const option = document.createElement("option");
-            option.value = option.textContent = m;
-            municipioSelect.appendChild(option);
-        });
-    }
+            console.log(`Todos os cursos em ${municipio}:`, todosCursosMunicipio);
 
-    function carregarCursos(modalidade) {
-        cursoPeriodoSelect.innerHTML = '<option value="">Carregando cursos...</option>';
+            // Filtrar cursos pela modalidade selecionada
+            let cursosFiltrados = filtrarCursosPorModalidade(todosCursosMunicipio, modalidade);
+            console.log(`Cursos filtrados por ${modalidade}:`, cursosFiltrados);
 
-        setTimeout(() => {
-            let filtrados = [];
-
-            const m = modalidade.toLowerCase();
-            if (m === "ensino-medio") {
-                filtrados = todosCursos.filter(c => c.toLowerCase().includes("ensino médio") && !c.toLowerCase().includes("integrado"));
-            } else if (m === "ensino-medio-integrado") {
-                filtrados = todosCursos.filter(c => c.toLowerCase().includes("ensino médio") && c.toLowerCase().includes("integrado"));
-            } else if (m === "ensino-medio-eja") {
-                filtrados = todosCursos.filter(c => c.toLowerCase().includes("eja"));
-            } else if (m === "tecnico-integrado") {
-                filtrados = todosCursos.filter(c => !c.toLowerCase().includes("ensino médio") && c.toLowerCase().includes("integrado"));
-            } else {
-                filtrados = todosCursos.filter(c => !c.toLowerCase().includes("ensino médio") && !c.toLowerCase().includes("integrado") && !c.toLowerCase().includes("eja"));
+            if (cursosFiltrados.length === 0) {
+                cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Nenhum curso disponível</option>';
+                alertUnidade.textContent = `Nenhum curso de ${modalidadeSelect.options[modalidadeSelect.selectedIndex].text} disponível em ${municipio}`;
+                alertUnidade.className = 'alert alert-warning';
+                return;
             }
 
-            if (filtrados.length === 0) {
-                filtrados = [
-                    'Administração - Matutino',
-                    'Informática - Vespertino',
-                    'Enfermagem - Noturno',
-                    'Marketing - Integral'
-                ];
-            }
-
+            // Popular select de cursos
             cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso e período</option>';
-
-            filtrados.forEach(c => {
+            cursosFiltrados.forEach(curso => {
                 const option = document.createElement("option");
-                option.value = c.toLowerCase().replace(/\s+/g, "-");
-                option.textContent = c;
+                option.value = `${curso.nome}|${curso.periodo}|${curso.etec}`;
+                option.textContent = `${curso.nome} - ${curso.periodo} (${curso.etec})`;
+                option.dataset.etec = curso.etec;
                 cursoPeriodoSelect.appendChild(option);
             });
 
-            carregarSegundaOpcao(modalidade);
-        }, 400);
+            alertUnidade.textContent = `${cursosFiltrados.length} curso(s) disponível(is) em ${municipio} - ${etecsMunicipio.length} ETEC(s) encontrada(s)`;
+            alertUnidade.className = 'alert alert-success';
+            
+            // Carregar segunda opção
+            carregarSegundaOpcao(cursosFiltrados);
+        }, 600);
     }
 
-    function carregarSegundaOpcao(modalidade) {
-        segundaOpcaoSelect.innerHTML = '<option value="">Carregando...</option>';
-
-        setTimeout(() => {
-            segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso</option>';
-            const op = document.createElement("option");
-            op.value = "nenhuma";
-            op.textContent = "Nenhuma segunda opção";
-            segundaOpcaoSelect.appendChild(op);
-
-            let lista = [];
-
-            if (modalidade === "ensino-medio") {
-                lista = ["Ensino Médio - Matutino", "Ensino Médio - Vespertino"];
-            } else {
-                lista = [
-                    "Administração - Matutino",
-                    "Informática - Vespertino",
-                    "Enfermagem - Noturno",
-                    "Marketing - Integral"
-                ];
+    // Filtrar cursos por modalidade
+    function filtrarCursosPorModalidade(cursos, modalidade) {
+        const modalidadeLower = modalidade.toLowerCase();
+        
+        return cursos.filter(curso => {
+            const cursoLower = curso.nome.toLowerCase();
+            
+            if (modalidadeLower === "ensino-medio") {
+                return cursoLower.includes("ensino médio") && !cursoLower.includes("integrado");
+            } else if (modalidadeLower === "ensino-medio-integrado") {
+                return cursoLower.includes("ensino médio") && cursoLower.includes("integrado");
+            } else if (modalidadeLower === "ensino-medio-eja") {
+                return cursoLower.includes("eja");
+            } else if (modalidadeLower === "tecnico-integrado") {
+                return !cursoLower.includes("ensino médio") && cursoLower.includes("integrado");
+            } else if (modalidadeLower === "tecnico-subsequente") {
+                return !cursoLower.includes("ensino médio") && !cursoLower.includes("integrado") && cursoLower.includes("técnico");
+            } else if (modalidadeLower === "tecnico-concomitante") {
+                return !cursoLower.includes("ensino médio") && !cursoLower.includes("integrado") && cursoLower.includes("concomitante");
             }
-
-            lista.forEach(c => {
-                const o = document.createElement("option");
-                o.value = c.toLowerCase().replace(/\s+/g, "-");
-                o.textContent = c;
-                segundaOpcaoSelect.appendChild(o);
-            });
-        }, 300);
+            return true;
+        });
     }
 
+    // Carregar segunda opção de curso
+    function carregarSegundaOpcao(cursosDisponiveis) {
+        segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione a segunda opção</option>';
+        
+        const nenhumaOpcao = document.createElement("option");
+        nenhumaOpcao.value = "nenhuma";
+        nenhumaOpcao.textContent = "Nenhuma segunda opção";
+        segundaOpcaoSelect.appendChild(nenhumaOpcao);
+
+        cursosDisponiveis.forEach(curso => {
+            const option = document.createElement("option");
+            option.value = `${curso.nome}|${curso.periodo}|${curso.etec}`;
+            option.textContent = `${curso.nome} - ${curso.periodo} (${curso.etec})`;
+            option.dataset.etec = curso.etec;
+            segundaOpcaoSelect.appendChild(option);
+        });
+    }
+
+    // Atualizar visibilidade do bloco de cursos
     function atualizarVisibilidade() {
         bloco.style.display = sim.checked ? "none" : "block";
+        if (sim.checked) {
+            municipioSelect.value = "";
+            modalidadeSelect.value = "";
+            cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione primeiro a modalidade</option>';
+            segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione primeiro a modalidade</option>';
+            alertUnidade.textContent = 'Selecione a unidade';
+            alertUnidade.className = 'alert alert-warning';
+        }
     }
 
+    // Event Listeners
     sim.addEventListener("change", atualizarVisibilidade);
     nao.addEventListener("change", atualizarVisibilidade);
 
-    modalidadeSelect.addEventListener("change", () => {
-        if (modalidadeSelect.value) carregarCursos(modalidadeSelect.value);
+    municipioSelect.addEventListener("change", () => {
+        if (modalidadeSelect.value && municipioSelect.value) {
+            carregarCursos(modalidadeSelect.value, municipioSelect.value);
+        }
+        alertUnidade.className = 'alert alert-warning';
+        alertUnidade.textContent = 'Selecione a modalidade';
     });
 
-    municipioSelect.addEventListener("change", async () => {
-        if (!sim.checked && municipioSelect.value) {
-            const res = await buscarEtecsPorMunicipio(municipioSelect.value);
-            if (res.length === 0) alert(`Nenhuma ETEC encontrada em ${municipioSelect.value}.`);
+    modalidadeSelect.addEventListener("change", () => {
+        if (municipioSelect.value && modalidadeSelect.value) {
+            carregarCursos(modalidadeSelect.value, municipioSelect.value);
         }
     });
 
-    btnProximo.addEventListener("click", async e => {
+    // Validação e envio do formulário
+    btnProximo.addEventListener("click", async (e) => {
         e.preventDefault();
 
         if (!form.checkValidity()) {
@@ -443,14 +630,26 @@
             return;
         }
 
-        if (!sim.checked && municipioSelect.value) {
+        if (!sim.checked) {
+            // Validar se existem ETECs no município
+            if (!municipioSelect.value) {
+                alert('Selecione um município');
+                return;
+            }
+
             const etecs = await buscarEtecsPorMunicipio(municipioSelect.value);
             if (etecs.length === 0) {
                 alert(`Não há ETECs em ${municipioSelect.value}.`);
                 return;
             }
+
+            if (!modalidadeSelect.value || !cursoPeriodoSelect.value) {
+                alert('Selecione a modalidade e o curso desejado');
+                return;
+            }
         }
 
+        // Salvar dados e prosseguir
         const dados = {
             treineiro: document.querySelector('input[name="treineiro"]:checked').value,
             municipio: municipioSelect.value,
@@ -466,7 +665,7 @@
     });
 
     btnSair.addEventListener("click", () => {
-        if (confirm("Deseja realmente sair?")) {
+        if (confirm("Deseja realmente sair? Seus dados serão salvos temporariamente.")) {
             const temp = {
                 treineiro: document.querySelector('input[name="treineiro"]:checked').value,
                 municipio: municipioSelect.value,
@@ -478,27 +677,54 @@
         }
     });
 
-    await carregarMunicipios();
-    await carregarCursosUnicos();
-    atualizarVisibilidade();
+    // Inicialização
+    async function inicializar() {
+        await carregarDados();
+        carregarMunicipios();
+        atualizarVisibilidade();
 
-    const salvos = localStorage.getItem("dadosUnidadeCurso");
-    if (salvos) {
-        const d = JSON.parse(salvos);
-        if (d.treineiro === "Sim") sim.checked = true; else nao.checked = true;
-        municipioSelect.value = d.municipio || "";
-        modalidadeSelect.value = d.modalidade || "";
-        if (d.modalidade) {
-            carregarCursos(d.modalidade);
-            setTimeout(() => {
-                cursoPeriodoSelect.value = d.curso || "";
-                segundaOpcaoSelect.value = d.segundaOpcao || "";
-            }, 300);
+        // Carregar dados salvos
+        const salvos = localStorage.getItem("dadosUnidadeCurso");
+        if (salvos) {
+            try {
+                const dados = JSON.parse(salvos);
+                if (dados.treineiro === "Sim") sim.checked = true;
+                else nao.checked = true;
+                
+                if (dados.municipio) {
+                    municipioSelect.value = dados.municipio;
+                }
+                if (dados.modalidade) {
+                    modalidadeSelect.value = dados.modalidade;
+                    // Carregar cursos se tiver município e modalidade
+                    if (dados.municipio && dados.modalidade) {
+                        setTimeout(() => {
+                            carregarCursos(dados.modalidade, dados.municipio);
+                            // Restaurar seleções após carregar cursos
+                            setTimeout(() => {
+                                if (dados.curso) {
+                                    cursoPeriodoSelect.value = dados.curso;
+                                }
+                                if (dados.segundaOpcao) {
+                                    segundaOpcaoSelect.value = dados.segundaOpcao;
+                                }
+                            }, 800);
+                        }, 500);
+                    }
+                }
+                
+                if (dados.prerequisito) {
+                    document.querySelector(`input[name="prerequisito"][value="${dados.prerequisito}"]`).checked = true;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
         }
-        document.querySelector(`input[name="prerequisito"][value="${d.prerequisito}"]`).checked = true;
     }
-});
 
+    // Iniciar a aplicação
+    inicializar();
+});
     </script>
 
 </body>
