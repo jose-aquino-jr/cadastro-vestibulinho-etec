@@ -247,10 +247,10 @@
             </select>
 
             <label class="form-label bloco-titulo">Telefone</label>
-            <input type="tel" class="form-control mb-3 campo-input" id="telefone" placeholder="Ex. (11) 1234-1234">
+            <input type="tel" class="form-control mb-3 campo-input" minlength="14" maxlength="14" id="telefone" placeholder="Ex. (11) 1234-1234">
 
             <label class="form-label bloco-titulo">Celular</label>
-            <input type="tel" class="form-control mb-3 campo-input" id="celular" placeholder="Ex. (11) 91234-1234">
+            <input type="tel" class="form-control mb-3 campo-input" minlength="15" maxlength="15" id="celular" placeholder="Ex. (11) 91234-1234">
             
             <div class="form-check mb-4">
                 <input class="form-check-input" type="checkbox" id="receber-info">
@@ -353,6 +353,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const estadoEnderecoSelect = document.getElementById('estado-endereco');
     const municipioEnderecoSelect = document.getElementById('municipio-endereco');
     const estadoEmissorSelect = document.getElementById('estado-emissor');
+
+    // Elementos para a nova funcionalidade de máscara
+    const tipoDocumentoSelect = document.getElementById('tipo-documento');
+    const numeroDocumentoInput = document.getElementById('numero-documento');
 
     // API IBGE para estados e municípios
     const IBGE_API = 'https://servicodados.ibge.gov.br/api/v1/localidades';
@@ -566,7 +570,88 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
     }
+    
+    // 
+    // --- NOVO CÓDIGO DE MÁSCARA DINÂMICA DE DOCUMENTO ---
+    //
 
+    // Remove todos os caracteres não-numéricos (e letras para Passaporte/RG mais livre)
+    function cleanDocumentValue(value, tipo) {
+        if (tipo === 'PASSAPORTE') {
+             // Mantém números e letras
+            return value.replace(/[^a-zA-Z0-9]/g, ''); 
+        } else if (tipo === 'CNH') {
+             // CNH é geralmente apenas números (11 dígitos)
+            return value.replace(/\D/g, ''); 
+        } else {
+             // RG brasileiro (SP por exemplo)
+            return value.replace(/[^0-9xX]/g, ''); 
+        }
+    }
+
+    function aplicarMascaraDocumento(input, tipo) {
+        let value = cleanDocumentValue(input.value, tipo);
+        
+        if (tipo === 'RG') {
+            // Exemplo de máscara para RG (9 dígitos + dígito verificador, como 99.999.999-X)
+            if (value.length > 9) value = value.substring(0, 9);
+            value = value.replace(/(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1})$/, '$1-$2');
+        } else if (tipo === 'CNH') {
+            // CNH (11 dígitos, apenas números)
+            if (value.length > 11) value = value.substring(0, 11);
+            // Máscara opcional para CNH (999999999-99)
+            value = value.replace(/(\d{9})(\d{2})$/, '$1-$2');
+        } else if (tipo === 'PASSAPORTE') {
+             // Passaporte: formato livre (pode ser letras e números)
+            // Não aplicamos máscara fixa, apenas limitamos o tamanho e garantimos uppercase
+            value = value.toUpperCase();
+            if (value.length > 20) value = value.substring(0, 20);
+        } else {
+             // Sem máscara se 'Selecione...'
+             value = input.value;
+        }
+
+        input.value = value;
+    }
+
+    // Configura o ouvinte de evento para a mudança no select
+    tipoDocumentoSelect.addEventListener('change', function() {
+        // Limpa o campo ao mudar o tipo
+        numeroDocumentoInput.value = ''; 
+        const tipoSelecionado = tipoDocumentoSelect.value;
+
+        // Adiciona um listener de input para aplicar a máscara a cada tecla
+        numeroDocumentoInput.oninput = function() {
+            aplicarMascaraDocumento(numeroDocumentoInput, tipoSelecionado);
+        };
+
+        // Adiciona o placeholder (opcional, mas útil)
+        if (tipoSelecionado === 'RG') {
+            numeroDocumentoInput.placeholder = 'Ex. 99.999.999-X';
+            numeroDocumentoInput.maxLength = 12; // 9 dígitos + 3 separadores
+        } else if (tipoSelecionado === 'CNH') {
+            numeroDocumentoInput.placeholder = 'Ex. 999999999-99';
+            numeroDocumentoInput.maxLength = 12; // 11 dígitos + 1 separador
+        } else if (tipoSelecionado === 'PASSAPORTE') {
+            numeroDocumentoInput.placeholder = 'Ex. AA123456';
+            numeroDocumentoInput.maxLength = 20; // Tamanho máximo sugerido
+        } else {
+            numeroDocumentoInput.placeholder = '';
+            numeroDocumentoInput.maxLength = '';
+        }
+    });
+
+    // Chama a função uma vez no início caso haja um valor pré-selecionado (útil para carregamento de dados)
+    if(tipoDocumentoSelect.value) {
+         tipoDocumentoSelect.dispatchEvent(new Event('change'));
+    }
+
+    //
+    // --- FIM DO NOVO CÓDIGO ---
+    //
+    
     // Validação de data de nascimento
     function validarDataNascimento(input) {
         input.addEventListener('change', function(e) {
@@ -722,7 +807,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
-
-
-
