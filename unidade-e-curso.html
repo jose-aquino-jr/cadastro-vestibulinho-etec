@@ -217,7 +217,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
+       document.addEventListener("DOMContentLoaded", async () => {
     const sim = document.getElementById("sim");
     const nao = document.getElementById("nao");
     const bloco = document.getElementById("bloco-curso-detalhado");
@@ -234,33 +234,18 @@
     let municipiosDisponiveis = [];
     let etecsFiltradas = [];
 
-    // Função para fazer requisições com tratamento de CORS
+    // Função para fazer requisições
     async function fazerRequisicao(url) {
         try {
-            // Tentativa com axios primeiro
             const response = await axios.get(url);
             return response.data;
         } catch (error) {
-            console.warn('Erro com axios, tentando fetch:', error);
-            
-            // Fallback com fetch e mode 'cors'
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json',
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            return await response.json();
+            console.error('Erro na requisição:', error);
+            throw error;
         }
     }
 
-    // Função para normalizar texto (igual à do servidor)
+    // Função para normalizar texto
     function normalizarTexto(texto) {
         if (!texto) return '';
         return texto
@@ -276,11 +261,24 @@
         try {
             console.log('Carregando dados da API...');
             
-            // Carregar cidades da API - CORRETO: /cidades
+            // Carregar cidades da API
             municipiosDisponiveis = await fazerRequisicao(`${API_BASE}/cidades`);
             
-            // Carregar todas as ETECs - CORRETO: /all (com dados completos)
-            todasEtecs = await fazerRequisicao(`${API_BASE}/all`);
+            // Carregar todas as ETECs - AGORA CORRETO: /etecs
+            const nomesEtecs = await fazerRequisicao(`${API_BASE}/etecs`);
+            
+            // Para cada ETEC, buscar detalhes completos
+            todasEtecs = [];
+            for (const nomeEtec of nomesEtecs.slice(0, 50)) { // Limitar para teste
+                try {
+                    const etecDetalhes = await fazerRequisicao(`${API_BASE}/busca/etec?nome=${encodeURIComponent(nomeEtec)}`);
+                    if (etecDetalhes && etecDetalhes.length > 0) {
+                        todasEtecs.push(etecDetalhes[0]);
+                    }
+                } catch (error) {
+                    console.warn(`Erro ao buscar detalhes da ETEC ${nomeEtec}:`, error);
+                }
+            }
 
             console.log('Dados carregados com sucesso:', {
                 municipios: municipiosDisponiveis.length,
@@ -290,7 +288,7 @@
             return true;
         } catch (error) {
             console.error('Erro ao carregar dados da API:', error);
-            alert('Erro ao carregar dados das ETECs. A API pode estar offline ou com problemas de CORS.');
+            alert('Erro ao carregar dados das ETECs. Verifique o console para mais detalhes.');
             return false;
         }
     }
@@ -338,6 +336,8 @@
         }
     }
 
+    // Resto do código permanece igual...
+    // [Manter todas as outras funções exatamente como estavam]
     // Carregar cursos baseado na modalidade e município selecionado
     async function carregarCursos(modalidade, municipio) {
         console.log(`Carregando cursos: ${modalidade} em ${municipio}`);
@@ -352,7 +352,6 @@
                 return;
             }
 
-            // Buscar ETECs do município selecionado
             const etecsMunicipio = await buscarEtecsPorMunicipio(municipio);
             console.log(`ETECs encontradas em ${municipio}:`, etecsMunicipio);
             
@@ -363,7 +362,6 @@
                 return;
             }
 
-            // Coletar todos os cursos das ETECs do município
             let todosCursosMunicipio = [];
             etecsMunicipio.forEach(etec => {
                 console.log(`ETEC: ${etec.name} - Cursos:`, etec.cursos);
@@ -381,7 +379,6 @@
 
             console.log(`Todos os cursos em ${municipio}:`, todosCursosMunicipio);
 
-            // Filtrar cursos pela modalidade selecionada
             let cursosFiltrados = filtrarCursosPorModalidade(todosCursosMunicipio, modalidade);
             console.log(`Cursos filtrados por ${modalidade}:`, cursosFiltrados);
 
@@ -392,7 +389,6 @@
                 return;
             }
 
-            // Popular select de cursos
             cursoPeriodoSelect.innerHTML = '<option value="" selected disabled>Selecione o curso e período</option>';
             cursosFiltrados.forEach(curso => {
                 const option = document.createElement("option");
@@ -405,12 +401,10 @@
             alertUnidade.textContent = `${cursosFiltrados.length} curso(s) disponível(is) em ${municipio} - ${etecsMunicipio.length} ETEC(s) encontrada(s)`;
             alertUnidade.className = 'alert alert-success';
             
-            // Carregar segunda opção
             carregarSegundaOpcao(cursosFiltrados);
         }, 600);
     }
 
-    // Filtrar cursos por modalidade
     function filtrarCursosPorModalidade(cursos, modalidade) {
         const modalidadeLower = modalidade.toLowerCase();
         
@@ -434,7 +428,6 @@
         });
     }
 
-    // Carregar segunda opção de curso
     function carregarSegundaOpcao(cursosDisponiveis) {
         segundaOpcaoSelect.innerHTML = '<option value="" selected disabled>Selecione a segunda opção</option>';
         
@@ -452,7 +445,6 @@
         });
     }
 
-    // Atualizar visibilidade do bloco de cursos
     function atualizarVisibilidade() {
         bloco.style.display = sim.checked ? "none" : "block";
         if (sim.checked) {
@@ -483,7 +475,6 @@
         }
     });
 
-    // Botão Sair
     btnSair.addEventListener("click", () => {
         if (confirm("Deseja realmente sair? Seus dados serão salvos temporariamente.")) {
             const temp = {
@@ -504,7 +495,6 @@
             carregarMunicipios();
             atualizarVisibilidade();
 
-            // Carregar dados salvos
             const salvos = localStorage.getItem("dadosUnidadeCurso");
             if (salvos) {
                 try {
@@ -517,11 +507,9 @@
                     }
                     if (dados.modalidade) {
                         modalidadeSelect.value = dados.modalidade;
-                        // Carregar cursos se tiver município e modalidade
                         if (dados.municipio && dados.modalidade) {
                             setTimeout(() => {
                                 carregarCursos(dados.modalidade, dados.municipio);
-                                // Restaurar seleções após carregar cursos
                                 setTimeout(() => {
                                     if (dados.curso) {
                                         cursoPeriodoSelect.value = dados.curso;
@@ -544,7 +532,6 @@
         }
     }
 
-    // Iniciar a aplicação
     inicializar();
 });
     </script>
