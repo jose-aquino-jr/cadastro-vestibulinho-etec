@@ -229,43 +229,108 @@
     const form = document.getElementById("form-inscricao");
     const btnSair = document.querySelector(".btn-secondary-custom");
 
-    const API_BASE = 'https://etecs-api.onrender.com';
+    // Dados mockados para quando a API falhar
+    const DADOS_MOCK = {
+        municipios: [
+            "São Paulo", "Santos", "Campinas", "São Bernardo do Campo", 
+            "São José dos Campos", "Ribeirão Preto", "Sorocaba", "Jundiaí",
+            "Piracicaba", "Bauru", "São José do Rio Preto", "Mogi das Cruzes"
+        ],
+        etecs: [
+            {
+                name: "ETEC São Paulo",
+                cidade: "São Paulo",
+                cursos: [
+                    { nome: "Ensino Médio", periodo: "Manhã" },
+                    { nome: "Ensino Médio Integrado com Informática", periodo: "Tarde" },
+                    { nome: "Técnico em Administração", periodo: "Noite" }
+                ]
+            },
+            {
+                name: "ETEC Santos",
+                cidade: "Santos",
+                cursos: [
+                    { nome: "Ensino Médio", periodo: "Manhã" },
+                    { nome: "Técnico em Logística", periodo: "Tarde" },
+                    { nome: "Técnico em Turismo", periodo: "Noite" }
+                ]
+            },
+            {
+                name: "ETEC Campinas",
+                cidade: "Campinas",
+                cursos: [
+                    { nome: "Ensino Médio", periodo: "Manhã" },
+                    { nome: "Ensino Médio Integrado com Mecatrônica", periodo: "Integral" },
+                    { nome: "Técnico em Eletrônica", periodo: "Noite" }
+                ]
+            }
+        ]
+    };
+
     let todasEtecs = [];
     let municipiosDisponiveis = [];
 
-    // Função para fazer requisições com tratamento de erro
-    async function fazerRequisicao(url) {
+    // Função para fazer requisições com fallback para dados mockados
+    async function fazerRequisicao(endpoint) {
+        const API_BASE = 'https://etecs-api.onrender.com';
+        
         try {
-            const response = await axios.get(url);
-            return response.data;
+            console.log(`Tentando conectar com: ${API_BASE}${endpoint}`);
+            
+            // Timeout de 5 segundos
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            
+            return await response.json();
         } catch (error) {
-            console.error('Erro na requisição para:', url, error);
-            throw error;
+            console.warn('API não disponível, usando dados mockados:', error.message);
+            
+            // Fallback para dados mockados
+            if (endpoint === '/cidades') {
+                return DADOS_MOCK.municipios;
+            } else if (endpoint === '/etecs') {
+                return DADOS_MOCK.etecs;
+            } else if (endpoint.includes('/busca/cidade')) {
+                const urlParams = new URLSearchParams(endpoint.split('?')[1]);
+                const cidade = urlParams.get('cidade');
+                return DADOS_MOCK.etecs.filter(etec => 
+                    etec.cidade.toLowerCase().includes(cidade.toLowerCase())
+                );
+            }
+            
+            return [];
         }
     }
 
-    // Carregar dados da API
+    // Carregar dados da API ou usar fallback
     async function carregarDados() {
         try {
-            console.log('Carregando dados da API...');
+            console.log('Tentando carregar dados da API...');
             
-            // Carregar cidades da API
-            municipiosDisponiveis = await fazerRequisicao(`${API_BASE}/cidades`);
-            console.log('Cidades carregadas:', municipiosDisponiveis);
+            // Carregar cidades
+            municipiosDisponiveis = await fazerRequisicao('/cidades');
+            console.log('Municípios carregados:', municipiosDisponiveis);
             
-            // Carregar todas as ETECs
-            todasEtecs = await fazerRequisicao(`${API_BASE}/etecs`);
+            // Carregar ETECs
+            todasEtecs = await fazerRequisicao('/etecs');
             console.log('ETECs carregadas:', todasEtecs);
 
-            console.log('Dados carregados com sucesso:', {
-                municipios: municipiosDisponiveis.length,
-                etecs: todasEtecs.length
-            });
-            
             return true;
         } catch (error) {
-            console.error('Erro ao carregar dados da API:', error);
-            // Não mostrar alert para não interromper o usuário
+            console.error('Erro crítico ao carregar dados:', error);
             return false;
         }
     }
@@ -275,7 +340,7 @@
         municipioSelect.innerHTML = '<option value="" selected disabled>Carregando municípios...</option>';
         
         setTimeout(() => {
-            if (municipiosDisponiveis.length === 0) {
+            if (!municipiosDisponiveis || municipiosDisponiveis.length === 0) {
                 municipioSelect.innerHTML = '<option value="" selected disabled>Nenhum município disponível</option>';
                 alertUnidade.textContent = 'Nenhum município disponível no momento';
                 alertUnidade.className = 'alert alert-warning';
@@ -293,20 +358,22 @@
 
             alertUnidade.textContent = `${municipiosDisponiveis.length} municípios disponíveis`;
             alertUnidade.className = 'alert alert-info';
-        }, 500);
+        }, 1000);
     }
 
     // Buscar ETECs por município
     async function buscarEtecsPorMunicipio(municipio) {
         try {
             console.log(`Buscando ETECs em: ${municipio}`);
-            const etecs = await fazerRequisicao(`${API_BASE}/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
+            const etecs = await fazerRequisicao(`/busca/cidade?cidade=${encodeURIComponent(municipio)}`);
             console.log(`ETECs encontradas em ${municipio}:`, etecs);
             return etecs;
         } catch (error) {
-            console.warn('Erro na busca por cidade:', error);
-            // Se não encontrar ETECs, retorna array vazio
-            return [];
+            console.warn('Erro na busca por cidade, usando dados locais:', error);
+            // Fallback para busca local nos dados já carregados
+            return todasEtecs.filter(etec => 
+                etec.cidade && etec.cidade.toLowerCase().includes(municipio.toLowerCase())
+            );
         }
     }
 
@@ -478,14 +545,16 @@
 
     // Inicialização
     async function inicializar() {
-        const sucesso = await carregarDados();
-        if (sucesso) {
-            carregarMunicipios();
-        } else {
-            // Se a API falhar, carrega municípios vazios
-            carregarMunicipios();
-        }
+        await carregarDados();
+        carregarMunicipios();
         atualizarVisibilidade();
+        
+        // Mostrar status no console
+        console.log('Aplicação inicializada com:', {
+            municipios: municipiosDisponiveis.length,
+            etecs: todasEtecs.length,
+            usandoDadosMock: municipiosDisponiveis === DADOS_MOCK.municipios
+        });
     }
 
     inicializar();
