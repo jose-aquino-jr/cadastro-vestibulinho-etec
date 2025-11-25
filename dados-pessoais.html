@@ -1,322 +1,242 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Área do Candidato - Etec</title>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do formulário
+    const cepInput = document.querySelector('input[placeholder="Ex. 99999-999"]');
+    const estadoNascimentoSelect = document.querySelector('select:contains("Estado de nascimento")');
+    const municipioNascimentoSelect = document.querySelector('select:contains("Município de nascimento")');
+    const estadoSelect = document.querySelector('select:contains("Estado")');
+    const municipioSelect = document.querySelector('select:contains("Município")');
+    const estadoEmissorSelect = document.querySelector('select:contains("Estado emissor")');
+    
+    // Carregar estados brasileiros
+    function carregarEstados() {
+        const estados = [
+            "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
+            "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
+            "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
+            "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina",
+            "São Paulo", "Sergipe", "Tocantins"
+        ];
 
-  <link rel="stylesheet" href="estilo-dados-pessoais.css">
-</head>
-<body>
-<div class="fundo">
+        [estadoNascimentoSelect, estadoSelect, estadoEmissorSelect].forEach(select => {
+            select.innerHTML = '<option selected>Selecione...</option>';
+            estados.forEach(estado => {
+                const option = document.createElement('option');
+                option.value = estado;
+                option.textContent = estado;
+                select.appendChild(option);
+            });
+        });
+    }
 
-  <header class="top-header">
-    <div class="container-fluid d-flex align-items-center justify-content-between py-3">
-      <div class="caixa-gov d-flex align-items-center">
-        <img src="images-removebg-preview.png" alt="Logo Governo" class="logo-gov">
-      </div>
+    // Buscar CEP via API ViaCEP
+    cepInput.addEventListener('blur', function() {
+        const cep = this.value.replace(/\D/g, '');
+        
+        if (cep.length !== 8) {
+            return;
+        }
 
-      <div class="flex-fill"></div>
+        axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                const data = response.data;
+                if (!data.erro) {
+                    // Preencher automaticamente os campos
+                    document.querySelector('input[placeholder="Ex. 99999-999"]').value = data.cep;
+                    document.querySelector('input[placeholder="Endereço"]').value = data.logradouro;
+                    document.querySelector('input[placeholder="Bairro"]').value = data.bairro;
+                    
+                    // Selecionar estado e município
+                    estadoSelect.value = data.uf;
+                    municipioSelect.value = data.localidade;
+                } else {
+                    alert('CEP não encontrado!');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar CEP:', error);
+                alert('Erro ao buscar CEP. Tente novamente.');
+            });
+    });
 
-      <div class="redes-wrap d-flex align-items-center">
-        <img src="redes.jfif" alt="Redes" class="redes-logo">
-      </div>
-    </div>
-
-    <div class="linha"></div>
-  </header>
-
-  <div class="caixa-fixa">
-    <div class="container-fluid d-flex align-items-center justify-content-between py-2">
-      <div class="d-flex align-items-center">
-        <img src="etec_cps-removebg-preview.png" alt="Etec" class="logo-etec-cps">
-      </div>
-
-      <nav class="main-nav">
-        <ul class="nav list-unstyled d-flex gap-4 mb-0">
-          <li><a class="nav-link" href="#">HOME</a></li>
-          <li><a class="nav-link" href="#">CALENDÁRIO</a></li>
-          <li><a class="nav-link" href="#">DÚVIDAS FREQUENTES</a></li>
-          <li><a class="nav-link" href="#">FALE CONOSCO</a></li>
-        </ul>
-      </nav>
-
-      <div class="d-flex align-items-center gap-3">
-       <button class="btn btn-danger btn-sm btn-area d-flex align-items-center gap-2 px-3">
-          Área do candidato
-          <img src="image-removebg-preview.png" width="20" alt="">
-        </button>
-
-      <div class="bloco">
-        <div class="realizacao">
-          <span>Realização:</span>
-          <img src="FAT-FUNDACAO-DE-APOIO-A-TECNOLOGIA.webp" alt="FAT" class="realizacao-logo">
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <section class="imagem-banner">
-    <img src="highlight-bg.jpg" alt="Imagem destaque" class="img-fluid w-100">
-  </section>
-
-   <main class="container py-5">
-    <div class="vermelho">
-      <div class="vermelho-word">Inscrição</div>
-      </div>
-    <div class="conteudo">
-      <div class="cinza"></div>
-      <div class="cinza-plus">
-      </div>
-<div class="container-botoes">
-
-  <div class="grupo">
-    <button class="btn-circular">✓</button>
-    <span class="labele">Dados de acesso</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular">✓</button>
-    <span class="labele">Unidade e curso</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular ativo">3</button>
-    <span class="labele">Dados pessoais</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular">4</button>
-    <span class="labele">Pont. acresida</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular">5</button>
-    <span class="labele">confirmação</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular">6</button>
-    <span class="labele">questionário</span>
-  </div>
-
-  <div class="grupo">
-    <button class="btn-circular">7</button>
-    <span class="labele">Conclusão</span>
-  </div>
-
-</div>
-
-      <p class="palavras">
-        Antes de iniciar sua inscrição, preencha os campos abaixo para se cadastrar na Área do Candidato e, com isso, ter acesso a todas as informações referentes à sua inscrição durante todo o Processo Seletivo.
-      </p>
-
-      <div class="row d-flex justify-content-center">
-    <div class="col-12 col-lg-10">
-        <form>
+    // Máscara para CPF
+    function aplicarMascaraCPF(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.substring(0, 11);
             
-            <label class="form-label bloco-titulo">Nome completo do candidato<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3 campo-input" value="JOAO DA SILVA" required>
-
-            <div class="mb-4">
-                <label class="form-label bloco-titulo d-block">O candidato é transgênero e deseja ser tratado pelo nome social?</label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="nome_social" id="nome_social_nao" value="Nao" checked>
-                    <label class="form-check-label" for="nome_social_nao">Não</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="nome_social" id="nome_social_sim" value="Sim">
-                    <label class="form-check-label" for="nome_social_sim">Sim</label>
-                </div>
-            </div>
-
-            <label class="form-label bloco-titulo">CPF do candidato<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3 campo-input" value="72303578827" required>
-
-            <label class="form-label bloco-titulo">E-mail principal<span class="text-danger">*</span></label>
-            <input type="email" class="form-control mb-3 campo-input" value="joao@silva.com" required>
-
-            <label class="form-label bloco-titulo">E-mail secundário</label>
-            <input type="email" class="form-control mb-3 campo-input">
-
-            <label class="form-label bloco-titulo">Data de nascimento do candidato<span class="text-danger">*</span></label>
-            <input type="date" class="form-control mb-4 campo-input" value="2015-10-01" required>
-
-            <label class="form-label bloco-titulo">Nome da mãe do candidato<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-4 campo-input" required>
-
-            <label class="form-label bloco-titulo">País de nascimento do candidato<span class="text-danger">*</span></label>
-            <select class="form-select mb-3 campo-select" required><option selected>BRASIL</option></select>
-
-            <label class="form-label bloco-titulo">Estado de nascimento do candidato<span class="text-danger">*</span></label>
-            <select class="form-select mb-3 campo-select" required><option selected>Selecione o Estado...</option></select>
-
-            <label class="form-label bloco-titulo">Município de nascimento do candidato<span class="text-danger">*</span></label>
-            <select class="form-select mb-4 campo-select" required><option selected>Selecione o Município...</option></select>
-
-            <label class="form-label bloco-titulo">Tipo do documento de identidade<span class="text-danger">*</span></label>
-            <select class="form-select mb-3 campo-select" required><option selected>Selecione...</option></select>
-
-            <label class="form-label bloco-titulo">Nº do documento de identidade do candidato<span class="text-danger">*</span></label>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control campo-input" required>
-                <div class="input-group-text">
-                    <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Possuo somente protocolo">
-                    <span class="ms-2">Possuo somente protocolo</span>
-                </div>
-            </div>
-
-            <label class="form-label bloco-titulo">Estado emissor do documento de identidade<span class="text-danger">*</span></label>
-            <select class="form-select mb-3 campo-select" required><option selected>...</option></select>
-
-            <label class="form-label bloco-titulo">Data de emissão do documento de identidade<span class="text-danger">*</span></label>
-            <input type="date" class="form-control mb-4 campo-input" required>
-
-            <label class="form-label bloco-titulo">Sexo do candidato<span class="text-danger">*</span></label>
-            <select class="form-select mb-4 campo-select" required>
-                <option selected>Masculino</option>
-                <option>Feminino</option>
-            </select>
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
             
-            <label class="form-label bloco-titulo">Estado civil do candidato<span class="text-danger">*</span></label>
-            <select class="form-select mb-4 campo-select" required>
-                <option selected>Solteiro</option>
-                <option>Casado</option>
-            </select>
+            e.target.value = value;
+        });
+    }
 
-            <div class="mb-4">
-                <label class="form-label bloco-titulo d-block">Possui irmão gêmeo<span class="text-danger">*</span></label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="irmao_gemeo" id="gemeo_sim" value="Sim" required>
-                    <label class="form-check-label" for="gemeo_sim">Sim</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="irmao_gemeo" id="gemeo_nao" value="Nao" checked>
-                    <label class="form-check-label" for="gemeo_nao">Não</label>
-                </div>
-            </div>
+    // Máscara para telefone
+    function aplicarMascaraTelefone(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
             
-            <label class="form-label bloco-titulo">CEP<span class="text-danger">*</span></label>
-            <div class="d-flex align-items-center mb-3">
-                <input type="text" class="form-control campo-input" style="max-width: 150px;" value="13152-478" placeholder="Ex. 99999-999" required>
-                <span class="ms-3 me-3 text-primary" style="font-size: 14px;"><a href="#" style="text-decoration: none;">Não sei meu CEP</a></span>
-            </div>
-
-            <label class="form-label bloco-titulo">Endereço do candidato<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3 campo-input" required>
-
-            <label class="form-label bloco-titulo">Número<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3 campo-input" required>
-
-            <label class="form-label bloco-titulo">Complemento</label>
-            <input type="text" class="form-control mb-3 campo-input">
-
-            <label class="form-label bloco-titulo">Bairro<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3 campo-input" required>
-
-            <label class="form-label bloco-titulo">Estado<span class="text-danger">*</span></label>
-            <select class="form-select mb-3 campo-select" required><option selected>Selecione...</option></select>
-
-            <label class="form-label bloco-titulo">Município<span class="text-danger">*</span></label>
-            <select class="form-select mb-4 campo-select" required><option selected>Selecione...</option></select>
-
-            <label class="form-label bloco-titulo">Telefone</label>
-            <input type="tel" class="form-control mb-3 campo-input" placeholder="Ex. (11) 1234-1234">
-
-            <label class="form-label bloco-titulo">Celular</label>
-            <input type="tel" class="form-control mb-3 campo-input" placeholder="Ex. (11) 1234-1234">
+            if (value.length <= 10) {
+                value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            } else {
+                value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            }
             
-            <div class="form-check mb-4">
-                <input class="form-check-input" type="checkbox" id="receber_info">
-                <label class="form-check-label" for="receber_info" style="font-size: 14px;">
-                    Aceito receber por e-mail, SMS e WhatsApp informações sobre outros processos/concursos realizados pela FAT
-                </label>
-            </div>
+            e.target.value = value;
+        });
+    }
+
+    // Validação de data de nascimento
+    function validarDataNascimento(input) {
+        input.addEventListener('change', function(e) {
+            const dataNascimento = new Date(e.target.value);
+            const hoje = new Date();
+            const idade = hoje.getFullYear() - dataNascimento.getFullYear();
             
-            <h3 class="mb-3 mt-4" style="font-size:22px; font-weight:600; color:#444;">Representante legal</h3>
+            if (idade < 14) {
+                alert('Candidato deve ter pelo menos 14 anos de idade.');
+                e.target.value = '';
+            }
+        });
+    }
+
+    // Carregar municípios baseado no estado (simulação)
+    function configurarDependenciaEstadoMunicipio(estadoSelect, municipioSelect) {
+        estadoSelect.addEventListener('change', function() {
+            const estado = this.value;
+            municipioSelect.innerHTML = '<option selected>Selecione...</option>';
             
-            <div class="p-3 mb-4" style="background:#fff3cd; border-radius:5px; border: 1px solid #ffeeba; color:#856404; font-size:14px;">
-                Candidato menor de 16 anos, indique abaixo o nome e o número do CPF do representante legal (pai, mãe, tutor ou curador):
-            </div>
+            if (estado && estado !== 'Selecione...') {
+                // Simulação - em produção, buscar da API do IBGE
+                const municipiosExemplo = [
+                    "Capital", "Interior", "Região Metropolitana"
+                ];
+                
+                municipiosExemplo.forEach(municipio => {
+                    const option = document.createElement('option');
+                    option.value = municipio;
+                    option.textContent = municipio;
+                    municipioSelect.appendChild(option);
+                });
+            }
+        });
+    }
 
-            <div class="row">
-                <div class="col-md-7">
-                    <label class="form-label bloco-titulo">Nome do representante legal<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control mb-3 campo-input" required>
-                </div>
-                <div class="col-md-5">
-                    <label class="form-label bloco-titulo">Nº do CPF do representante legal<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control mb-4 campo-input" required>
-                </div>
-            </div>
+    // Salvar dados automaticamente
+    function configurarAutoSave() {
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select, textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                salvarDadosTemporarios();
+            });
+        });
+    }
 
-            <h3 class="mb-3 mt-4" style="font-size:22px; font-weight:600; color:#444;">Candidato com necessidades de condições especiais</h3>
-            
-            <div class="p-3 mb-4" style="background:#fff3cd; border-radius:5px; border: 1px solid #ffeeba; color:#856404; font-size:14px;">
-                ATENÇÃO: ESTE CAMPO DEVERÁ SER PREENCHIDO SOMENTE POR CANDIDATO COM DEFICIÊNCIA OU QUE NECESSITE DE CONDIÇÕES ESPECIAIS PARA REALIZAR O EXAME.
-            </div>
-            
-            <label class="form-label bloco-titulo d-block text-center">Indique a sua condição: <span class="text-danger">*</span></label>
-            <div class="d-flex justify-content-center mb-4">
-                 <select class="form-select campo-select" style="max-width: 60%;" required>
-                    <option selected>...</option>
-                    <option>Deficiência Física</option>
-                    <option>Deficiência Auditiva</option>
-                    <option>Lactante</option>
-                 </select>
-            </div>
-            
-            
-        </form>
+    function salvarDadosTemporarios() {
+        const formData = {};
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select, textarea');
+        
+        inputs.forEach(input => {
+            if (input.name || input.id) {
+                const key = input.name || input.id;
+                formData[key] = input.value;
+            }
+        });
+        
+        localStorage.setItem('dadosPessoaisTemp', JSON.stringify(formData));
+    }
 
-        <div class="action-row d-flex justify-content-center">
-          <a href="Pont. acresida.html">
-            <button class="btn-primary-custom" type="button" style="padding: 12px 30px; margin-right: 15px;">Salvar e ir para a próxima etapa <img src="image-removebg-preview.png" width="16" alt="" style="margin-left: 5px;"></button></a>
-            <button class="btn-secondary-custom" type="button">Sair e continuar inscrição depois</button> 
-        </div>
-    </div>
-</div>
-</div>
-  </main>
+    function carregarDadosSalvos() {
+        const dadosSalvos = localStorage.getItem('dadosPessoais');
+        const dadosTemp = localStorage.getItem('dadosPessoaisTemp');
+        const dados = dadosSalvos ? JSON.parse(dadosSalvos) : 
+                      dadosTemp ? JSON.parse(dadosTemp) : null;
+        
+        if (dados) {
+            Object.keys(dados).forEach(key => {
+                const input = document.querySelector(`[name="${key}"]`) || 
+                             document.querySelector(`#${key}`);
+                if (input && dados[key]) {
+                    input.value = dados[key];
+                }
+            });
+        }
+        
+        // Carregar dados das etapas anteriores
+        const dadosAcesso = localStorage.getItem('dadosAcesso');
+        const dadosUnidadeCurso = localStorage.getItem('dadosUnidadeCurso');
+        
+        if (dadosAcesso) {
+            const acesso = JSON.parse(dadosAcesso);
+            document.querySelector('input[value="JOAO DA SILVA"]').value = acesso.nome || '';
+            document.querySelector('input[value="72303578827"]').value = acesso.cpf || '';
+            document.querySelector('input[value="joao@silva.com"]').value = acesso.email || '';
+        }
+    }
 
-<div class="conteudo-red"></div>
-</div>
+    // Botões de ação
+    document.querySelector('.btn-primary-custom').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const form = document.querySelector('form');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        
+        // Salvar dados definitivos
+        const formData = {};
+        const inputs = form.querySelectorAll('input, select, textarea');
+        
+        inputs.forEach(input => {
+            if (input.name || input.id) {
+                const key = input.name || input.id;
+                formData[key] = input.value;
+            }
+        });
+        
+        localStorage.setItem('dadosPessoais', JSON.stringify(formData));
+        localStorage.removeItem('dadosPessoaisTemp');
+        
+        // Redirecionar para próxima etapa
+        window.location.href = 'Pont.-acrescida.html';
+    });
 
-    <div style="height: 0px;"></div>
-  </main>
+    document.querySelector('.btn-secondary-custom').addEventListener('click', function() {
+        if (confirm('Deseja realmente sair? Seus dados serão salvos para continuar depois.')) {
+            salvarDadosTemporarios();
+            window.location.href = 'index.html';
+        }
+    });
 
-<footer class="footer">
-<div class="footer-tops">
-  </div>
-  <div class="footer-top">
-    <p><a href="#">Todos os direitos reservados © 2025 FAT | </a>
-      <a href="#">Política de Privacidade | </a>
-      <a href="#">Termos de Uso</a>
-    </p>
-  </div>
-
-  <div class="footer-mid">
-<img src="Captura_de_tela_2025-11-15_161028-removebg-preview.png" alt="atg" class="atge">
-  </div>
-
-  <div class="footer-buttons">
-    <a class="btn-footer">Ouvidoria</a>
-    <a class="btn-footer">Transparência</a>
-    <a class="btn-footer">SIC</a>
-  </div>
-
-  <div class="footer-bottom">
-    <img src="images-removebg-preview.png" alt="Governo de SP">
-  </div>
-
-</footer>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
-</body>
-</html>
-
+    // Inicialização
+    carregarEstados();
+    aplicarMascaraCPF(document.querySelector('input[value="72303578827"]'));
+    aplicarMascaraTelefone(document.querySelector('input[placeholder="Ex. (11) 1234-1234"]'));
+    aplicarMascaraTelefone(document.querySelectorAll('input[placeholder="Ex. (11) 1234-1234"]')[1]);
+    validarDataNascimento(document.querySelector('input[type="date"]'));
+    
+    configurarDependenciaEstadoMunicipio(estadoNascimentoSelect, municipioNascimentoSelect);
+    configurarDependenciaEstadoMunicipio(estadoSelect, municipioSelect);
+    
+    configurarAutoSave();
+    carregarDadosSalvos();
+    
+    // Link "Não sei meu CEP"
+    document.querySelector('a[href="#"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.open('https://buscacepinter.correios.com.br/app/endereco/index.php', '_blank');
+    });
+});
+</script>
