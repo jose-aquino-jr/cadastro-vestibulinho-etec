@@ -15,14 +15,11 @@
       <div class="caixa-gov d-flex align-items-center">
         <img src="images-removebg-preview.png" alt="Logo Governo" class="logo-gov">
       </div>
-
       <div class="flex-fill"></div>
-
       <div class="redes-wrap d-flex align-items-center">
         <img src="redes.jfif" alt="Redes" class="redes-logo">
       </div>
     </div>
-
     <div class="linha"></div>
   </header>
 
@@ -31,7 +28,6 @@
       <div class="d-flex align-items-center">
         <img src="etec_cps-removebg-preview.png" alt="Etec" class="logo-etec-cps">
       </div>
-
       <nav class="main-nav">
         <ul class="nav list-unstyled d-flex gap-4 mb-0">
           <li><a class="nav-link" href="#">HOME</a></li>
@@ -40,13 +36,11 @@
           <li><a class="nav-link" href="#">FALE CONOSCO</a></li>
         </ul>
       </nav>
-
       <div class="d-flex align-items-center gap-3">
         <button class="btn btn-danger btn-sm btn-area d-flex align-items-center gap-2 px-3">
           Área do candidato
           <img src="image-removebg-preview.png" width="20" alt="">
         </button>
-
         <div class="bloco">
           <div class="realizacao">
             <span>Realização:</span>
@@ -71,34 +65,13 @@
       <div class="cinza-plus"></div>
 
       <div class="container-botoes">
-        <div class="grupo">
-          <button class="btn-circular ativo">1</button>
-          <span class="labele">Dados de acesso</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">2</button>
-          <span class="labele">Unidade e curso</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">3</button>
-          <span class="labele">Dados pessoais</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">4</button>
-          <span class="labele">Pont. acresida</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">5</button>
-          <span class="labele">confirmação</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">6</button>
-          <span class="labele">questionário</span>
-        </div>
-        <div class="grupo">
-          <button class="btn-circular">7</button>
-          <span class="labele">Conclusão</span>
-        </div>
+        <div class="grupo"><button class="btn-circular ativo">1</button><span class="labele">Dados de acesso</span></div>
+        <div class="grupo"><button class="btn-circular">2</button><span class="labele">Unidade e curso</span></div>
+        <div class="grupo"><button class="btn-circular">3</button><span class="labele">Dados pessoais</span></div>
+        <div class="grupo"><button class="btn-circular">4</button><span class="labele">Pont. acresida</span></div>
+        <div class="grupo"><button class="btn-circular">5</button><span class="labele">confirmação</span></div>
+        <div class="grupo"><button class="btn-circular">6</button><span class="labele">questionário</span></div>
+        <div class="grupo"><button class="btn-circular">7</button><span class="labele">Conclusão</span></div>
       </div>
 
       <div class="palavras">
@@ -108,10 +81,7 @@
       <div class="container mt-4">
         <div class="row">
           <div class="col-md-6">
-            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">
-              Dados de acesso
-            </h3>
-
+            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">Dados de acesso</h3>
             <form id="formulario">
               <label class="form-label" style="font-weight: 500;">Nome completo do candidato</label>
               <input type="text" class="form-control" required>
@@ -127,10 +97,7 @@
           </div>
 
           <div class="col-md-6">
-            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">
-              Senha
-            </h3>
-
+            <h3 class="mb-4" style="font-size: 22px; font-weight: 600; color: #444;">Senha</h3>
             <p style="margin-top: -10px; color: #555; font-size: 15px;">
               Informe aqui a senha para a Área do Candidato e ter acesso a todas as informações referente à sua inscrição durante todo o Processo Seletivo.
             </p>
@@ -146,10 +113,10 @@
             Ao informar meus dados, eu concordo com a Política de Privacidade e os Termos de Uso da FAT - Fundação de Apoio à Tecnologia.
           </div>
 
-          <button type="submit" formaction="unidade-e-curso.html" class="btn-vestibulinho mt-3">
+          <button type="submit" class="btn-vestibulinho mt-3">
             Salvar e ir para a próxima etapa <span class="seta">➜</span>
           </button>
-            </form>
+        </form>
         </div>
       </div>
 
@@ -186,7 +153,6 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-
 const form = document.getElementById('formulario');
 const cpf = document.getElementById('cpf');
 
@@ -222,26 +188,19 @@ form.addEventListener('submit', function (e) {
     const nome = form.querySelector('input[type="text"]').value;
     const cpfValue = cpf.value;
     const numerosCPF = cpfValue.replace(/\D/g, '');
-    const email = form.querySelector('input[type="email"]').value;
+    const email = form.querySelectorAll('input[type="email"]')[0].value;
     const emailConfirmacao = form.querySelectorAll('input[type="email"]')[1].value;
-    const senha = form.querySelector('input[type="password"]').value;
+    const senha = form.querySelectorAll('input[type="password"]')[0].value;
     const senhaConfirmacao = form.querySelectorAll('input[type="password"]')[1].value;
-
-    console.log('Validando formulário...');
 
     if (!nome.trim()) {
         alert('Por favor, informe seu nome completo.');
         return;
     }
 
-    if (numerosCPF.length !== 11) {
-        alert('CPF inválido! Deve conter exatamente 11 números.');
-        cpf.focus();
-        return;
-    }
-
     if (!validarCPF(cpfValue)) {
         alert('CPF inválido!');
+        cpf.focus();
         return;
     }
 
@@ -265,8 +224,6 @@ form.addEventListener('submit', function (e) {
         return;
     }
 
-    console.log('Todas as validações passaram!');
-
     const dadosAcesso = {
         nome: nome,
         cpf: cpfValue,
@@ -276,14 +233,9 @@ form.addEventListener('submit', function (e) {
     };
 
     localStorage.setItem('dadosAcesso', JSON.stringify(dadosAcesso));
-    console.log('Dados salvos no localStorage');
-
     window.location.href = 'unidade-e-curso.html';
 });
-
 </script>
 
 </body>
 </html>
-
-
