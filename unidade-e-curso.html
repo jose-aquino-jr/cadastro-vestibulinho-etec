@@ -264,26 +264,24 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-        const simInput = document.getElementById("sim");
-        const naoInput = document.getElementById("nao");
+    document.addEventListener("DOMContentLoaded", () => {
+        const sim = document.getElementById("sim");
+        const nao = document.getElementById("nao");
+        const bloco = document.getElementById("bloco-curso-detalhado");
 
-        const blocoCursoDetalhado = document.getElementById("bloco-curso-detalhado");
-
-        function atualizarVisibilidade() {
-            if (simInput.checked) {
-                blocoCursoDetalhado.style.display = "none";
+        function atualizar() {
+            if (sim.checked) {
+                bloco.style.display = "none"; 
             } else {
-                blocoCursoDetalhado.style.display = "block";
-            }
+                bloco.style.display = "";               }
         }
 
-        simInput.addEventListener("change", atualizarVisibilidade);
-        naoInput.addEventListener("change", atualizarVisibilidade);
-
-        atualizarVisibilidade();
+        sim.addEventListener("change", atualizar);
+        nao.addEventListener("change", atualizar);
+        atualizar();
     });
-    </script>
+</script>
+
 
 </body>
 
