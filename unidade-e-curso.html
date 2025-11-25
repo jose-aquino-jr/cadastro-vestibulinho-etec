@@ -137,7 +137,7 @@
 
                             <div id="bloco-curso-detalhado" style="display: block;">
                                 <label class="form-label bloco-titulo">Modalidade</label>
-                                <select class="form-select mb-3 campo-select" id="modalidade" required>
+                                <select class="form-select mb-3 campo-select" id="modalidade">
                                     <option value="" selected disabled>Selecione a modalidade de ensino desejada</option>
                                     <option value="ensino-medio">Ensino Médio</option>
                                     <option value="ensino-medio-integrado">Ensino Médio Integrado</option>
@@ -149,7 +149,7 @@
                                 <p class="text-danger mb-4" style="font-size: 12px; margin-top: -8px; padding-left: 10px;"><img src="image-removebg-preview.png" width="10" alt=""></p>
 
                                 <label class="form-label bloco-titulo">Curso e período</label>
-                                <select class="form-select mb-3 campo-select" id="curso-periodo" required>
+                                <select class="form-select mb-3 campo-select" id="curso-periodo">
                                     <option value="" selected disabled>Selecione primeiro a modalidade</option>
                                 </select>
                                 <div class="alert alert-warning mb-4" style="font-size: 14px; padding: 10px;">
@@ -165,7 +165,7 @@
                                 <h3 class="mb-3 mt-4" style="font-size:20px; font-weight:600; color:#444;">Confirmação de pré-requisitos</h3>
                                 <label class="form-label bloco-titulo d-block">1. Você já concluiu o Ensino Médio ou está matriculado na 3ª série do Ensino Médio no ano de 2025?<span class="text-danger">*</span></label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="prerequisito" id="prerequisito_sim" value="Sim" required>
+                                    <input class="form-check-input" type="radio" name="prerequisito" id="prerequisito_sim" value="Sim">
                                     <label class="form-check-label" for="prerequisito_sim">Sim</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -175,7 +175,7 @@
                             </div>
 
                             <div class="action-row mt-4">
-                                <button class="btn-primary-custom" type="submit">Salvar e ir para a próxima etapa</button>
+                                <button class="btn-primary-custom" formaction="dados-pessoais.html" type="submit">Salvar e ir para a próxima etapa</button>
                                 <button class="btn-secondary-custom" type="button">Sair e continuar inscrição depois</button>
                             </div>
                         </form>
